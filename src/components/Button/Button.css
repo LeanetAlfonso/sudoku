@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap');
+
+:root {
+	--primary: #5b8588;
+	--warning: #fab54d;
+	--danger: #ff8271;
+	--new: #64bcf7;
+	--success: #75fa83;
+	--white: #fdfdfd;
+	--dark: #385253;
+}
+
+.btn {
+	border-radius: 20px;
+	cursor: pointer;
+	transition: transform 0.3s ease;
+	margin: 1rem;
+	padding: 10px 20px;
+	font-size: 18px;
+	border: none;
+	color: var(--white);
+	box-shadow: 1px 1px 8px 1px #918f8fce;
+}
+
+.btn:hover {
+	transform: translateY(-3px);
+	opacity: 0.8 !important;
+}
+
+/* Button colors and styles */
+.btn--primary--solid {
+	background-color: var(--primary);
+}
+
+.btn--warning--solid {
+	background-color: var(--warning);
+}
+
+.btn--danger--solid {
+	background-color: var(--danger);
+}
+
+.btn--success--solid {
+	background-color: var(--success);
+}
+
+.btn--dark--solid {
+	background-color: var(--dark);
+}
+
+.btn--new--solid {
+	background-color: var(--new);
+}
