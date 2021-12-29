@@ -5,7 +5,7 @@ import Cell from "../Cell/Cell";
 export default class Grid extends Component {
 
   render() {
-    const { grid, onChange } = this.props;
+    const { grid, onChange, isPaused } = this.props;
 
     return <div>
       {grid &&
@@ -14,7 +14,7 @@ export default class Grid extends Component {
             {row.cols.map(cell => (
               <Cell
                 key={row.index + "-" + cell.col}
-                cell={cell}
+                cell={isPaused ? { row: cell.row, col: cell.col, value: null, readOnly: false, isInvalid: false, isSelected: false } : cell}
                 isInvalid={cell.isInvalid}
                 handleChangeCallback={onChange}
               />

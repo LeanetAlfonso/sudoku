@@ -8,13 +8,14 @@
 	--success: #75fa83;
 	--white: #fdfdfd;
 	--dark: #385253;
+	--purple: rgb(155, 139, 161);
 }
 
 .btn {
 	border-radius: 20px;
 	cursor: pointer;
 	transition: transform 0.3s ease;
-	margin: 1rem;
+	margin: 0.5rem;
 	padding: 10px 20px;
 	font-size: 18px;
 	border: none;
@@ -50,4 +51,8 @@
 
 .btn--new--solid {
 	background-color: var(--new);
+}
+
+.btn--purple--solid {
+	background-color: var(--purple);
 }

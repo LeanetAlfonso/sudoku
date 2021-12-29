@@ -8,36 +8,26 @@
 	border-radius: 0%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 580px) {
 	.cell {
-		width: 2rem;
+		width: 5vh;
+		height: 2.5rem;
+	}
+}
+
+@media (max-width: 450px) {
+	.cell {
+		width: 4vh;
 		height: 2rem;
-		font-size: 1.5rem;
-	}
-	h1 {
-		font-size: 1.5rem;
+		font-size: 1.3rem;
 	}
 }
 
-@media (max-width: 500px) {
+@media (max-width: 390px) {
 	.cell {
-		width: 1rem;
-		height: 1.3rem;
-		font-size: 1.2rem;
-	}
-	h1 {
-		font-size: 2rem;
-	}
-}
-
-@media (max-width: 500px) {
-	.cell {
-		width: 1rem;
-		height: 1.3rem;
-		font-size: 1.2rem;
-	}
-	h1 {
-		font-size: 2rem;
+		width: 2.3vh;
+		height: 3vh;
+		font-size: 1rem;
 	}
 }
 
@@ -59,6 +49,11 @@
 
 .cell[readOnly] {
 	color: black;
+	background-color: none;
+}
+
+.cell[isPaused] {
+	color: white;
 	background-color: none;
 }
 

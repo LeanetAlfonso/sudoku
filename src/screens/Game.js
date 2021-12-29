@@ -5,9 +5,10 @@ import { generateSudoku, checkBoard, checkPlayerWon, solveSudoku } from "../util
 import { cloneDeep } from "lodash";
 import useLocalStorage from "../hooks/useLocalStorage";
 import Button from "../components/Button/Button";
-import ConfirmationDialog from "../components/Dialog/ConfirmationDialog";
-import GameDetails from "../components/GameDetails/GameDetails";
-import { MDBIcon } from "mdbreact";
+import ConfirmationDialog from "../components/Modals/Dialog/ConfirmationDialog";
+import GameInstructions from "../components/Modals/GameInstructions/GameInstructions";
+import GameDetails from "../components/Modals/GameDetails/GameDetails";
+import formatTime from "../utils/formatTime";
 
 const Game = () => {
 
@@ -18,11 +19,13 @@ const Game = () => {
   const [movesTaken, setMovesTaken] = useLocalStorage("movesTaken", 0);
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
+  const [hasWon, setHasWon] = useState(false);
 
   // Modals
   const [noSolution, setNoSolution] = useState({ isOpen: false });
   const [confirmationDialog, setConfirmationDialog] = useState({ isOpen: false, title: '', subTitle: '' });
   const [gameDetails, setGameDetails] = useState({ isOpen: false, movesTaken: { movesTaken }, elapsed: { setSeconds }, pressedSolve: { pressedSolve } });
+  const [gameInstructions, setGameInstructions] = useState({ isOpen: false });
 
 
   // Timer
@@ -48,7 +51,8 @@ const Game = () => {
     setPressedSolve(false);
     setSeconds(0);
     setMovesTaken(0);
-    setIsRunning(false);
+    setHasWon(false);
+    setIsRunning(true);
   };
 
 
@@ -71,6 +75,7 @@ const Game = () => {
     }
     setGrid(solvedGrid);
     setPressedSolve(true);
+    setHasWon(true);
 
     setConfirmationDialog({
       ...confirmationDialog,
@@ -79,10 +84,15 @@ const Game = () => {
     gameDetailsHandler();
   };
 
+  // Handles timer pause/play button
+  const handlePausePlay = () => {
+    setHasWon(false);
+    setIsRunning(!isRunning);
+  };
 
   // Handles cell changes
   const handleChange = (val, cell) => {
-
+    setHasWon(false);
     setIsRunning(true);
     // checks if cell is not read-only
     if (!cell.readOnly) {
@@ -105,6 +115,7 @@ const Game = () => {
       // checks if player won
       let playerWon = checkPlayerWon(newGrid);
       if (playerWon) {
+        setHasWon(true);
         gameDetailsHandler();
       }
 
@@ -134,6 +145,12 @@ const Game = () => {
   // Closes dialog and resumes timer
   const closeDialog = () => {
     setConfirmationDialog({ ...confirmationDialog, isOpen: false });
+    setIsRunning(true);
+  };
+
+  // Closes game instructions and resumes timer
+  const closeHelp = () => {
+    setGameInstructions({ ...gameInstructions, isOpen: false });
     setIsRunning(true);
   };
 
@@ -185,21 +202,33 @@ const Game = () => {
     });
   };
 
+  // Handles game instructions modal
+  const handleHelp = () => {
+    setIsRunning(false);
+    setGameInstructions({
+      ...gameInstructions,
+      isOpen: true,
+      onOk: () => { closeHelp(); }
+    });
+  };
 
 
   if (grid == null && startingGrid == null) handleNewGame();
 
   return (
-    <div className="Game">
-      <h1 className="main-title" >
+    <div className="game">
+      <h1 className="main-title">
         Sudoku Game
       </h1>
-      <h2>
-        <MDBIcon far icon="clock" /> {seconds}
-      </h2>
+
       <ConfirmationDialog
         confirmationDialog={confirmationDialog}
       />
+
+      <h2 className="timer">
+        {formatTime(seconds)} <i className={`btn-pause-play ${isRunning ? "far fa-pause-circle" : "pauseplay far fa-play-circle"}`} onClick={handlePausePlay}> </i>
+      </h2>
+
       <GameDetails
         gameDetails={gameDetails}
         setGameDetails={setGameDetails}
@@ -207,10 +236,16 @@ const Game = () => {
         elapsed={seconds}
         pressedSolve={pressedSolve}
       />
-      <Grid className="grid" grid={grid} onChange={handleChange} />
+      <GameInstructions
+        gameInstructions={gameInstructions}
+        setGameInstructions={setGameInstructions}
+      />
+      <Grid className="grid" grid={grid} onChange={handleChange} isPaused={!isRunning && !hasWon} />
+
       <div className="action-container">
-        <Button text="Clear" onClick={clearConfirmationHandler} buttonStyle="btn--danger--solid" />
         <Button text="Solve" onClick={solveConfirmationHandler} buttonStyle="btn--warning--solid" />
+        <Button text="Clear" onClick={clearConfirmationHandler} buttonStyle="btn--danger--solid" />
+        <Button text="?" onClick={handleHelp} buttonStyle="btn--purple--solid" />
         <Button text="New Game" onClick={newGameConfirmationHandler} buttonStyle="btn--new--solid" />
       </div>
     </div>
