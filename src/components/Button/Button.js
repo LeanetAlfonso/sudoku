@@ -8,6 +8,7 @@ const STYLES = [
   "btn--success--solid",
   "btn--dark--solid",
   "btn--new--solid",
+  "btn--purple--solid",
 ];
 
 const Button = ({ text, type, onClick, buttonStyle }) => {

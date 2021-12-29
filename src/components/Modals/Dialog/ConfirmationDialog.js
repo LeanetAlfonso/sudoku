@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../Button/Button';
+import Button from '../../Button/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
@@ -20,7 +20,7 @@ export default function ConfirmDialog(props) {
                     {confirmationDialog.subTitle}
                 </Typography>
             </DialogContent>
-            <DialogActions>
+            <DialogActions >
                 <Button
                     text="Cancel"
                     onClick={confirmationDialog.onCancel}

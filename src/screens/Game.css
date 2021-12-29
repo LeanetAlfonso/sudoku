@@ -1,8 +1,22 @@
 .main-title {
-	margin: 20px;
+	margin: 15px;
 	text-decoration: none;
 }
 
 .action-container {
-	margin-top: 2rem;
+	margin-top: 1.5rem;
+}
+
+.game {
+	display: grid;
+}
+
+.timer {
+	color: #5b8588;
+}
+.btn-pause-play {
+	cursor: pointer;
+}
+.btn-pause-play:hover {
+	color: #72a8ac;
 }
