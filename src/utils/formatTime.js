@@ -9,5 +9,4 @@ const formatTime = (seconds) => {
         .join(':');
 };
 
-
 export default formatTime;

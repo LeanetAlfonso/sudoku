@@ -12,6 +12,7 @@ export default class Cell extends Component {
         };
         return (
             <input
+                id={`${cell.row}-{${cell.col}}`}
                 className={getCellClassName()}
                 row={cell.row}
                 col={cell.col}
@@ -19,6 +20,7 @@ export default class Cell extends Component {
                 readOnly={cell.readOnly}
                 onChange={(e) => handleChangeCallback(e.target.value, cell)}
                 maxLength="1"
+                pattern="\d*"
             />
         );
     }
