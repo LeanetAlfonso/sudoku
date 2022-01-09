@@ -8,7 +8,7 @@ import Button from "../components/Button/Button";
 import ConfirmationDialog from "../components/Modals/Dialog/ConfirmationDialog";
 import GameInstructions from "../components/Modals/GameInstructions/GameInstructions";
 import GameDetails from "../components/Modals/GameDetails/GameDetails";
-import formatTime from "../utils/formatTime";
+import Timer from "../components/Timer/Timer";
 
 const Game = () => {
 
@@ -89,6 +89,16 @@ const Game = () => {
     setHasWon(false);
     setIsRunning(!isRunning);
   };
+
+  // // Handles selecting a cell
+  // const handleCellClick = (val) => {
+  //   findSelectedCells(grid, val);
+  // };
+
+  // // Handles clearing selected cells
+  // const handleClearSelected = () => {
+  //   clearSelectedCells(grid);
+  // };
 
   // Handles cell changes
   const handleChange = (val, cell) => {
@@ -225,9 +235,11 @@ const Game = () => {
         confirmationDialog={confirmationDialog}
       />
 
-      <h2 className="timer">
-        {formatTime(seconds)} <i className={`btn-pause-play ${isRunning ? "far fa-pause-circle" : "pauseplay far fa-play-circle"}`} onClick={handlePausePlay}> </i>
-      </h2>
+      <Timer
+        seconds={seconds}
+        isRunning={isRunning}
+        handlePausePlay={handlePausePlay}
+      />
 
       <GameDetails
         gameDetails={gameDetails}
@@ -243,9 +255,9 @@ const Game = () => {
       <Grid className="grid" grid={grid} onChange={handleChange} isPaused={!isRunning && !hasWon} />
 
       <div className="action-container">
-        <Button text="Solve" onClick={solveConfirmationHandler} buttonStyle="btn--warning--solid" />
-        <Button text="Clear" onClick={clearConfirmationHandler} buttonStyle="btn--danger--solid" />
         <Button text="?" onClick={handleHelp} buttonStyle="btn--purple--solid" />
+        <Button text="Clear" onClick={clearConfirmationHandler} buttonStyle="btn--danger--solid" />
+        <Button text="Solve" onClick={solveConfirmationHandler} buttonStyle="btn--warning--solid" />
         <Button text="New Game" onClick={newGameConfirmationHandler} buttonStyle="btn--new--solid" />
       </div>
     </div>

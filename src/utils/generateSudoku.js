@@ -1,9 +1,9 @@
 
-import generator from 'sudoku';
+import puzzle from 'sudoku';
 
 // Generates sudoku board
 function generateSudoku() {
-    const rawBoard = generator.makepuzzle();
+    const rawBoard = puzzle.makepuzzle();
     const formattedBoard = rawBoard.map((x) => x !== null ? x + 1 : null);
 
     const finalBoard = {
