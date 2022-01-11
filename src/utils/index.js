@@ -7,11 +7,11 @@ import formatTime from "./formatTime";
 import clearSelectedCells from "./clearSelectedCells";
 
 export {
-  generateSudoku,
-  checkBoard,
-  solveSudoku,
-  checkPlayerWon,
-  findSelectedCells,
-  formatTime,
-  clearSelectedCells
+    generateSudoku,
+    checkBoard,
+    solveSudoku,
+    checkPlayerWon,
+    findSelectedCells,
+    formatTime,
+    clearSelectedCells
 };

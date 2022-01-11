@@ -14,248 +14,248 @@ import i18n from "i18next";
 
 const Game = () => {
 
-  // Game
-  const [grid, setGrid] = useLocalStorage("currentGrid", null);
-  const [startingGrid, setStartingGrid] = useLocalStorage("startingGrid", null);
-  const [pressedSolve, setPressedSolve] = useLocalStorage("pressedSolve", false);
-  const [movesTaken, setMovesTaken] = useLocalStorage("movesTaken", 0);
-  const [seconds, setSeconds] = useState(0);
-  const [isRunning, setIsRunning] = useState(true);
-  const [hasWon, setHasWon] = useState(false);
+    // Game
+    const [grid, setGrid] = useLocalStorage("currentGrid", null);
+    const [startingGrid, setStartingGrid] = useLocalStorage("startingGrid", null);
+    const [pressedSolve, setPressedSolve] = useLocalStorage("pressedSolve", false);
+    const [movesTaken, setMovesTaken] = useLocalStorage("movesTaken", 0);
+    const [seconds, setSeconds] = useLocalStorage("seconds", 0);
+    const [isRunning, setIsRunning] = useLocalStorage("isRunning", true);
+    const [hasWon, setHasWon] = useLocalStorage("hasWon", false);
 
-  // Modals
-  const [noSolution, setNoSolution] = useState({ isOpen: false });
-  const [confirmationDialog, setConfirmationDialog] = useState({ isOpen: false, title: '', subTitle: '' });
-  const [gameDetails, setGameDetails] = useState({ isOpen: false, movesTaken: { movesTaken }, elapsed: { setSeconds }, pressedSolve: { pressedSolve } });
-  const [gameInstructions, setGameInstructions] = useState({ isOpen: false });
+    // Modals
+    const [noSolution, setNoSolution] = useState({ isOpen: false });
+    const [confirmationDialog, setConfirmationDialog] = useState({ isOpen: false, title: '', subTitle: '' });
+    const [gameDetails, setGameDetails] = useState({ isOpen: false, movesTaken: { movesTaken }, elapsed: { setSeconds }, pressedSolve: { pressedSolve } });
+    const [gameInstructions, setGameInstructions] = useState({ isOpen: false });
 
-  const { t } = useTranslation();
+    // Translation
+    const { t } = useTranslation();
+    const languages = [
+        {
+            code: 'en',
+            name: 'English',
+            country_code: 'gb'
+        }, {
+            code: 'sp',
+            name: 'Español',
+            country_code: 'es'
+        }
+    ];
 
-  const languages = [
-    {
-      code: 'en',
-      name: 'English',
-      country_code: 'gb'
-    }, {
-      code: 'sp',
-      name: 'Español',
-      country_code: 'es'
-    }
-  ];
-
-  // Timer
-  useEffect(() => {
-    if (isRunning) {
-      const intervalId = setInterval(() => {
-        setSeconds(seconds => seconds + 1);
-      }, 1000);
-      return () => clearInterval(intervalId);
-    }
-    return undefined;
-  }, [isRunning]);
-
-
-  // Handles new game
-  const handleNewGame = () => {
-    // generates new puzzle
-    const newGrid = generateSudoku();
-    setStartingGrid(cloneDeep(newGrid));
-    setGrid(cloneDeep(newGrid));
-
-    // resets values
-    setPressedSolve(false);
-    setSeconds(0);
-    setMovesTaken(0);
-    setHasWon(false);
-    setIsRunning(true);
-  };
+    // Timer
+    useEffect(() => {
+        if (isRunning) {
+            const intervalId = setInterval(() => {
+                setSeconds(seconds => seconds + 1);
+            }, 1000);
+            return () => clearInterval(intervalId);
+        }
+        return undefined;
+    }, [isRunning, setSeconds]);
 
 
-  // Handles clearing the board
-  const handleClearBoard = () => {
-    setGrid(cloneDeep(startingGrid));
-  };
+    // Handles new game
+    const handleNewGame = () => {
+        // generates new puzzle
+        const newGrid = generateSudoku();
+        setStartingGrid(cloneDeep(newGrid));
+        setGrid(cloneDeep(newGrid));
+
+        // resets values
+        setPressedSolve(false);
+        setSeconds(0);
+        setMovesTaken(0);
+        setHasWon(false);
+        setIsRunning(true);
+    };
 
 
-  // Handles solving the puzzle
-  const handleSolve = () => {
-    let solvedGrid = cloneDeep(startingGrid);
-    let solvedStatus = solveSudoku(solvedGrid);
-    if (solvedStatus === false) {
-      setNoSolution({
-        ...noSolution,
-        isOpen: true
-      });
-      return;
-    }
-    setGrid(solvedGrid);
-    setPressedSolve(true);
-    setHasWon(true);
+    // Handles clearing the board
+    const handleClearBoard = () => {
+        setGrid(cloneDeep(startingGrid));
+    };
 
-    setConfirmationDialog({
-      ...confirmationDialog,
-      isOpen: false
-    });
-    gameDetailsHandler();
-  };
 
-  // Handles timer pause/play button
-  const handlePausePlay = () => {
-    setHasWon(false);
-    setIsRunning(!isRunning);
-  };
-
-  // // Handles selecting a cell
-  // const handleCellClick = (val) => {
-  //   findSelectedCells(grid, val);
-  // };
-
-  // // Handles clearing selected cells
-  // const handleClearSelected = () => {
-  //   clearSelectedCells(grid);
-  // };
-
-  // Handles cell changes
-  const handleChange = (val, cell) => {
-    setHasWon(false);
-    setIsRunning(true);
-    // checks if cell is not read-only
-    if (!cell.readOnly) {
-      // sets value to null or parses it into an integer accordingly
-      const value = val === "" ? null : parseInt(val, 10);
-
-      const row = cell.row;
-      const col = cell.col;
-
-      // increments number of moves
-      if (value !== 0) setMovesTaken((moves) => moves + 1);
-      const newGrid = grid;
-
-      // sets current value of cell to input value
-      newGrid.rows[row].cols[col].value = value;
-
-      // checks if move is valid
-      checkBoard(newGrid);
-
-      // checks if player won
-      let playerWon = checkPlayerWon(newGrid);
-      if (playerWon) {
+    // Handles solving the puzzle
+    const handleSolve = () => {
+        let solvedGrid = cloneDeep(startingGrid);
+        let solvedStatus = solveSudoku(solvedGrid);
+        if (solvedStatus === false) {
+            setNoSolution({
+                ...noSolution,
+                isOpen: true
+            });
+            return;
+        }
+        setGrid(solvedGrid);
+        setPressedSolve(true);
         setHasWon(true);
+
+        setConfirmationDialog({
+            ...confirmationDialog,
+            isOpen: false
+        });
         gameDetailsHandler();
-      }
+    };
 
-      // updates grid state
-      setGrid(newGrid);
-    }
-  };
+    // Handles timer pause/play button
+    const handlePausePlay = () => {
+        setHasWon(false);
+        setIsRunning(!isRunning);
+    };
 
+    // // Handles selecting a cell
+    // const handleCellClick = (val) => {
+    //   findSelectedCells(grid, val);
+    // };
 
-  // Continue option for clear 
-  const onContinueClear = () => {
-    handleClearBoard();
-    closeDialog();
-  };
+    // // Handles clearing selected cells
+    // const handleClearSelected = () => {
+    //   clearSelectedCells(grid);
+    // };
 
-  // Continue option for new game
-  const onContinueNewGame = () => {
-    handleNewGame();
-    closeDialog();
-  };
+    // Handles cell changes
+    const handleChange = (val, cell) => {
+        setHasWon(false);
+        setIsRunning(true);
+        // checks if cell is not read-only
+        if (!cell.readOnly) {
+            // sets value to null or parses it into an integer accordingly
+            const value = val === "" ? null : parseInt(val, 10);
 
-  // Continue option for solve 
-  const onContinueSolve = () => {
-    handleSolve();
-  };
+            const row = cell.row;
+            const col = cell.col;
 
-  // Closes dialog and resumes timer
-  const closeDialog = () => {
-    setConfirmationDialog({ ...confirmationDialog, isOpen: false });
-    setIsRunning(true);
-  };
+            // increments number of moves
+            if (value !== 0) setMovesTaken((moves) => moves + 1);
+            const newGrid = cloneDeep(grid);
 
-  // Closes game instructions and resumes timer
-  const closeHelp = () => {
-    setGameInstructions({ ...gameInstructions, isOpen: false });
-    setIsRunning(true);
-  };
+            // sets current value of cell to input value
+            newGrid.rows[row].cols[col].value = value;
 
+            // checks if move is valid
+            checkBoard(newGrid);
 
-  // Handles confirmation dialog for clear
-  const clearConfirmationHandler = () => {
-    setIsRunning(false);
-    setConfirmationDialog({
-      isOpen: true,
-      title: t('clear_confirm_title'),
-      subTitle: t('clear_confirm_subtitle'),
-      onContinue: () => { onContinueClear(); },
-      onCancel: () => { closeDialog(); }
-    });
-  };
+            // checks if player won
+            let playerWon = checkPlayerWon(newGrid);
+            if (playerWon) {
+                setHasWon(true);
+                gameDetailsHandler();
+            }
 
-  // Handles confirmation dialog for new game
-  const newGameConfirmationHandler = () => {
-    setIsRunning(false);
-    setConfirmationDialog({
-      isOpen: true,
-      title: t('newgame_confirm_title'),
-      subTitle: t('newgame_confirm_subtitle'),
-      onContinue: () => { onContinueNewGame(); },
-      onCancel: () => { closeDialog(); }
-    });
-  };
-
-  // Handles confirmation dialog for solve
-  const solveConfirmationHandler = () => {
-    setIsRunning(false);
-    setConfirmationDialog({
-      isOpen: true,
-      title: t('solve_confirm_title'),
-      subTitle: t('solve_confirm_subtitle'),
-      onContinue: () => { onContinueSolve(); },
-      onCancel: () => { closeDialog(); }
-    });
-  };
-
-  // Handles game details modal
-  const gameDetailsHandler = () => {
-    setIsRunning(false);
-    setGameDetails({
-      isOpen: true,
-      movesTaken: { movesTaken },
-      elapsed: { seconds },
-      pressedSolve: { pressedSolve }
-    });
-  };
-
-  // Handles game instructions modal
-  const handleHelp = () => {
-    setIsRunning(false);
-    setGameInstructions({
-      ...gameInstructions,
-      isOpen: true,
-      onOk: () => { closeHelp(); }
-    });
-  };
+            // updates grid state
+            setGrid(newGrid);
+        }
+    };
 
 
-  if (grid == null && startingGrid == null) handleNewGame();
+    // Continue option for clear 
+    const onContinueClear = () => {
+        handleClearBoard();
+        closeDialog();
+    };
 
-  return (
-    <div className="game">
+    // Continue option for new game
+    const onContinueNewGame = () => {
+        handleNewGame();
+        closeDialog();
+    };
 
-      <div className="lang-menu-label">
-        <i className="fas fa-globe-americas custom-globe fa-xs"></i>
-        <select id="lang-menu-select" className="lang-menu-select" value={i18n.language}
-          onChange={(e) => i18n.changeLanguage(e.target.value)}>
-          {languages.map(({ name, country_code }) => (
-            <option value={country_code} key={country_code}>
-              {name}
-            </option>
-          ))}
-        </select>
-      </div>
+    // Continue option for solve 
+    const onContinueSolve = () => {
+        handleSolve();
+    };
 
-      {/* <div className="lang-menu-label">
+    // Closes dialog and resumes timer
+    const closeDialog = () => {
+        setConfirmationDialog({ ...confirmationDialog, isOpen: false });
+        setIsRunning(true);
+    };
+
+    // Closes game instructions and resumes timer
+    const closeHelp = () => {
+        setGameInstructions({ ...gameInstructions, isOpen: false });
+        setIsRunning(true);
+    };
+
+
+    // Handles confirmation dialog for clear
+    const clearConfirmationHandler = () => {
+        setIsRunning(false);
+        setConfirmationDialog({
+            isOpen: true,
+            title: t('clear_confirm_title'),
+            subTitle: t('clear_confirm_subtitle'),
+            onContinue: () => { onContinueClear(); },
+            onCancel: () => { closeDialog(); }
+        });
+    };
+
+    // Handles confirmation dialog for new game
+    const newGameConfirmationHandler = () => {
+        setIsRunning(false);
+        setConfirmationDialog({
+            isOpen: true,
+            title: t('newgame_confirm_title'),
+            subTitle: t('newgame_confirm_subtitle'),
+            onContinue: () => { onContinueNewGame(); },
+            onCancel: () => { closeDialog(); }
+        });
+    };
+
+    // Handles confirmation dialog for solve
+    const solveConfirmationHandler = () => {
+        setIsRunning(false);
+        setConfirmationDialog({
+            isOpen: true,
+            title: t('solve_confirm_title'),
+            subTitle: t('solve_confirm_subtitle'),
+            onContinue: () => { onContinueSolve(); },
+            onCancel: () => { closeDialog(); }
+        });
+    };
+
+    // Handles game details modal
+    const gameDetailsHandler = () => {
+        setIsRunning(false);
+        setGameDetails({
+            isOpen: true,
+            movesTaken: { movesTaken },
+            elapsed: { seconds },
+            pressedSolve: { pressedSolve }
+        });
+    };
+
+    // Handles game instructions modal
+    const handleHelp = () => {
+        setIsRunning(false);
+        setGameInstructions({
+            ...gameInstructions,
+            isOpen: true,
+            onOk: () => { closeHelp(); }
+        });
+    };
+
+
+    if (grid == null && startingGrid == null) handleNewGame();
+
+    return (
+        <div className="game">
+
+            <div className="lang-menu-label">
+                <i className="fas fa-globe-americas custom-globe fa-xs"></i>
+                <select id="lang-menu-select" className="lang-menu-select" value={i18n.language}
+                    onChange={(e) => i18n.changeLanguage(e.target.value)}>
+                    {languages.map(({ name, country_code }) => (
+                        <option value={country_code} key={country_code}>
+                            {name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {/* <div className="lang-menu-label">
         <ul className="lang-menu-select">
           {languages.map(({ code, name, country_code }) => (
             <li className="lang-menu-item" key={country_code}>
@@ -267,42 +267,42 @@ const Game = () => {
         </ul>
       </div> */}
 
-      <h1 className="main-title">
-        Sudoku
-      </h1>
+            <h1 className="main-title">
+                Sudoku
+            </h1>
 
-      <ConfirmationDialog
-        confirmationDialog={confirmationDialog}
-      />
+            <ConfirmationDialog
+                confirmationDialog={confirmationDialog}
+            />
 
-      <Timer
-        seconds={seconds}
-        isRunning={isRunning}
-        handlePausePlay={handlePausePlay}
-      />
+            <Timer
+                seconds={seconds}
+                isRunning={isRunning}
+                handlePausePlay={handlePausePlay}
+            />
 
-      <GameDetails
-        gameDetails={gameDetails}
-        setGameDetails={setGameDetails}
-        movesTaken={movesTaken}
-        elapsed={seconds}
-        pressedSolve={pressedSolve}
-      />
+            <GameDetails
+                gameDetails={gameDetails}
+                setGameDetails={setGameDetails}
+                movesTaken={movesTaken}
+                elapsed={seconds}
+                pressedSolve={pressedSolve}
+            />
 
-      <GameInstructions
-        gameInstructions={gameInstructions}
-        setGameInstructions={setGameInstructions}
-      />
-      <Grid className="grid" grid={grid} onChange={handleChange} isPaused={!isRunning && !hasWon} />
+            <GameInstructions
+                gameInstructions={gameInstructions}
+                setGameInstructions={setGameInstructions}
+            />
+            <Grid className="grid" grid={grid} onChange={handleChange} isPaused={!isRunning && !hasWon} />
 
-      <div className="action-container">
-        <Button text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />
-        <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--danger--solid" />
-        <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--warning--solid" />
-        <Button text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--new--solid" />
-      </div>
-    </div>
-  );
+            <div className="action-container">
+                <Button text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />
+                <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--danger--solid" />
+                <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--warning--solid" />
+                <Button text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--new--solid" />
+            </div>
+        </div>
+    );
 };
 
 export default Game;
