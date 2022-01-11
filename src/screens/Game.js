@@ -19,9 +19,9 @@ const Game = () => {
     const [startingGrid, setStartingGrid] = useLocalStorage("startingGrid", null);
     const [pressedSolve, setPressedSolve] = useLocalStorage("pressedSolve", false);
     const [movesTaken, setMovesTaken] = useLocalStorage("movesTaken", 0);
-    const [seconds, setSeconds] = useState(0);
-    const [isRunning, setIsRunning] = useState(true);
-    const [hasWon, setHasWon] = useState(false);
+    const [seconds, setSeconds] = useLocalStorage("seconds", 0);
+    const [isRunning, setIsRunning] = useLocalStorage("isRunning", true);
+    const [hasWon, setHasWon] = useLocalStorage("hasWon", false);
 
     // Modals
     const [noSolution, setNoSolution] = useState({ isOpen: false });
@@ -52,7 +52,7 @@ const Game = () => {
             return () => clearInterval(intervalId);
         }
         return undefined;
-    }, [isRunning]);
+    }, [isRunning, setSeconds]);
 
 
     // Handles new game
