@@ -12,6 +12,7 @@
 	.cell {
 		width: 5vh;
 		height: 2.5rem;
+		font-size: 1.5rem;
 	}
 }
 
@@ -28,6 +29,9 @@
 		width: 2.3vh;
 		height: 3vh;
 		font-size: 1rem;
+	}
+	h2 {
+		font-size: 1.2rem;
 	}
 }
 
@@ -61,20 +65,19 @@
 .cell:nth-child(3n) {
 	border-right: 5px solid rgb(91, 133, 136);
 }
-/* Sudoku board 3 by 3 border */
-.cell:nth-child(9) {
-	border-right: 8px solid rgb(91, 133, 136);
-}
-.cell[col='0'] {
-	border-left: 8px solid rgb(91, 133, 136);
-}
-.cell[row='0'] {
-	border-top: 8px solid rgb(91, 133, 136);
-}
 .cell[row='3'],
 .cell[row='6'] {
 	border-top: 5px solid rgb(91, 133, 136);
 }
+.cell:nth-child(9) {
+	border-right: 6px solid rgb(91, 133, 136);
+}
+.cell[col='0'] {
+	border-left: 6px solid rgb(91, 133, 136);
+}
+.cell[row='0'] {
+	border-top: 6px solid rgb(91, 133, 136);
+}
 .cell[row='8'] {
-	border-bottom: 8px solid rgb(91, 133, 136);
+	border-bottom: 6px solid rgb(91, 133, 136);
 }

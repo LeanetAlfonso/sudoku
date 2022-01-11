@@ -1,6 +1,7 @@
 .main-title {
-	margin: 15px;
+	margin: 0px 0px 0px 0px;
 	text-decoration: none;
+	color: black;
 }
 
 .action-container {
@@ -9,14 +10,30 @@
 
 .game {
 	display: grid;
-}
-
-.timer {
 	color: #5b8588;
 }
+
 .btn-pause-play {
 	cursor: pointer;
+	outline: none;
 }
-.btn-pause-play:hover {
-	color: #72a8ac;
+
+@media (hover: hover) and (pointer: fine) {
+	.btn-pause-play:hover,
+	.lang-menu-label:hover {
+		opacity: 0.75;
+	}
+}
+
+.lang-menu-label {
+	justify-self: end;
+	margin: 1vh;
+}
+
+.lang-menu-select {
+	border: none;
+	background: white;
+	color: #5b8588;
+	outline: none;
+	cursor: pointer;
 }

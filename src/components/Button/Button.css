@@ -20,12 +20,14 @@
 	font-size: 18px;
 	border: none;
 	color: var(--white);
-	box-shadow: 1px 1px 8px 1px #918f8fce;
+	/* box-shadow: 1px 1px 8px 1px #918f8fce; */
 }
 
-.btn:hover {
-	transform: translateY(-3px);
-	opacity: 0.8 !important;
+@media (hover: hover) and (pointer: fine) {
+	.btn:hover {
+		transform: translateY(-3px);
+		opacity: 0.8 !important;
+	}
 }
 
 /* Button colors and styles */
