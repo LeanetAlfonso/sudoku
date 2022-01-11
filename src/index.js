@@ -15,28 +15,28 @@ import reportWebVitals from './reportWebVitals';
 
 
 i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
-  .use(LanguageDetector)
-  .use(HttpApi)
-  .init({
-    supportedLngs: ['en', 'es'],
-    fallbackLng: "en",
-    detection: {
-      order: ['localStorage', 'cookie', 'path', 'htmlTag', 'subdomain'],
-      caches: ['localStorage', 'cookie']
-    },
-    backend: {
-      loadPath: 'assets/locales/{{lng}}/translation.json'
-    }
-  });
+    .use(initReactI18next) // passes i18n down to react-i18next
+    .use(LanguageDetector)
+    .use(HttpApi)
+    .init({
+        supportedLngs: ['en', 'es'],
+        fallbackLng: "en",
+        detection: {
+            order: ['localStorage', 'cookie', 'path', 'htmlTag', 'subdomain'],
+            caches: ['localStorage', 'cookie']
+        },
+        backend: {
+            loadPath: 'assets/locales/{{lng}}/translation.json'
+        }
+    });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Suspense fallback={<Loading />}>
-      <App />
-    </Suspense>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Suspense fallback={<Loading />}>
+            <App />
+        </Suspense>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
