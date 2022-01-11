@@ -5,10 +5,12 @@ import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import { useTranslation } from "react-i18next";
 
 export default function ConfirmDialog(props) {
 
     const { confirmationDialog } = props;
+    const { t } = useTranslation();
 
     return (
         <Dialog open={confirmationDialog.isOpen}>
@@ -22,12 +24,12 @@ export default function ConfirmDialog(props) {
             </DialogContent>
             <DialogActions >
                 <Button
-                    text="Cancel"
+                    text={t('cancel')}
                     onClick={confirmationDialog.onCancel}
                     buttonStyle="btn--dark--solid"
                 />
                 <Button
-                    text="Continue"
+                    text={t('continue')}
                     onClick={confirmationDialog.onContinue}
                     buttonStyle="btn--primary--solid"
                 />

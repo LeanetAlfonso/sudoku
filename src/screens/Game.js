@@ -9,6 +9,8 @@ import ConfirmationDialog from "../components/Modals/Dialog/ConfirmationDialog";
 import GameInstructions from "../components/Modals/GameInstructions/GameInstructions";
 import GameDetails from "../components/Modals/GameDetails/GameDetails";
 import Timer from "../components/Timer/Timer";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 const Game = () => {
 
@@ -27,6 +29,19 @@ const Game = () => {
   const [gameDetails, setGameDetails] = useState({ isOpen: false, movesTaken: { movesTaken }, elapsed: { setSeconds }, pressedSolve: { pressedSolve } });
   const [gameInstructions, setGameInstructions] = useState({ isOpen: false });
 
+  const { t } = useTranslation();
+
+  const languages = [
+    {
+      code: 'en',
+      name: 'English',
+      country_code: 'gb'
+    }, {
+      code: 'sp',
+      name: 'Español',
+      country_code: 'es'
+    }
+  ];
 
   // Timer
   useEffect(() => {
@@ -170,8 +185,8 @@ const Game = () => {
     setIsRunning(false);
     setConfirmationDialog({
       isOpen: true,
-      title: 'Are you sure you want to clear the board?',
-      subTitle: 'You can\'t undo this operation.',
+      title: t('clear_confirm_title'),
+      subTitle: t('clear_confirm_subtitle'),
       onContinue: () => { onContinueClear(); },
       onCancel: () => { closeDialog(); }
     });
@@ -182,8 +197,8 @@ const Game = () => {
     setIsRunning(false);
     setConfirmationDialog({
       isOpen: true,
-      title: 'Are you sure you want to start a new game?',
-      subTitle: 'All your changes will be lost.',
+      title: t('newgame_confirm_title'),
+      subTitle: t('newgame_confirm_subtitle'),
       onContinue: () => { onContinueNewGame(); },
       onCancel: () => { closeDialog(); }
     });
@@ -194,8 +209,8 @@ const Game = () => {
     setIsRunning(false);
     setConfirmationDialog({
       isOpen: true,
-      title: 'Are you sure you want to solve this board?',
-      subTitle: 'You will lose the game.',
+      title: t('solve_confirm_title'),
+      subTitle: t('solve_confirm_subtitle'),
       onContinue: () => { onContinueSolve(); },
       onCancel: () => { closeDialog(); }
     });
@@ -227,8 +242,33 @@ const Game = () => {
 
   return (
     <div className="game">
+
+      <div className="lang-menu-label">
+        <i className="fas fa-globe-americas custom-globe fa-xs"></i>
+        <select id="lang-menu-select" className="lang-menu-select" value={i18n.language}
+          onChange={(e) => i18n.changeLanguage(e.target.value)}>
+          {languages.map(({ name, country_code }) => (
+            <option value={country_code} key={country_code}>
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* <div className="lang-menu-label">
+        <ul className="lang-menu-select">
+          {languages.map(({ code, name, country_code }) => (
+            <li className="lang-menu-item" key={country_code}>
+              <button className='drop' onClick={() => i18n.changeLanguage(code)}>
+                <span className={`fi fi-${country_code}`}></span> {name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div> */}
+
       <h1 className="main-title">
-        Sudoku Game
+        Sudoku
       </h1>
 
       <ConfirmationDialog
@@ -248,6 +288,7 @@ const Game = () => {
         elapsed={seconds}
         pressedSolve={pressedSolve}
       />
+
       <GameInstructions
         gameInstructions={gameInstructions}
         setGameInstructions={setGameInstructions}
@@ -255,10 +296,10 @@ const Game = () => {
       <Grid className="grid" grid={grid} onChange={handleChange} isPaused={!isRunning && !hasWon} />
 
       <div className="action-container">
-        <Button text="?" onClick={handleHelp} buttonStyle="btn--purple--solid" />
-        <Button text="Clear" onClick={clearConfirmationHandler} buttonStyle="btn--danger--solid" />
-        <Button text="Solve" onClick={solveConfirmationHandler} buttonStyle="btn--warning--solid" />
-        <Button text="New Game" onClick={newGameConfirmationHandler} buttonStyle="btn--new--solid" />
+        <Button text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />
+        <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--danger--solid" />
+        <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--warning--solid" />
+        <Button text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--new--solid" />
       </div>
     </div>
   );

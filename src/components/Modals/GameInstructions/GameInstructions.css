@@ -1,0 +1,13 @@
+.instuctions-clarification {
+	color: #5b8588;
+}
+
+.intructions-bullets {
+	padding-left: 13px;
+	left: 10rem;
+}
+
+.instuctions-clarification,
+.intructions-bullets {
+	padding-top: 20px;
+}

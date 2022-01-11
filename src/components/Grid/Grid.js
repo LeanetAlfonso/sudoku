@@ -14,7 +14,7 @@ export default class Grid extends Component {
             {row.cols.map(cell => (
               <Cell
                 key={row.index + "-" + cell.col}
-                cell={isPaused ? { row: cell.row, col: cell.col, value: null, readOnly: false, isInvalid: false, isSelected: false } : cell}
+                cell={isPaused ? { row: cell.row, col: cell.col, value: null, readOnly: cell.readOnly, isInvalid: false, isSelected: false } : cell}
                 isInvalid={cell.isInvalid}
                 handleChangeCallback={onChange}
               />

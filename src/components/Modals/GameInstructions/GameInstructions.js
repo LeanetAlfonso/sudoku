@@ -5,23 +5,30 @@ import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import { useTranslation } from "react-i18next";
+import "./GameInstructions.css";
 
 export default function GameInstructions(props) {
 
+    const { t } = useTranslation();
     const { gameInstructions } = props;
+
     return (
         <Dialog open={gameInstructions.isOpen}>
-            <DialogTitle variant="h7">
-                How to play Sudoku
+            <DialogTitle variant="h6">
+                {t('instuctions_title')}
             </DialogTitle>
-            <DialogTitle >
-                Fill in the 9×9 grid with digits 1-9 such that:
-            </DialogTitle>
-            <DialogContent>
-                <Typography variant="subtitle2">
-                    <li>No <b>row</b> contains repeated numbers</li>
-                    <li> No <b>column</b>  contains repeated numbers</li>
-                    <li> No <b>3×3 box</b>  contains repeated numbers</li>
+            <DialogContent className="instuctions-content">
+                <Typography>
+                    {t('instuctions_subtitle')}
+                </Typography>
+                <Typography variant="subtitle2" className="intructions-bullets intructions">
+                    <li> {t('instuctions_list_negation')} <b>{t('row')}</b> {t('instuctions_list_repetition')}</li>
+                    <li> {t('instuctions_list_negation')} <b>{t('column')}</b> {t('instuctions_list_repetition')}</li>
+                    <li> {t('instuctions_list_negation')} <b>{t('box')}</b> {t('instuctions_list_repetition')}</li>
+                </Typography>
+                <Typography className="instuctions-clarification">
+                    {t('instuctions_clarification')}
                 </Typography>
             </DialogContent>
             <DialogActions>
