@@ -20,7 +20,7 @@ export default class Cell extends Component {
                 readOnly={cell.readOnly}
                 onChange={(e) => handleChangeCallback(e.target.value, cell)}
                 maxLength="1"
-                pattern="\d*"
+                type="tel"
             />
         );
     }

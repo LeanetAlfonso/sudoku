@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from "react-i18next";
+import IconButton from '@mui/material/IconButton';
+import "./ConfirmationDialog.css";
 
 export default function ConfirmDialog(props) {
 
@@ -14,6 +16,9 @@ export default function ConfirmDialog(props) {
 
     return (
         <Dialog open={confirmationDialog.isOpen}>
+            <IconButton disableRipple className='details-icon'>
+                <i className={`${confirmationDialog.icon} custom-${confirmationDialog.custom} fa-4x`}></i>
+            </IconButton>
             <DialogTitle variant="h6">
                 {confirmationDialog.title}
             </DialogTitle>
@@ -22,7 +27,7 @@ export default function ConfirmDialog(props) {
                     {confirmationDialog.subTitle}
                 </Typography>
             </DialogContent>
-            <DialogActions >
+            <DialogActions className="dialog-actions">
                 <Button
                     text={t('cancel')}
                     onClick={confirmationDialog.onCancel}

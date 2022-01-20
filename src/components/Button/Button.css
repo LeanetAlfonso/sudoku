@@ -16,11 +16,10 @@
 	cursor: pointer;
 	transition: transform 0.3s ease;
 	margin: 0.5rem;
-	padding: 10px 20px;
-	font-size: 18px;
+	padding: 9px 19px;
+	font-size: 17px;
 	border: none;
 	color: var(--white);
-	/* box-shadow: 1px 1px 8px 1px #918f8fce; */
 }
 
 @media (hover: hover) and (pointer: fine) {

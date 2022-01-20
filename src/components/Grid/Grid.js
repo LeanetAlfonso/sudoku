@@ -17,7 +17,7 @@ export default class Grid extends Component {
                                     row: cell.row,
                                     col: cell.col,
                                     value: null,
-                                    eadOnly: cell.readOnly,
+                                    readOnly: cell.readOnly,
                                     isInvalid: false,
                                     isSelected: false
                                 } : cell}
