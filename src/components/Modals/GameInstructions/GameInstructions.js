@@ -7,6 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from "react-i18next";
 import "./GameInstructions.css";
+import IconButton from '@mui/material/IconButton';
 
 export default function GameInstructions(props) {
 
@@ -15,6 +16,9 @@ export default function GameInstructions(props) {
 
     return (
         <Dialog open={gameInstructions.isOpen}>
+            <IconButton disableRipple className='details-icon'>
+                <i className="far fa-question-circle custom-instructions fa-4x"></i>
+            </IconButton>
             <DialogTitle variant="h6">
                 {t('instuctions_title')}
             </DialogTitle>

@@ -1,0 +1,15 @@
+.custom-clear {
+	color: #ff8271;
+}
+
+.custom-new {
+	color: #64bcf7;
+}
+
+.custom-solve {
+	color: #fab54d;
+}
+
+.dialog-actions {
+	display: flex;
+}

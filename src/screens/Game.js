@@ -123,6 +123,7 @@ const Game = () => {
         if (!cell.readOnly) {
             // sets value to null or parses it into an integer accordingly
             const value = val === "" ? null : parseInt(val, 10);
+            //const value = val;
 
             const row = cell.row;
             const col = cell.col;
@@ -187,6 +188,8 @@ const Game = () => {
             isOpen: true,
             title: t('clear_confirm_title'),
             subTitle: t('clear_confirm_subtitle'),
+            icon: "fas fa-eraser",
+            custom: "clear",
             onContinue: () => { onContinueClear(); },
             onCancel: () => { closeDialog(); }
         });
@@ -199,6 +202,8 @@ const Game = () => {
             isOpen: true,
             title: t('newgame_confirm_title'),
             subTitle: t('newgame_confirm_subtitle'),
+            icon: "far fa-plus-square",
+            custom: "new",
             onContinue: () => { onContinueNewGame(); },
             onCancel: () => { closeDialog(); }
         });
@@ -211,6 +216,8 @@ const Game = () => {
             isOpen: true,
             title: t('solve_confirm_title'),
             subTitle: t('solve_confirm_subtitle'),
+            icon: "fas fa-puzzle-piece",
+            custom: "solve",
             onContinue: () => { onContinueSolve(); },
             onCancel: () => { closeDialog(); }
         });
