@@ -40,6 +40,11 @@ const Game = () => {
             code: 'sp',
             name: 'Español',
             country_code: 'es'
+        },
+        {
+            code: 'fr',
+            name: 'Français',
+            country_code: 'fr'
         }
     ];
 
@@ -249,9 +254,8 @@ const Game = () => {
 
     return (
         <div className="game">
-
             <div className="lang-menu-label">
-                <i className="fas fa-globe-americas custom-globe fa-xs"></i>
+                <i className="fas fa-globe custom-globe fa-xs"></i>
                 <select id="lang-menu-select" className="lang-menu-select" value={i18n.language}
                     onChange={(e) => i18n.changeLanguage(e.target.value)}>
                     {languages.map(({ name, country_code }) => (

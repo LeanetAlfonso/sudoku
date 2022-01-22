@@ -1,11 +1,11 @@
 import React from "react";
 import "./Loading.css";
-
+import { CircularProgress } from '@material-ui/core';
 
 const Loading = () => {
     return (
-        <div className="fa-5x">
-            <i className="fas fa-spinner custom-center"></i>
+        <div className="custom-center">
+            <CircularProgress disableShrink color="#5b8588" size='8vh' />
         </div>
     );
 };

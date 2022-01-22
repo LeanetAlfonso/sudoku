@@ -37,7 +37,7 @@ export default function GameInstructions(props) {
             </DialogContent>
             <DialogActions>
                 <Button
-                    text="OK"
+                    text={t('ok')}
                     onClick={gameInstructions.onOk}
                     buttonStyle="btn--primary--solid"
                 />
