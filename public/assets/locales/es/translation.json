@@ -1,9 +1,10 @@
 {
-	"clear": "Borrar Tablero",
+	"clear": "Borrar",
 	"solve": "Resolver",
-	"new_game": "Juego Nuevo",
+	"new_game": "Nueva Partida",
 	"cancel": "Cancelar",
 	"continue": "Continuar",
+	"ok": "OK",
 	"clear_confirm_title": "¿Está seguro de que quiere borrar todo el tablero?",
 	"clear_confirm_subtitle": "Tendrá que comenzar de nuevo.",
 	"newgame_confirm_title": "¿Está seguro de que quiere comenzar un juego nuevo?",

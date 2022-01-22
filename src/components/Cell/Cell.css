@@ -7,6 +7,8 @@
 	border: 1px solid #5b8588;
 	border-radius: 0%;
 	padding: 5px;
+	margin: 0;
+	caret-color: rgb(91, 133, 136);
 }
 
 @media (max-width: 575px) {
