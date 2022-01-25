@@ -19,7 +19,6 @@ export default class Grid extends Component {
                                     value: null,
                                     readOnly: cell.readOnly,
                                     isInvalid: false,
-                                    isSelected: false
                                 } : cell}
                                 isInvalid={cell.isInvalid}
                                 handleChangeCallback={onChange}

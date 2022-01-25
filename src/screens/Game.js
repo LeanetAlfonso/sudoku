@@ -110,16 +110,6 @@ const Game = () => {
         setIsRunning(!isRunning);
     };
 
-    // // Handles selecting a cell
-    // const handleCellClick = (val) => {
-    //   findSelectedCells(grid, val);
-    // };
-
-    // // Handles clearing selected cells
-    // const handleClearSelected = () => {
-    //   clearSelectedCells(grid);
-    // };
-
     // Handles cell changes
     const handleChange = (val, cell) => {
         setHasWon(false);
@@ -128,7 +118,6 @@ const Game = () => {
         if (!cell.readOnly) {
             // sets value to null or parses it into an integer accordingly
             const value = val === "" ? null : parseInt(val, 10);
-            //const value = val;
 
             const row = cell.row;
             const col = cell.col;
@@ -265,18 +254,6 @@ const Game = () => {
                     ))}
                 </select>
             </div>
-
-            {/* <div className="lang-menu-label">
-        <ul className="lang-menu-select">
-          {languages.map(({ code, name, country_code }) => (
-            <li className="lang-menu-item" key={country_code}>
-              <button className='drop' onClick={() => i18n.changeLanguage(code)}>
-                <span className={`fi fi-${country_code}`}></span> {name}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div> */}
 
             <h1 className="main-title">
                 Sudoku

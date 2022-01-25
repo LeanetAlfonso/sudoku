@@ -6,8 +6,6 @@ import { initReactI18next } from "react-i18next";
 import 'flag-icons/css/flag-icons.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import LanguageDetector from 'i18next-browser-languagedetector';
-// import 'bootstrap-css-only/css/bootstrap.min.css';
-// import 'mdbreact/dist/css/mdb.css';
 import Loading from './components/Loading/Loading';
 import './index.css';
 import App from './App';
