@@ -21,8 +21,7 @@ function generateSudoku() {
                 col: j,
                 value: value,
                 readOnly: value !== null,
-                isInvalid: false,
-                isSelected: false
+                isInvalid: false
             };
             row.cols.push(col);
         }

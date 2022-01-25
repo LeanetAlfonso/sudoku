@@ -7,7 +7,6 @@ export default class Cell extends Component {
         const getCellClassName = () => {
             return `cell 
             ${cell.isInvalid ? "cell-invalid" : ""}
-            ${cell.isSelected ? "cell-selected" : ""}
             `;
         };
         return (

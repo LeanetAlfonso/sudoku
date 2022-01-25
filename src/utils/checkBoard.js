@@ -62,7 +62,7 @@ const getInvalidBoxes = (board) => {
 
     // checks all boxes
     for (let box = 0; box < 9; box++) {
-        // checks all cells of selected box
+        // checks all cells of box
         let x0 = boxValues[box].x;
         let y0 = boxValues[box].y;
 

@@ -45,10 +45,6 @@
 	background-color: rgb(255, 173, 173);
 }
 
-.cell-selected {
-	background-color: rgb(225, 255, 93);
-}
-
 .cell[readOnly] {
 	color: black;
 	background-color: none;
