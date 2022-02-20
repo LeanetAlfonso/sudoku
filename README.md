@@ -6,7 +6,7 @@ Visit [sudokupuzzle.ga](https://www.sudokupuzzle.ga/) to play it now.
 
 <img alt="demo" src="demo.gif" width="500" height="auto"/>
 
-## Installation
+## Running Locally
 
 Clone the repo
 
