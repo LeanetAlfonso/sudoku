@@ -3,11 +3,11 @@ import "./Button.css";
 
 const STYLES = [
     "btn--primary--solid",
-    "btn--warning--solid",
-    "btn--danger--solid",
+    "btn--yellow--solid",
+    "btn--redish-orange--solid",
     "btn--success--solid",
     "btn--dark--solid",
-    "btn--new--solid",
+    "btn--blue--solid",
     "btn--purple--solid",
 ];
 

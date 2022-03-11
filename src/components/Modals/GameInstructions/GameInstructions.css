@@ -9,5 +9,9 @@
 }
 
 .custom-instructions {
-	color: rgb(155, 139, 161);
+	color: var(--purple);
+}
+
+.custom-modal-background {
+	forced-color-adjust: var(--background-color);
 }

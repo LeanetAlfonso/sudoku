@@ -5,12 +5,14 @@ import { generateSudoku, checkBoard, checkPlayerWon, solveSudoku } from "../util
 import { cloneDeep } from "lodash";
 import useLocalStorage from "../hooks/useLocalStorage";
 import Button from "../components/Button/Button";
+import DarkMode from "../components/DarkMode/DarkMode";
+import LanguageMenu from "../components/LanguageMenu/LanguageMenu";
 import ConfirmationDialog from "../components/Modals/Dialog/ConfirmationDialog";
 import GameInstructions from "../components/Modals/GameInstructions/GameInstructions";
 import GameDetails from "../components/Modals/GameDetails/GameDetails";
 import Timer from "../components/Timer/Timer";
 import { useTranslation } from "react-i18next";
-import i18n from "i18next";
+
 
 const Game = () => {
 
@@ -31,22 +33,7 @@ const Game = () => {
 
     // Translation
     const { t } = useTranslation();
-    const languages = [
-        {
-            code: 'en',
-            name: 'English',
-            country_code: 'gb'
-        }, {
-            code: 'sp',
-            name: 'Español',
-            country_code: 'es'
-        },
-        {
-            code: 'fr',
-            name: 'Français',
-            country_code: 'fr'
-        }
-    ];
+
 
     // Timer
     useEffect(() => {
@@ -243,16 +230,9 @@ const Game = () => {
 
     return (
         <div className="game">
-            <div className="lang-menu-label">
-                <i className="fas fa-globe custom-globe fa-xs"></i>
-                <select id="lang-menu-select" className="lang-menu-select" value={i18n.language}
-                    onChange={(e) => i18n.changeLanguage(e.target.value)}>
-                    {languages.map(({ name, country_code }) => (
-                        <option value={country_code} key={country_code}>
-                            {name}
-                        </option>
-                    ))}
-                </select>
+            <div className="top-bar">
+                <DarkMode />
+                <LanguageMenu />
             </div>
 
             <h1 className="main-title">
@@ -285,9 +265,9 @@ const Game = () => {
 
             <div className="action-container">
                 <Button text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />
-                <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--danger--solid" />
-                <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--warning--solid" />
-                <Button text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--new--solid" />
+                <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />
+                <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />
+                <Button text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
             </div>
         </div>
     );

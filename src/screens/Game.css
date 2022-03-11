@@ -1,7 +1,7 @@
 .main-title {
 	margin: 0px 0px 0px 0px;
 	text-decoration: none;
-	color: black;
+	color: var(--font-color);
 }
 
 .action-container {
@@ -10,7 +10,7 @@
 
 .game {
 	display: grid;
-	color: #5b8588;
+	color: var(--primary);
 }
 
 .btn-pause-play {
@@ -25,15 +25,8 @@
 	}
 }
 
-.lang-menu-label {
-	justify-self: end;
-	margin: 1vh;
-}
-
-.lang-menu-select {
-	border: none;
-	background: white;
-	color: #5b8588;
-	outline: none;
-	cursor: pointer;
+.top-bar {
+	display: flex;
+	align-items: center;
+	margin: 8px;
 }

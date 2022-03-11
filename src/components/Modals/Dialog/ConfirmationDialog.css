@@ -1,13 +1,13 @@
 .custom-clear {
-	color: #ff8271;
+	color: var(--redish-orange);
 }
 
 .custom-new {
-	color: #64bcf7;
+	color: var(--blue);
 }
 
 .custom-solve {
-	color: #fab54d;
+	color: var(--yellow);
 }
 
 .dialog-actions {

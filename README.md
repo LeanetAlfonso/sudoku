@@ -6,6 +6,13 @@ Visit [sudokupuzzle.ga](https://www.sudokupuzzle.ga/) to play it now.
 
 <img alt="demo" src="demo.gif" width="500" height="auto"/>
 
+
+<p align="center">
+
+[![Website sudokupuzzle.ga](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://www.sudokupuzzle.ga/)
+
+</p>
+
 ## Running Locally
 
 Clone the repo

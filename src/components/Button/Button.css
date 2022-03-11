@@ -1,16 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap');
 
-:root {
-	--primary: #5b8588;
-	--warning: #fab54d;
-	--danger: #ff8271;
-	--new: #64bcf7;
-	--success: #75fa83;
-	--white: #fdfdfd;
-	--dark: #385253;
-	--purple: rgb(155, 139, 161);
-}
-
 .btn {
 	border-radius: 20px;
 	cursor: pointer;
@@ -34,12 +23,12 @@
 	background-color: var(--primary);
 }
 
-.btn--warning--solid {
-	background-color: var(--warning);
+.btn--yellow--solid {
+	background-color: var(--yellow);
 }
 
-.btn--danger--solid {
-	background-color: var(--danger);
+.btn--redish-orange--solid {
+	background-color: var(--redish-orange);
 }
 
 .btn--success--solid {
@@ -50,8 +39,8 @@
 	background-color: var(--dark);
 }
 
-.btn--new--solid {
-	background-color: var(--new);
+.btn--blue--solid {
+	background-color: var(--blue);
 }
 
 .btn--purple--solid {
