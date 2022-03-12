@@ -4,7 +4,7 @@ Sudoku app built in React. Sudoku is logic-based puzzle whose objective is to fi
 
 Visit [sudokupuzzle.ga](https://www.sudokupuzzle.ga/) to play it now.
 
-<img alt="demo" src="demo.gif" width="500" height="auto"/>
+<img alt="demo" src="demo.gif" width="400" height="auto"/>
 
 ## Running Locally
 

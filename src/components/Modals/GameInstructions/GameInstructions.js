@@ -13,9 +13,17 @@ export default function GameInstructions(props) {
 
     const { t } = useTranslation();
     const { gameInstructions } = props;
+    const storedTheme = localStorage.getItem("theme");
 
     return (
-        <Dialog open={gameInstructions.isOpen}>
+        <Dialog open={gameInstructions.isOpen}
+            PaperProps={{
+                style: {
+                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
+                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
+                    boxShadow: 'none',
+                },
+            }}>
             <IconButton disableRipple className='details-icon'>
                 <i className="far fa-question-circle custom-instructions fa-4x"></i>
             </IconButton>

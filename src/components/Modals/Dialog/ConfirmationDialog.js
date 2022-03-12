@@ -10,12 +10,20 @@ import IconButton from '@mui/material/IconButton';
 import "./ConfirmationDialog.css";
 
 export default function ConfirmDialog(props) {
-
     const { confirmationDialog } = props;
     const { t } = useTranslation();
+    const storedTheme = localStorage.getItem("theme");
 
     return (
-        <Dialog open={confirmationDialog.isOpen}>
+        <Dialog open={confirmationDialog.isOpen}
+            // dark mode support
+            PaperProps={{
+                style: {
+                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
+                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
+                    boxShadow: 'none',
+                },
+            }}>
             <IconButton disableRipple className='details-icon'>
                 <i className={`${confirmationDialog.icon} custom-${confirmationDialog.custom} fa-4x`}></i>
             </IconButton>

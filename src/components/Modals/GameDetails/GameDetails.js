@@ -6,25 +6,38 @@ import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import formatTime from '../../../utils/formatTime';
-import gameOver from '../../../assets/game-over.png';
-import youWin from '../../../assets/you-win.png';
 import "./GameDetails.css";
 import { useTranslation } from "react-i18next";
+
 
 export default function GameDetails(props) {
 
     const { t } = useTranslation();
     const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve } = props;
+    const storedTheme = localStorage.getItem("theme");
+
     return (
-        <Dialog open={gameDetails.isOpen}>
+        <Dialog open={gameDetails.isOpen}
+            // black mode support
+            PaperProps={{
+                style: {
+                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
+                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
+                    boxShadow: 'none',
+                },
+            }}>
             {pressedSolve ? <>
-                <img className="end-game-image" type="image" src={gameOver} alt="Game Over" />
-                <DialogTitle variant="h5" >
+                <DialogTitle variant="h3">
                     {t('game_over_title')}
+                </DialogTitle>
+                <DialogTitle variant="h5" >
+                    {t('game_over_subtitle')}
                 </DialogTitle> </> : <>
-                <img className="end-game-image" type="image" src={youWin} alt="You Win!" />
-                <DialogTitle variant="h5">
+                <DialogTitle variant="h3">
                     {t('game_won_title')}
+                </DialogTitle>
+                <DialogTitle variant="h5">
+                    {t('game_won_subtitle')}
                 </DialogTitle></>
             }
             <DialogContent>
