@@ -22,7 +22,7 @@
 }
 
 .slider {
-	background-color: #ccc;
+	background-color: var(--light-grey-color);
 	position: absolute;
 	cursor: pointer;
 	bottom: 0;
