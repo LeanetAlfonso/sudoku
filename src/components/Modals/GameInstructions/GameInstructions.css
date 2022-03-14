@@ -11,7 +11,3 @@
 .custom-instructions {
 	color: var(--purple);
 }
-
-.custom-modal-background {
-	forced-color-adjust: var(--background-color);
-}
