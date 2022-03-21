@@ -10,6 +10,7 @@ import LanguageMenu from "../components/LanguageMenu/LanguageMenu";
 import ConfirmationDialog from "../components/Modals/Dialog/ConfirmationDialog";
 import GameInstructions from "../components/Modals/GameInstructions/GameInstructions";
 import GameDetails from "../components/Modals/GameDetails/GameDetails";
+import GameModes from "../components/Modals/GameModes/GameModes";
 import Timer from "../components/Timer/Timer";
 import { useTranslation } from "react-i18next";
 
@@ -24,16 +25,20 @@ const Game = () => {
     const [seconds, setSeconds] = useLocalStorage("seconds", 0);
     const [isRunning, setIsRunning] = useLocalStorage("isRunning", true);
     const [hasWon, setHasWon] = useLocalStorage("hasWon", false);
+    const [mode, setMode] = useLocalStorage("mode", "easy");
 
     // Modals
     const [noSolution, setNoSolution] = useState({ isOpen: false });
     const [confirmationDialog, setConfirmationDialog] = useState({ isOpen: false, title: '', subTitle: '' });
     const [gameDetails, setGameDetails] = useState({ isOpen: false, movesTaken: { movesTaken }, elapsed: { setSeconds }, pressedSolve: { pressedSolve } });
     const [gameInstructions, setGameInstructions] = useState({ isOpen: false });
+    const [gameModes, setGameModes] = useState({ isOpen: false });
 
     // Translation
     const { t } = useTranslation();
 
+    // Mode
+    const MODE = { "easy": 8, "medium": 4, "hard": 0 };
 
     // Timer
     useEffect(() => {
@@ -48,9 +53,10 @@ const Game = () => {
 
 
     // Handles new game
-    const handleNewGame = () => {
+    const handleNewGame = (fill) => {
+        closeGameModes();
         // generates new puzzle
-        const newGrid = generateSudoku();
+        const newGrid = generateSudoku(fill);
         setStartingGrid(cloneDeep(newGrid));
         setGrid(cloneDeep(newGrid));
 
@@ -60,6 +66,9 @@ const Game = () => {
         setMovesTaken(0);
         setHasWon(false);
         setIsRunning(true);
+
+        // closes dialog
+        closeDialog();
     };
 
 
@@ -138,12 +147,6 @@ const Game = () => {
         closeDialog();
     };
 
-    // Continue option for new game
-    const onContinueNewGame = () => {
-        handleNewGame();
-        closeDialog();
-    };
-
     // Continue option for solve 
     const onContinueSolve = () => {
         handleSolve();
@@ -158,6 +161,12 @@ const Game = () => {
     // Closes game instructions and resumes timer
     const closeHelp = () => {
         setGameInstructions({ ...gameInstructions, isOpen: false });
+        setIsRunning(true);
+    };
+
+    // Closes modes and resumes timer
+    const closeGameModes = () => {
+        setGameModes({ ...gameModes, isOpen: false });
         setIsRunning(true);
     };
 
@@ -185,10 +194,33 @@ const Game = () => {
             subTitle: t('newgame_confirm_subtitle'),
             icon: "far fa-plus-square",
             custom: "new",
-            onContinue: () => { onContinueNewGame(); },
+            onContinue: () => { selectModeHandler(); },
             onCancel: () => { closeDialog(); }
         });
     };
+
+
+    // Handles select mode dialog for new game
+    const selectModeHandler = () => {
+        setConfirmationDialog({ ...confirmationDialog, isOpen: false });
+        setIsRunning(false);
+        setGameModes({
+            isOpen: true,
+            onEasy: () => {
+                setMode("easy");
+                handleNewGame(MODE.easy);
+            },
+            onMedium: () => {
+                setMode("medium");
+                handleNewGame(MODE.medium);
+            },
+            onHard: () => {
+                setMode("hard");
+                handleNewGame(MODE.hard);
+            }
+        });
+    };
+
 
     // Handles confirmation dialog for solve
     const solveConfirmationHandler = () => {
@@ -226,7 +258,7 @@ const Game = () => {
     };
 
 
-    if (grid == null && startingGrid == null) handleNewGame();
+    if (grid == null && startingGrid == null) handleNewGame(MODE.easy);
 
     return (
         <div className="game">
@@ -238,9 +270,12 @@ const Game = () => {
             <h1 className="main-title">
                 Sudoku
             </h1>
-
             <ConfirmationDialog
                 confirmationDialog={confirmationDialog}
+            />
+
+            <GameModes
+                gameModes={gameModes}
             />
 
             <Timer
@@ -255,6 +290,7 @@ const Game = () => {
                 movesTaken={movesTaken}
                 elapsed={seconds}
                 pressedSolve={pressedSolve}
+                mode={mode}
             />
 
             <GameInstructions

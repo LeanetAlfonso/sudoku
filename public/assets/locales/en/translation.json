@@ -24,5 +24,10 @@
 	"instuctions_clarification": "(All 3 conditions must be met!)",
 	"row": "row",
 	"column": "column",
-	"box": "box"
+	"box": "box",
+	"easy": "Easy",
+	"medium": "Medium",
+	"hard": "Hard",
+	"select_mode": "Select game mode",
+	"game_mode": "Game Mode"
 }

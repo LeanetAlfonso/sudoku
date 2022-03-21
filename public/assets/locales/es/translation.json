@@ -24,5 +24,10 @@
 	"instuctions_clarification": "(¡Se deben cumplir las 3 condiciones!)",
 	"row": "fila",
 	"column": "columna",
-	"box": "caja"
+	"box": "caja",
+	"easy": "Fácil",
+	"medium": "Normal",
+	"hard": "Difícil",
+	"select_mode": "Seleccione el modo de juego",
+	"game_mode": "Modo de Juego"
 }

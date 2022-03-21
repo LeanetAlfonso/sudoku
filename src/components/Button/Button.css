@@ -46,3 +46,6 @@
 .btn--purple--solid {
 	background-color: var(--purple);
 }
+.btn--medium--solid {
+	background-color: var(--medium);
+}

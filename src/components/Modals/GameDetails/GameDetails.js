@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 export default function GameDetails(props) {
 
     const { t } = useTranslation();
-    const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve } = props;
+    const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve, mode } = props;
     const storedTheme = localStorage.getItem("theme");
 
     return (
@@ -41,6 +41,9 @@ export default function GameDetails(props) {
                 </DialogTitle></>
             }
             <DialogContent>
+                <Typography variant="subtitle1">
+                    <b>{t('game_mode')}:</b> {t(mode)}
+                </Typography>
                 <Typography variant="subtitle1">
                     <b>{t('moves')}:</b> {movesTaken}
                 </Typography>

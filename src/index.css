@@ -10,6 +10,7 @@
 	--blue: #64bcf7;
 	--success: #75fa83;
 	--white: #fdfdfd;
+	--medium: #4a6d6e;
 	--dark: #385253;
 	--purple: rgb(155, 139, 161);
 	--slider-background: #ccc;
@@ -20,14 +21,15 @@
 	--font-color: rgb(219, 215, 215);
 	--background-color: #242727;
 	--primary: #668688;
-	--focus-color: #2f4646;
-	--invalid-color: #754f4f;
+	--focus-color: #283b3b;
+	--invalid-color: #644242;
 	--grey-color: #5f797a;
 	--yellow: #b9873a;
 	--redish-orange: #b45e53;
 	--blue: #427ea7;
 	--success: #75fa83;
 	--white: rgb(219, 215, 215);
+	--medium: #4a6d6e;
 	--dark: #385253;
 	--purple: rgb(98, 88, 102);
 	--slider-background: #ccc;
