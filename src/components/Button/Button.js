@@ -7,6 +7,7 @@ const STYLES = [
     "btn--redish-orange--solid",
     "btn--success--solid",
     "btn--dark--solid",
+    "btn--medium--solid",
     "btn--blue--solid",
     "btn--purple--solid",
 ];

@@ -1,7 +1,7 @@
 {
 	"clear": "Effacer",
 	"solve": "Résoudre",
-	"new_game": "Nouveau Jeu",
+	"new_game": "Nouvelle partie",
 	"cancel": "Annuler",
 	"continue": "Continuer",
 	"ok": "D'accord",
@@ -24,5 +24,10 @@
 	"instuctions_clarification": "(Les 3 conditions doivent être remplies !)",
 	"row": "rangées",
 	"column": "colonnes",
-	"box": "cases"
+	"box": "cases",
+	"easy": "Facile",
+	"medium": "Moyenne",
+	"hard": "Difficile",
+	"select_mode": "Sélectionner le mode de jeu",
+	"game_mode": "Mode de Jeu"
 }

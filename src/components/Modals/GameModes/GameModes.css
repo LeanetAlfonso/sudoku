@@ -1,0 +1,6 @@
+.center-align {
+	text-align: inherit;
+	align-items: inherit;
+	justify-content: center;
+	margin: 30;
+}
