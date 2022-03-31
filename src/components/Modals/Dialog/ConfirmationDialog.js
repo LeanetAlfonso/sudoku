@@ -15,6 +15,7 @@ export default function ConfirmDialog(props) {
     const storedTheme = localStorage.getItem("theme");
 
     return (
+        (confirmationDialog.isOpen) &&
         <Dialog open={confirmationDialog.isOpen}
             // dark mode support
             PaperProps={{
