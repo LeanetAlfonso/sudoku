@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import formatTime from '../../../utils/formatTime';
 import "./GameDetails.css";
 import { useTranslation } from "react-i18next";
-
+import IconButton from '@mui/material/IconButton';
 
 export default function GameDetails(props) {
 
@@ -27,18 +27,20 @@ export default function GameDetails(props) {
                 },
             }}>
             {pressedSolve ? <>
-                <DialogTitle variant="h3">
+                <IconButton disableRipple className='details-icon'>
+                    <i className="far fa-frown custom-details fa-4x"></i>
+                </IconButton>
+                <DialogTitle variant="h4">
                     {t('game_over_title')}
                 </DialogTitle>
-                <DialogTitle variant="h5" >
-                    {t('game_over_subtitle')}
-                </DialogTitle> </> : <>
-                <DialogTitle variant="h3">
+            </> : <>
+                <IconButton disableRipple className='details-icon'>
+                    <i className="far fa-smile custom-details fa-4x"></i>
+                </IconButton>
+                <DialogTitle variant="h4">
                     {t('game_won_title')}
                 </DialogTitle>
-                <DialogTitle variant="h5">
-                    {t('game_won_subtitle')}
-                </DialogTitle></>
+            </>
             }
             <DialogContent>
                 <Typography variant="subtitle1">

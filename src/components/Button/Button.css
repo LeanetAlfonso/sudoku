@@ -49,3 +49,6 @@
 .btn--medium--solid {
 	background-color: var(--medium);
 }
+.btn--light--solid {
+	background-color: var(--light);
+}
