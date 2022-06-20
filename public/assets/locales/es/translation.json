@@ -28,6 +28,7 @@
 	"easy": "Fácil",
 	"medium": "Normal",
 	"hard": "Difícil",
+	"expert": "Experto",
 	"select_mode": "Seleccione el modo de juego",
 	"game_mode": "Modo de Juego"
 }

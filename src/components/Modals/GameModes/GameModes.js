@@ -26,16 +26,21 @@ export default function GameModes(props) {
             <Button
                 text={t('easy')}
                 onClick={gameModes.onEasy}
-                buttonStyle="btn--primary--solid"
+                buttonStyle="btn--light--solid"
             />
             <Button
                 text={t('medium')}
                 onClick={gameModes.onMedium}
-                buttonStyle="btn--medium--solid"
+                buttonStyle="btn--primary--solid"
             />
             <Button
                 text={t('hard')}
                 onClick={gameModes.onHard}
+                buttonStyle="btn--medium--solid"
+            />
+            <Button
+                text={t('expert')}
+                onClick={gameModes.onExpert}
                 buttonStyle="btn--dark--solid"
             />
         </Dialog>

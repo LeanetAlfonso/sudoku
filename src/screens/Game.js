@@ -38,7 +38,7 @@ const Game = () => {
     const { t } = useTranslation();
 
     // Mode
-    const MODE = { "easy": 8, "medium": 4, "hard": 0 };
+    const MODE = { "easy": 12, "medium": 8, "hard": 4, "expert": 0 };
 
     // Timer
     useEffect(() => {
@@ -217,6 +217,10 @@ const Game = () => {
             onHard: () => {
                 setMode("hard");
                 handleNewGame(MODE.hard);
+            },
+            onExpert: () => {
+                setMode("expert");
+                handleNewGame(MODE.expert);
             }
         });
     };

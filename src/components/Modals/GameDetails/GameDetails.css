@@ -3,3 +3,7 @@
 	margin: 5% 10%;
 	width: 80%;
 }
+
+.custom-details {
+	color: var(--primary);
+}
