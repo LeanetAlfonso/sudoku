@@ -7,3 +7,17 @@
 .custom-details {
 	color: var(--primary);
 }
+
+.share-link-icon{
+	cursor: pointer;
+}
+
+.row {
+	display: flex;
+	column-gap: 10px;
+}
+  
+.column {
+	flex: 50%;
+	padding-inline: 10px;
+}

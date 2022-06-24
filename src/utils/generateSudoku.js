@@ -1,10 +1,17 @@
 
 import puzzle from 'sudoku';
 
-// Generates sudoku board
-function generateSudoku(fill) {
+// Generate sudoku board
+export function generateSudoku(fill) {
+    console.log("inside generate");
 
-    // generate random sudoku board 
+    // sudoku board from url
+    const fromURL = getURLdata();
+    if (fromURL) {
+        return fromURL.rawBoard; // already formatted
+    }
+
+    // generate random sudoku board if no url data
     const rawBoard = puzzle.makepuzzle();
 
     // solve sudoku board 
@@ -25,6 +32,14 @@ function generateSudoku(fill) {
         }
     }
 
+    return formattedBoard;
+}
+
+
+// convert sudoku board from 1D to 2D array (from arr[81] to arr[9][9])
+export function convertBoard(rawBoard) {
+    console.log("inside convert");
+
     const finalBoard = {
         rows: []
     };
@@ -34,7 +49,7 @@ function generateSudoku(fill) {
         const row = { cols: [], index: i };
 
         for (let j = 0; j < 9; j++) {
-            const value = formattedBoard[i * 9 + j];
+            const value = rawBoard[i * 9 + j];
             const col = {
                 row: i,
                 col: j,
@@ -49,4 +64,27 @@ function generateSudoku(fill) {
     return finalBoard;
 }
 
-export default generateSudoku;
+
+// Generate url using game data
+export function generateURL(rawBoard, time, moves, mode) {
+    console.log("inside generate url");
+    const data = {
+        rawBoard: rawBoard,
+        time: time,
+        moves: moves,
+        mode: mode
+    };
+    const query = Buffer.from(JSON.stringify(data)).toString('base64');
+    return window.location.href.replace(/\?.+$/, "") + `?sudoku=${query}`;
+}
+
+
+// Obtain data from url
+export function getURLdata() {
+    console.log("inside get url data");
+    const match = window.location.href.match(/sudoku=([^&]+)/);
+    if (match) {
+        return JSON.parse(Buffer.from(match[1], 'base64'));
+    }
+    return null;
+}
