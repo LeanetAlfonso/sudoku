@@ -5,18 +5,19 @@ import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import formatTime from '../../../utils/formatTime';
 import { useTranslation } from "react-i18next";
-import "./GameInstructions.css";
 import IconButton from '@mui/material/IconButton';
 
-export default function GameInstructions(props) {
+export default function FriendChallenge(props) {
 
     const { t } = useTranslation();
-    const { gameInstructions } = props;
+    const { friendChallenge } = props;
     const storedTheme = localStorage.getItem("theme");
-    console.log("inside intructions");
+
     return (
-        <Dialog open={gameInstructions.isOpen}
+        <Dialog open={friendChallenge.isOpen}
+            // black mode support
             PaperProps={{
                 style: {
                     backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
@@ -24,29 +25,32 @@ export default function GameInstructions(props) {
                     boxShadow: 'none',
                 },
             }}>
+
             <IconButton disableRipple className='details-icon'>
-                <i className="far fa-question-circle custom-instructions fa-4x"></i>
+                <i className="fa fa-regular fa-dice custom-details fa-4x"></i>
             </IconButton>
-            <DialogTitle variant="h6">
-                {t('instuctions_title')}
+            <DialogTitle variant="h5">
+                {t('challenge_title')}
             </DialogTitle>
-            <DialogContent className="instuctions-content">
-                <Typography>
-                    {t('instuctions_subtitle')}
+            <DialogTitle variant="h7">
+                {t('challenge_subtitle')}
+            </DialogTitle>
+
+            <DialogContent>
+                <Typography variant="subtitle1">
+                    <b>{t('game_mode')}:</b> {t(friendChallenge.mode)}
                 </Typography>
-                <Typography variant="subtitle2" className="intructions-bullets intructions">
-                    <li> {t('instuctions_list_negation')} <b>{t('row')}</b> {t('instuctions_list_repetition')}</li>
-                    <li> {t('instuctions_list_negation')} <b>{t('column')}</b> {t('instuctions_list_repetition')}</li>
-                    <li> {t('instuctions_list_negation')} <b>{t('box')}</b> {t('instuctions_list_repetition')}</li>
+                <Typography variant="subtitle1">
+                    <b>{t('moves')}:</b> {friendChallenge.moves}
                 </Typography>
-                <Typography className="instuctions-clarification">
-                    {t('instuctions_clarification')}
+                <Typography variant="subtitle1">
+                    <b>{t('time')}:</b> {formatTime(friendChallenge.time)}
                 </Typography>
             </DialogContent>
             <DialogActions>
                 <Button
-                    text={t('ok')}
-                    onClick={gameInstructions.onOk}
+                    text={t('accept_challenge')}
+                    onClick={friendChallenge.onAccept}
                     buttonStyle="btn--primary--solid"
                 />
             </DialogActions>

@@ -11,7 +11,7 @@
 	"newgame_confirm_subtitle": "All your changes will be lost.",
 	"solve_confirm_title": "Are you sure you want to solve this board?",
 	"solve_confirm_subtitle": "You will lose the game.",
-	"game_over_title": "YOU LOSE",
+	"game_lost_title": "YOU LOSE",
 	"game_won_title": "YOU WIN",
 	"game_over_subtitle": "Next time try to solve it on your own ;)",
 	"game_won_subtitle": "Great Job!",
@@ -30,5 +30,9 @@
 	"hard": "Hard",
 	"expert": "Expert",
 	"select_mode": "Select game mode",
-	"game_mode": "Game Mode"
+	"game_mode": "Game Mode",
+	"share_url": "Challenge a friend",
+	"challenge_title": "You have been challenged to a game of Sudoku!",
+	"challenge_subtitle": "Try to break your enemy's record:",
+	"accept_challenge": "Accept Challenge"
 }

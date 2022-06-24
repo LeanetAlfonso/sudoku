@@ -11,7 +11,7 @@
 	"newgame_confirm_subtitle": "Perderá todos sus cambios.",
 	"solve_confirm_title": "¿Está seguro de que quiere resolver este tablero?",
 	"solve_confirm_subtitle": "Si lo hace, perderá el juego.",
-	"game_over_title": "PERDISTE",
+	"game_lost_title": "PERDISTE",
 	"game_won_title": "GANASTE",
 	"game_over_subtitle": "Para la próxima intente resolverlo usted mismo ;)",
 	"game_won_subtitle": "¡Bien hecho! ¡Felicidades!",
@@ -30,5 +30,9 @@
 	"hard": "Difícil",
 	"expert": "Experto",
 	"select_mode": "Seleccione el modo de juego",
-	"game_mode": "Modo de Juego"
+	"game_mode": "Modo de Juego",
+	"share_url": "Reta a un amigo",
+	"challenge_title": "¡Te han retado a un juego de Sudoku!",
+	"challenge_subtitle": "Intenta romper el récord de tu enemigo:",
+	"accept_challenge": "Aceptar desafío"
 }
