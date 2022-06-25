@@ -4783,9 +4783,9 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
-flag-icons@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.npmjs.org/flag-icons/-/flag-icons-6.0.2.tgz"
+flag-icons@^6.6.2:
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/flag-icons/-/flag-icons-6.6.2.tgz#c3f9adb17cd6e45e5e2d051d3fcc5298b5270b15"
 
 flat-cache@^3.0.4:
   version "3.0.4"
