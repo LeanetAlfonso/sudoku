@@ -41,7 +41,7 @@ const Game = () => {
     // Translation
     const { t } = useTranslation();
 
-    // ! Temp
+    // ! TEMP
     const cheatingModeOn = false;
 
     // Mode
@@ -76,6 +76,7 @@ const Game = () => {
         setIsRunning(true);
         setURLdata(null);
         setURL(null);
+        setHelpSolve(true);
 
         // closes dialog
         closeDialog();

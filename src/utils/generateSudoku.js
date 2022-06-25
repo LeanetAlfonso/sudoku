@@ -75,7 +75,7 @@ export function generateURL(rawBoard, time, moves, mode) {
         mode: mode
     };
     const query = Buffer.from(JSON.stringify(data)).toString('base64');
-    return window.location.href.replace(/\?.+$/, "") + `?sudoku=${query}`;
+    return window.location.href.replace(/\?.+$/, "") + `?sudoku=${query.replace(/=/, "")}`;
 }
 
 
