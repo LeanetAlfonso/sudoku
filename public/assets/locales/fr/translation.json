@@ -1,7 +1,7 @@
 {
 	"clear": "Effacer",
 	"solve": "Résoudre",
-	"new_game": "Nouvelle partie",
+	"new_game": "Nouvelle Partie",
 	"cancel": "Annuler",
 	"continue": "Continuer",
 	"ok": "D'accord",
@@ -34,5 +34,5 @@
 	"share_url": "Défiez un ami",
 	"challenge_title": "Vous avez été défié à une partie de Sudoku !",
 	"challenge_subtitle": "Essayez de battre le record de votre ennemi :",
-	"accept_challenge": "Accepter le défi"
+	"accept_challenge": "Accepter le Défi"
 }
