@@ -1,9 +1,10 @@
 
 import puzzle from 'sudoku';
+import { Buffer } from 'buffer';
 
 // Generate sudoku board
 export function generateSudoku(fill) {
-    console.log("inside generate");
+    // console.log("inside generate");
 
     // sudoku board from url
     const fromURL = getURLdata();
@@ -38,7 +39,7 @@ export function generateSudoku(fill) {
 
 // convert sudoku board from 1D to 2D array (from arr[81] to arr[9][9])
 export function convertBoard(rawBoard) {
-    console.log("inside convert");
+    // console.log("inside convert");
 
     const finalBoard = {
         rows: []
@@ -67,7 +68,7 @@ export function convertBoard(rawBoard) {
 
 // Generate url using game data
 export function generateURL(rawBoard, time, moves, mode) {
-    console.log("inside generate url");
+    // console.log("inside generate url");
     const data = {
         rawBoard: rawBoard,
         time: time,
@@ -81,7 +82,7 @@ export function generateURL(rawBoard, time, moves, mode) {
 
 // Obtain data from url
 export function getURLdata() {
-    console.log("inside get url data");
+    // console.log("inside get url data");
     const match = window.location.href.match(/sudoku=([^&]+)/);
     if (match) {
         return JSON.parse(Buffer.from(match[1], 'base64'));

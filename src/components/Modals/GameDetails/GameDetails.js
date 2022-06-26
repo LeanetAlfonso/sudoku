@@ -25,7 +25,7 @@ export default function GameDetails(props) {
     const { t } = useTranslation();
     const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve, mode, url, URLdata } = props;
     const storedTheme = localStorage.getItem("theme");
-    console.log("inside details");
+    // console.log("inside details");
     return (
         <Dialog open={gameDetails.isOpen}
             // black mode support

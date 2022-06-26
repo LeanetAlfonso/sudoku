@@ -14,7 +14,7 @@ export default function GameInstructions(props) {
     const { t } = useTranslation();
     const { gameInstructions } = props;
     const storedTheme = localStorage.getItem("theme");
-    console.log("inside intructions");
+    // console.log("inside intructions");
     return (
         <Dialog open={gameInstructions.isOpen}
             PaperProps={{
