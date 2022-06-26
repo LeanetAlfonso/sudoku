@@ -42,7 +42,7 @@ const Game = () => {
     const { t } = useTranslation();
 
     // ! TEMP
-    const cheatingModeOn = true;
+    const cheatingModeOn = false;
 
     // Mode
     const MODE = { "easy": 12, "medium": 8, "hard": 4, "expert": 0 };
