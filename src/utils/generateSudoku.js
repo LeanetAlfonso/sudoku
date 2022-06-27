@@ -1,6 +1,6 @@
 
 import puzzle from 'sudoku';
-
+import { Buffer } from 'buffer';
 // Generate sudoku board
 export function generateSudoku(fill, fromURL) {
 
@@ -64,7 +64,6 @@ export function convertBoard(rawBoard) {
 
 // Generate url using game data
 export function generateURL(rawBoard, time, moves, mode) {
-
     const data = {
         rawBoard: rawBoard,
         time: time,
@@ -72,13 +71,12 @@ export function generateURL(rawBoard, time, moves, mode) {
         mode: mode
     };
     const query = Buffer.from(JSON.stringify(data)).toString('base64');
-    return window.location.href.replace(/\?.+$/, "") + `?sudoku=${query}`;
+    return window.location.href.replace(/\?.+$/, "") + `?sudoku=${query.replace(/=/, "")}`;
 }
 
 
 // Obtain data from url
 export function getURLdata() {
-
     const match = window.location.href.match(/sudoku=([^&]+)/);
     if (match) {
         return JSON.parse(Buffer.from(match[1], 'base64'));

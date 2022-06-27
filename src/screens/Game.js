@@ -73,6 +73,7 @@ const Game = () => {
         setIsRunning(true);
         setURLdata(null);
         setURL(null);
+        setHelpSolve(true);
 
         // close dialog
         closeDialog();
