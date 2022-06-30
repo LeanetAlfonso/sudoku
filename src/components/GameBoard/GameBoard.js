@@ -27,7 +27,6 @@ const GameBoard = (props) => {
             handleResetCallback={props.handleResetCallback}
             reset={props.reset}
             handleTurnOnRunningCallback={handleTurnOnRunningCallback}
-            handleHasWonCallback={props.handleHasWonCallback}
         />
 
         <Grid

@@ -7,7 +7,6 @@ const Timer = (props) => {
     // Handle timer pause/play button
     const handlePausePlay = () => {
         props.handleIsRunningCallback();
-        props.handleHasWonCallback(); // allow pause/play after game over
     };
 
     // Timer
@@ -17,7 +16,6 @@ const Timer = (props) => {
             setSeconds(0);
             props.handleTurnOnRunningCallback();
             props.handleResetCallback();
-
         }
 
         // ensure timer starts in next new game
@@ -41,7 +39,7 @@ const Timer = (props) => {
     }, [seconds, setSeconds, props]);
 
     return <h2 className="timer">
-        {formatTime(seconds)} <i className={`btn-pause-play ${props.isRunning ? "far fa-pause-circle" : "pauseplay far fa-play-circle"}`} onClick={handlePausePlay}> </i>
+        {formatTime(seconds)} {!props.hasWon && <i className={`btn-pause-play ${props.isRunning ? "far fa-pause-circle" : "pauseplay far fa-play-circle"}`} onClick={handlePausePlay}> </i>}
     </h2>;
 };
 

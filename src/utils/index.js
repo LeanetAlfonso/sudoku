@@ -3,6 +3,7 @@ import checkBoard from "./checkBoard";
 import solveSudoku from "./solveSudoku";
 import checkPlayerWon from "./checkPlayerWon";
 import formatTime from "./formatTime";
+import makeAllReadOnly from "./makeAllReadOnly";
 
 export {
     generateSudoku,
@@ -12,5 +13,6 @@ export {
     checkBoard,
     solveSudoku,
     checkPlayerWon,
-    formatTime
+    formatTime,
+    makeAllReadOnly
 };

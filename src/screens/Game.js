@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Game.css";
-import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku } from "../utils/index";
+import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku, makeAllReadOnly } from "../utils/index";
 import { cloneDeep } from "lodash";
 import Button from "../components/Button/Button";
 import DarkMode from "../components/DarkMode/DarkMode";
@@ -12,7 +12,7 @@ import FriendChallenge from "../components/Modals/FriendChallenge/FriendChalleng
 import GameModes from "../components/Modals/GameModes/GameModes";
 import GameBoard from "../components/GameBoard/GameBoard";
 import { useTranslation } from "react-i18next";
-
+import ShareURL from "../components/ShareURL/ShareURL";
 
 const Game = () => {
 
@@ -58,13 +58,6 @@ const Game = () => {
     // Handle timer reset
     const handleResetCallback = () => {
         setReset(false);
-    };
-
-    // Handle timer running after game over
-    // Todo: change this behaviour and only allow start new game and share link if won
-    const handleHasWonCallback = () => {
-        setHasWon(false);
-        setIsRunning(true);
     };
 
 
@@ -122,6 +115,7 @@ const Game = () => {
             });
             return;
         }
+        !cheatingModeOn && cloneDeep(makeAllReadOnly(solvedGrid));
         setGrid(solvedGrid);
 
         cheatingModeOn || setPressedSolve(true);
@@ -237,7 +231,9 @@ const Game = () => {
             icon: "far fa-plus-square",
             custom: "new",
             onContinue: () => {
+                setHasWon(false);
                 setReset(true);
+                setIsRunning(false);
                 window.history.pushState({}, document.title, "/"); // remove url query string
                 selectModeHandler();
             },
@@ -381,13 +377,13 @@ const Game = () => {
                 hasWon={hasWon}
                 handleResetCallback={handleResetCallback}
                 reset={reset}
-                handleHasWonCallback={handleHasWonCallback}
             />
 
             <div className="action-container">
-                <Button text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />
-                <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />
-                {(helpSolve || cheatingModeOn) && <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
+                {hasWon && !pressedSolve && url && <ShareURL url={url} btn={true} />}
+                {!hasWon && <Button text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
+                {!hasWon && <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
+                {((helpSolve && !hasWon) || cheatingModeOn) && <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
                 <Button text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
             </div>
         </div>
