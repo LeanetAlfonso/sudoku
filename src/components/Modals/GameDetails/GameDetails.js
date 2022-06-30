@@ -9,23 +9,13 @@ import formatTime from '../../../utils/formatTime';
 import "./GameDetails.css";
 import { useTranslation } from "react-i18next";
 import IconButton from '@mui/material/IconButton';
-import Snackbar from '@mui/material/Snackbar';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import ShareURL from '../../ShareURL/ShareURL';
 
 export default function GameDetails(props) {
-    // snackbar
-    const [open, setOpen] = React.useState(false);
-    const handleClick = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const { t } = useTranslation();
     const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve, mode, url, URLdata } = props;
     const storedTheme = localStorage.getItem("theme");
-    // console.log("inside details");
     return (
         <Dialog open={gameDetails.isOpen}
             // black mode support
@@ -90,10 +80,7 @@ export default function GameDetails(props) {
             {!pressedSolve && url &&
                 <DialogContent>
                     <Typography variant="subtitle1" align="center">
-                        {t('share_url')} <CopyToClipboard text={url}
-                            onCopy={handleClick}>
-                            <i className="fa fa-regular fa-link custom-details share-link-icon"></i>
-                        </CopyToClipboard>
+                        {t('share_url')} <ShareURL url={url} btn={false} />
                     </Typography>
                 </DialogContent>
             }
@@ -104,12 +91,6 @@ export default function GameDetails(props) {
                     buttonStyle="btn--primary--solid"
                 />
             </DialogActions>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                message="Copied to Clipboard!"
-            />
         </Dialog>
     );
 }

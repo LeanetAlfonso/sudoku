@@ -5,8 +5,7 @@ import Cell from "../Cell/Cell";
 export default class Grid extends Component {
     render() {
         const { grid, onChange, isPaused } = this.props;
-
-        return <div>
+        return <div className="grid">
             {grid &&
                 grid.rows.map(row => (
                     <div key={row.index}>

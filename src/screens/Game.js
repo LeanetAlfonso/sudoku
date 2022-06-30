@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Game.css";
-import Grid from "../components/Grid/Grid";
-import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku } from "../utils/index";
+import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku, makeAllReadOnly } from "../utils/index";
 import { cloneDeep } from "lodash";
 import Button from "../components/Button/Button";
 import DarkMode from "../components/DarkMode/DarkMode";
@@ -11,9 +10,9 @@ import GameInstructions from "../components/Modals/GameInstructions/GameInstruct
 import GameDetails from "../components/Modals/GameDetails/GameDetails";
 import FriendChallenge from "../components/Modals/FriendChallenge/FriendChallenge";
 import GameModes from "../components/Modals/GameModes/GameModes";
-import Timer from "../components/Timer/Timer";
+import GameBoard from "../components/GameBoard/GameBoard";
 import { useTranslation } from "react-i18next";
-
+import ShareURL from "../components/ShareURL/ShareURL";
 
 const Game = () => {
 
@@ -28,6 +27,7 @@ const Game = () => {
     const [isRunning, setIsRunning] = useState(true);
     const [hasWon, setHasWon] = useState(false);
     const [mode, setMode] = useState("easy");
+    const [reset, setReset] = useState(false);
     const [helpSolve, setHelpSolve] = useState(true);
 
     // Modals
@@ -47,28 +47,34 @@ const Game = () => {
     // Mode
     const MODE = { "easy": 12, "medium": 8, "hard": 4, "expert": 0 };
 
-    // Timer
-    useEffect(() => {
-        if (isRunning) {
-            const intervalId = setInterval(() => {
-                setSeconds(seconds => seconds + 1);
-            }, 1000);
-            return () => clearInterval(intervalId);
-        }
-        return undefined;
-    }, [isRunning, setSeconds]);
+
+    // Handle seconds from timer
+    const handleSecondsCallback = (timerSeconds) => {
+        const newTime = timerSeconds;
+        setSeconds(newTime);
+        !pressedSolve && setURL(generateURL(startingGrid, newTime, movesTaken, mode));
+    };
+
+    // Handle timer reset
+    const handleResetCallback = () => {
+        setReset(false);
+    };
 
 
-    // Handles new game
+    // Handle new game
     const handleNewGame = (fill) => {
+        // close game modes modal
         closeGameModes();
 
+        // get data from url
+        const data = getURLdata();
+
         // generates new puzzle
-        const newGrid = generateSudoku(fill);
+        const newGrid = generateSudoku(fill, data);
         setStartingGrid(cloneDeep(newGrid));
         setGrid(convertBoard(cloneDeep(newGrid)));
 
-        // resets values
+        // reset values
         setPressedSolve(false);
         setSeconds(0);
         setMovesTaken(0);
@@ -77,14 +83,14 @@ const Game = () => {
         setURLdata(null);
         setURL(null);
         setHelpSolve(true);
+        setReset(false);
 
-        // closes dialog
+        // close dialog
         closeDialog();
 
         // if shared by url handle friend challenge
-        const data = getURLdata();
-        setURLdata(data);
         if (data) {
+            setURLdata(data);
             setHelpSolve(false);
             setMode(data.mode);
             friendChallengeHandler(data);
@@ -92,13 +98,13 @@ const Game = () => {
     };
 
 
-    // Handles clearing the board
+    // Handle clearing the board
     const handleClearBoard = () => {
         setGrid(cloneDeep(convertBoard(startingGrid)));
     };
 
 
-    // Handles solving the puzzle
+    // Handle solving the puzzle
     const handleSolve = () => {
         let solvedGrid = cloneDeep(convertBoard(startingGrid));
         let solvedStatus = solveSudoku(solvedGrid);
@@ -109,6 +115,7 @@ const Game = () => {
             });
             return;
         }
+        !cheatingModeOn && cloneDeep(makeAllReadOnly(solvedGrid));
         setGrid(solvedGrid);
 
         cheatingModeOn || setPressedSolve(true);
@@ -121,44 +128,45 @@ const Game = () => {
         gameDetailsHandler();
     };
 
-    // Handles timer pause/play button
+    // Handle timer pause/play button
     const handlePausePlay = () => {
         setHasWon(false);
         setIsRunning(!isRunning);
     };
 
-    // Handles cell changes
+    // Handle cell changes
     const handleChange = (val, cell) => {
 
         setHasWon(false);
         setIsRunning(true);
-        // checks if cell is not read-only
+
+        // check if cell is not read-only
         if (!cell.readOnly) {
-            // sets value to null or parses it into an integer accordingly
+            // set value to null or parse it into an integer accordingly
             const value = val === "" ? null : parseInt(val, 10);
 
             const row = cell.row;
             const col = cell.col;
 
-            // increments number of moves
+            // increment number of moves
             if (value !== 0) setMovesTaken((moves) => moves + 1);
             const newGrid = cloneDeep(grid);
 
-            // sets current value of cell to input value
+            // set current value of cell to input value
             newGrid.rows[row].cols[col].value = value;
 
-            // checks if move is valid
+            // check if move is valid
             checkBoard(newGrid);
 
-            // checks if player won
+            // check if player won
             let playerWon = checkPlayerWon(newGrid);
+
             if (playerWon) {
-                !pressedSolve && setURL(generateURL(startingGrid, seconds, movesTaken + 1, mode));
-                setHasWon(true);
+                setHasWon(true); // will trigger handleSecondsCallback from Timer
                 gameDetailsHandler();
             }
 
-            // updates grid state
+            // update grid state
             setGrid(newGrid);
         }
     };
@@ -175,31 +183,31 @@ const Game = () => {
         handleSolve();
     };
 
-    // Closes dialog and resumes timer
+    // Close dialog and resume timer
     const closeDialog = () => {
         setConfirmationDialog({ ...confirmationDialog, isOpen: false });
         setIsRunning(true);
     };
 
-    // Closes game instructions and resumes timer
+    // Close game instructions and resume timer
     const closeHelp = () => {
         setGameInstructions({ ...gameInstructions, isOpen: false });
         setIsRunning(true);
     };
 
-    // Closes modes and resumes timer
+    // Close modes and resume timer
     const closeGameModes = () => {
         setGameModes({ ...gameModes, isOpen: false });
         setIsRunning(true);
     };
 
-    // Closes challenge and resumes timer
+    // Close challenge and resume timer
     const closeFriendChallenge = () => {
         setFriendChallenge({ ...friendChallenge, isOpen: false });
         setIsRunning(true);
     };
 
-    // Handles confirmation dialog for clear
+    // Handle confirmation dialog for clear
     const clearConfirmationHandler = () => {
         setIsRunning(false);
         setConfirmationDialog({
@@ -213,7 +221,7 @@ const Game = () => {
         });
     };
 
-    // Handles confirmation dialog for new game
+    // Handle confirmation dialog for new game
     const newGameConfirmationHandler = () => {
         setIsRunning(false);
         setConfirmationDialog({
@@ -223,6 +231,9 @@ const Game = () => {
             icon: "far fa-plus-square",
             custom: "new",
             onContinue: () => {
+                setHasWon(false);
+                setReset(true);
+                setIsRunning(false);
                 window.history.pushState({}, document.title, "/"); // remove url query string
                 selectModeHandler();
             },
@@ -231,7 +242,7 @@ const Game = () => {
     };
 
 
-    // Handles select mode dialog for new game
+    // Handle select mode dialog for new game
     const selectModeHandler = () => {
         setConfirmationDialog({ ...confirmationDialog, isOpen: false });
 
@@ -258,7 +269,7 @@ const Game = () => {
     };
 
 
-    // Handles confirmation dialog for solve
+    // Handle confirmation dialog for solve
     const solveConfirmationHandler = () => {
         setIsRunning(false);
         setConfirmationDialog({
@@ -272,7 +283,7 @@ const Game = () => {
         });
     };
 
-    // Handles game details modal
+    // Handle game details modal
     const gameDetailsHandler = () => {
         setIsRunning(false);
 
@@ -286,7 +297,7 @@ const Game = () => {
         });
     };
 
-    // Handles game details modal
+    // Handle game details modal
     const friendChallengeHandler = (data) => {
         setIsRunning(false);
 
@@ -299,7 +310,7 @@ const Game = () => {
         });
     };
 
-    // Handles game instructions modal
+    // Handle game instructions modal
     const handleHelp = () => {
         setIsRunning(false);
         setGameInstructions({
@@ -332,12 +343,6 @@ const Game = () => {
                 gameModes={gameModes}
             />
 
-            <Timer
-                seconds={seconds}
-                isRunning={isRunning}
-                handlePausePlay={handlePausePlay}
-            />
-
             <GameDetails
                 gameDetails={gameDetails}
                 setGameDetails={setGameDetails}
@@ -362,12 +367,23 @@ const Game = () => {
                 setGameInstructions={setGameInstructions}
             />
 
-            <Grid className="grid" grid={grid} onChange={handleChange} isPaused={!isRunning && !hasWon} />
+            <GameBoard
+                seconds={seconds}
+                isRunning={isRunning}
+                handlePausePlay={handlePausePlay}
+                handleSecondsCallback={handleSecondsCallback}
+                grid={grid}
+                handleChange={handleChange}
+                hasWon={hasWon}
+                handleResetCallback={handleResetCallback}
+                reset={reset}
+            />
 
             <div className="action-container">
-                <Button text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />
-                <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />
-                {(helpSolve || cheatingModeOn) && <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
+                {hasWon && !pressedSolve && url && <ShareURL url={url} btn={true} />}
+                {!hasWon && <Button text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
+                {!hasWon && <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
+                {((helpSolve && !hasWon) || cheatingModeOn) && <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
                 <Button text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
             </div>
         </div>

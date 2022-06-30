@@ -1,14 +1,46 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from 'react';
 import { formatTime } from "../../utils/index";
 
+const Timer = (props) => {
+    const [seconds, setSeconds] = useState(props.seconds);
 
-export default class Timer extends Component {
+    // Handle timer pause/play button
+    const handlePausePlay = () => {
+        props.handleIsRunningCallback();
+    };
 
-    render() {
-        const { seconds, isRunning, handlePausePlay } = this.props;
+    // Timer
+    useEffect(() => {
+        // reset state variables in GameBoard 
+        if (props.reset) {
+            setSeconds(0);
+            props.handleTurnOnRunningCallback();
+            props.handleResetCallback();
+        }
 
-        return <h2 className="timer">
-            {formatTime(seconds)} <i className={`btn-pause-play ${isRunning ? "far fa-pause-circle" : "pauseplay far fa-play-circle"}`} onClick={handlePausePlay}> </i>
-        </h2>;
-    }
-}
+        // ensure timer starts in next new game
+        if (props.hasWon) {
+            props.handleTurnOnRunningCallback();
+        }
+
+        // increment by one every second unless paused
+        if (props.isRunning && !props.hasWon) {
+            const intervalId = setInterval(() => {
+                setSeconds(seconds => seconds + 1);
+            }, 1000);
+            return () => clearInterval(intervalId);
+        }
+
+        // update seconds in Game
+        else {
+            props.handleSecondsCallback(seconds);
+        }
+        return undefined;
+    }, [seconds, setSeconds, props]);
+
+    return <h2 className="timer">
+        {formatTime(seconds)} {!props.hasWon && <i className={`btn-pause-play ${props.isRunning ? "far fa-pause-circle" : "pauseplay far fa-play-circle"}`} onClick={handlePausePlay}> </i>}
+    </h2>;
+};
+
+export default Timer;
