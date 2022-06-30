@@ -7,16 +7,33 @@ const Timer = (props) => {
     // Handle timer pause/play button
     const handlePausePlay = () => {
         props.handleIsRunningCallback();
+        props.handleHasWonCallback(); // allow pause/play after game over
     };
 
-    // Timer (increment by one every second unless paused)
+    // Timer
     useEffect(() => {
+        // reset state variables in GameBoard 
+        if (props.reset) {
+            setSeconds(0);
+            props.handleTurnOnRunningCallback();
+            props.handleResetCallback();
+
+        }
+
+        // ensure timer starts in next new game
+        if (props.hasWon) {
+            props.handleTurnOnRunningCallback();
+        }
+
+        // increment by one every second unless paused
         if (props.isRunning && !props.hasWon) {
             const intervalId = setInterval(() => {
                 setSeconds(seconds => seconds + 1);
             }, 1000);
             return () => clearInterval(intervalId);
         }
+
+        // update seconds in Game
         else {
             props.handleSecondsCallback(seconds);
         }

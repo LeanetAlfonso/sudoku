@@ -27,6 +27,7 @@ const Game = () => {
     const [isRunning, setIsRunning] = useState(true);
     const [hasWon, setHasWon] = useState(false);
     const [mode, setMode] = useState("easy");
+    const [reset, setReset] = useState(false);
     const [helpSolve, setHelpSolve] = useState(true);
 
     // Modals
@@ -49,8 +50,23 @@ const Game = () => {
 
     // Handle seconds from timer
     const handleSecondsCallback = (timerSeconds) => {
-        setSeconds(timerSeconds);
+        const newTime = timerSeconds;
+        setSeconds(newTime);
+        !pressedSolve && setURL(generateURL(startingGrid, newTime, movesTaken, mode));
     };
+
+    // Handle timer reset
+    const handleResetCallback = () => {
+        setReset(false);
+    };
+
+    // Handle timer running after game over
+    // Todo: change this behaviour and only allow start new game and share link if won
+    const handleHasWonCallback = () => {
+        setHasWon(false);
+        setIsRunning(true);
+    };
+
 
     // Handle new game
     const handleNewGame = (fill) => {
@@ -74,6 +90,7 @@ const Game = () => {
         setURLdata(null);
         setURL(null);
         setHelpSolve(true);
+        setReset(false);
 
         // close dialog
         closeDialog();
@@ -149,9 +166,9 @@ const Game = () => {
 
             // check if player won
             let playerWon = checkPlayerWon(newGrid);
+
             if (playerWon) {
-                !pressedSolve && setURL(generateURL(startingGrid, seconds, movesTaken + 1, mode));
-                setHasWon(true);
+                setHasWon(true); // will trigger handleSecondsCallback from Timer
                 gameDetailsHandler();
             }
 
@@ -220,6 +237,7 @@ const Game = () => {
             icon: "far fa-plus-square",
             custom: "new",
             onContinue: () => {
+                setReset(true);
                 window.history.pushState({}, document.title, "/"); // remove url query string
                 selectModeHandler();
             },
@@ -361,6 +379,9 @@ const Game = () => {
                 grid={grid}
                 handleChange={handleChange}
                 hasWon={hasWon}
+                handleResetCallback={handleResetCallback}
+                reset={reset}
+                handleHasWonCallback={handleHasWonCallback}
             />
 
             <div className="action-container">

@@ -4,11 +4,17 @@ import Timer from "../Timer/Timer";
 
 const GameBoard = (props) => {
 
-    const [isRunningTimer, setIsRunningTimer] = useState(props.isRunning);
+    // Keep track of running state of timer due to pause/play button only
+    const [isRunningTimer, setIsRunningTimer] = useState(true);
 
     // Handle isRunning from timer
     const handleIsRunningCallback = () => {
         setIsRunningTimer(!isRunningTimer);
+    };
+
+    // Handle isRunning from timer
+    const handleTurnOnRunningCallback = () => {
+        setIsRunningTimer(true);
     };
 
     return <div>
@@ -18,6 +24,10 @@ const GameBoard = (props) => {
             handleSecondsCallback={props.handleSecondsCallback}
             hasWon={props.hasWon}
             handleIsRunningCallback={handleIsRunningCallback}
+            handleResetCallback={props.handleResetCallback}
+            reset={props.reset}
+            handleTurnOnRunningCallback={handleTurnOnRunningCallback}
+            handleHasWonCallback={props.handleHasWonCallback}
         />
 
         <Grid
