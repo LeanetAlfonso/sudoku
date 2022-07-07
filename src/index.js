@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom/client";
 import i18n from "i18next";
 import HttpApi from 'i18next-http-backend';
 import { initReactI18next } from "react-i18next";
@@ -28,13 +28,13 @@ i18n
         }
     });
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
     <React.StrictMode>
         <Suspense fallback={<Loading />}>
             <App />
         </Suspense>
-    </React.StrictMode>,
-    document.getElementById('root')
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
