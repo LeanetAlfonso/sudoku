@@ -19,10 +19,11 @@ export default function ShareURL(props) {
                 {props.btn ? (
                     <Button text={<i className="fa fa-regular fa-link share-link-icon" />} />
                 ) : (
-                    <i className="fa fa-regular fa-link custom-details share-link-icon" />
+                    <i data-testid="share-url-icon" className="fa fa-regular fa-link custom-details share-link-icon" />
                 )}
             </CopyToClipboard>
             <Snackbar
+                data-testid="snackbar"
                 open={open}
                 autoHideDuration={6000}
                 onClose={handleClose}

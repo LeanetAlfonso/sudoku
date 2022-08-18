@@ -11,7 +11,9 @@ export default class Cell extends Component {
         };
         return (
             <input
-                id={`${cell.row}-{${cell.col}}`}
+                data-testid="cell"
+                key={`${cell.row}-${cell.col}`}
+                id={`${cell.row}-${cell.col}`}
                 className={getCellClassName()}
                 row={cell.row}
                 col={cell.col}

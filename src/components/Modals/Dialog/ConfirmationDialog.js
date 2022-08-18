@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import IconButton from '@mui/material/IconButton';
 import "./ConfirmationDialog.css";
 
-export default function ConfirmDialog(props) {
+export default function ConfirmationDialog(props) {
     const { confirmationDialog } = props;
     const { t } = useTranslation();
     const storedTheme = localStorage.getItem("theme");

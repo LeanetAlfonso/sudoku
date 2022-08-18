@@ -5,21 +5,20 @@ import Cell from "../Cell/Cell";
 export default class Grid extends Component {
     render() {
         const { grid, onChange, isPaused } = this.props;
-        return <div className="grid">
+        return <div className="grid" data-testid="grid">
             {grid &&
                 grid.rows.map(row => (
-                    <div key={row.index}>
+                    <div key={row.cols[0].row}>
                         {row.cols.map(cell => (
                             <Cell
-                                key={row.index + "-" + cell.col}
+                                key={`${cell.row}-${cell.col}`}
                                 cell={isPaused ? {
                                     row: cell.row,
                                     col: cell.col,
                                     value: null,
-                                    readOnly: cell.readOnly,
+                                    readOnly: true,
                                     isInvalid: false,
                                 } : cell}
-                                isInvalid={cell.isInvalid}
                                 handleChangeCallback={onChange}
                             />
                         ))}
