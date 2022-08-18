@@ -39,7 +39,7 @@ const Timer = (props) => {
     }, [seconds, setSeconds, props]);
 
     return <h2 className="timer">
-        {formatTime(seconds)} {!props.hasWon && <i className={`btn-pause-play ${props.isRunning ? "far fa-pause-circle" : "pauseplay far fa-play-circle"}`} onClick={handlePausePlay}> </i>}
+        {formatTime(seconds)} {!props.hasWon && <i data-testid={`${props.isRunning ? "pause-icon" : "play-icon"}`} className={`btn-pause-play ${props.isRunning ? "far fa-pause-circle" : "pauseplay far fa-play-circle"}`} onClick={handlePausePlay}> </i>}
     </h2>;
 };
 

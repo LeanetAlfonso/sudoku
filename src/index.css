@@ -15,7 +15,7 @@
 	--dark: #385253;
 	--purple: rgb(155, 139, 161);
 	--slider-background: #ccc;
-	--light-grey-color: rgb(211, 211, 211);
+	--light-grey-color: #d3d3d3;
 }
 
 [data-theme='dark'] {
@@ -35,7 +35,7 @@
 	--dark: #385253;
 	--purple: rgb(98, 88, 102);
 	--slider-background: #ccc;
-	--light-grey-color: rgb(173, 173, 173);
+	--light-grey-color: #adadad;
 }
 
 body {

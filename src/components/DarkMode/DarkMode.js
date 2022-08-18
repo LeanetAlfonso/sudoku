@@ -10,24 +10,17 @@ const setLight = () => {
     document.documentElement.setAttribute("data-theme", "light");
 };
 
-// 4
 const storedTheme = localStorage.getItem("theme");
 
-const prefersDark =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
+const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-const defaultDark =
-    storedTheme === "dark" || (storedTheme === null && prefersDark);
+const defaultDark = storedTheme === "dark" || (storedTheme === null && prefersDark);
 
 if (defaultDark) {
     setDark();
 }
 
-
 const DarkMode = () => {
-
-
     return (
         <div className="toggle-theme-wrapper">
             <span></span>
@@ -43,7 +36,6 @@ const DarkMode = () => {
             </label>
             <i className="fas fa-light fa-moon fa-xs"></i>
         </div>
-
     );
 };
 

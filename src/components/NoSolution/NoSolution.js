@@ -10,9 +10,9 @@ export default function NoSolution(props) {
 
     const { noSolution, setNoSolution } = props;
     return (
-        <Dialog open={noSolution.isOpen}>
+        <Dialog open={noSolution.isOpen} data-testid="no-solution">
             <DialogTitle variant="h3">
-                No Solution Found :(
+                No Solution Found
             </DialogTitle>
             <DialogContent>
                 <Typography variant="subtitle1">
