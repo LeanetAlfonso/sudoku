@@ -5,12 +5,12 @@
 	"dependencies": {
 		"@emotion/react": "^11.9.3",
 		"@emotion/styled": "^11.9.3",
-		"@mui/material": "^5.8.7",
+		"@mui/material": "^5.10.1",
 		"@testing-library/jest-dom": "^5.16.4",
 		"@testing-library/react": "^13.3.0",
-		"@testing-library/user-event": "^14.4.2",
+		"@testing-library/user-event": "^14.4.3",
 		"buffer": "^6.0.3",
-		"flag-icons": "^6.6.3",
+		"flag-icons": "^6.6.4",
 		"i18next": "^21.8.13",
 		"i18next-browser-languagedetector": "^6.1.4",
 		"i18next-http-backend": "^1.4.1",
@@ -19,7 +19,7 @@
 		"react": "^18.2.0",
 		"react-copy-to-clipboard": "^5.1.0",
 		"react-dom": "^18.2.0",
-		"react-i18next": "^11.18.0",
+		"react-i18next": "^11.18.4",
 		"react-scripts": "5.0.1",
 		"sudoku": "^0.0.3",
 		"web-vitals": "^2.1.4"
@@ -49,6 +49,6 @@
 		]
 	},
 	"devDependencies": {
-		"@testing-library/dom": "^8.16.1"
+		"@testing-library/dom": "^8.17.1"
 	}
 }
