@@ -80,7 +80,7 @@ export default function GameDetails(props) {
             {!pressedSolve && url &&
                 <DialogContent>
                     <Typography variant="subtitle1" align="center">
-                        <ShareURL url={url} btn={false} />
+                        <ShareURL text={t('share_url')} url={url} btn={false} />
                     </Typography>
                 </DialogContent>
             }
