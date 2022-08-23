@@ -21,7 +21,7 @@ const mockGrid = {
 };
 
 describe('GameBoard', () => {
-    describe('Timer Component', () => {
+    describe('timer', () => {
         it('should switch between pause/play icons when clicked', () => {
             render(<GameBoard
                 seconds={4}
@@ -43,7 +43,7 @@ describe('GameBoard', () => {
         });
     });
 
-    describe('Grid Component', () => {
+    describe('grid', () => {
         it('should render grid with only empty cells when paused', () => {
             render(<GameBoard
                 seconds={4}

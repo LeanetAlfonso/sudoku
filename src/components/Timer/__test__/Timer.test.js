@@ -7,7 +7,7 @@ const mockHandleIsRunningCallback = jest.fn();
 const mockHandleSecondsCallback = jest.fn();
 
 describe('Timer', () => {
-    describe('Heading', () => {
+    describe('heading', () => {
         it('should render a heading (timer)', () => {
             render(<Timer
                 seconds={3}
@@ -21,7 +21,7 @@ describe('Timer', () => {
         });
     });
 
-    describe('Time Format', () => {
+    describe('time format', () => {
         it('should render the seconds in time format (only seconds)', () => {
             render(<Timer
                 seconds={3}
@@ -59,7 +59,7 @@ describe('Timer', () => {
         });
     });
 
-    describe('Pause/Play', () => {
+    describe('pause/play', () => {
         it('should render the play icon if game is paused', () => {
             render(<Timer
                 isRunning={false}
