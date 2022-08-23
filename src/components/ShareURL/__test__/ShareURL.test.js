@@ -5,7 +5,7 @@ describe('ShareURL', () => {
     jest.spyOn(window, 'prompt').mockImplementation(); // to prevent Error: Not implemented: window.prompt
 
 
-    describe('Copy to Clipboard', () => {
+    describe('copy to clipboard', () => {
         it('should render a clickable component to copy url', () => {
             render(<ShareURL />);
             const copyToClipboard = screen.getByTestId('copy-to-clipboard');
@@ -21,7 +21,7 @@ describe('ShareURL', () => {
         });
     });
 
-    describe('Button Format', () => {
+    describe('button format', () => {
         it('should render a button to copy url', () => {
             render(<ShareURL btn={true} />);
             const shareURLbutton = screen.getByRole('button');
@@ -37,7 +37,7 @@ describe('ShareURL', () => {
         });
     });
 
-    describe('Icon Format', () => {
+    describe('icon format', () => {
         it('should render a text to copy url', () => {
             render(<ShareURL text='Up for a challenge?' btn={false} />);
             const shareURLtext = screen.getByText('Up for a challenge?');

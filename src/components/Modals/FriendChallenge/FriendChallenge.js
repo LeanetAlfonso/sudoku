@@ -16,7 +16,9 @@ export default function FriendChallenge(props) {
     const storedTheme = localStorage.getItem("theme");
 
     return (
-        <Dialog open={friendChallenge.isOpen}
+        <Dialog
+            data-testid='friend-challenge'
+            open={friendChallenge.isOpen}
             // black mode support
             PaperProps={{
                 style: {

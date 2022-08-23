@@ -16,7 +16,9 @@ export default function ConfirmationDialog(props) {
 
     return (
         (confirmationDialog.isOpen) &&
-        <Dialog open={confirmationDialog.isOpen}
+        <Dialog
+            data-testid='confirmation-dialog'
+            open={confirmationDialog.isOpen}
             // dark mode support
             PaperProps={{
                 style: {
@@ -38,11 +40,13 @@ export default function ConfirmationDialog(props) {
             </DialogContent>
             <DialogActions className="dialog-actions">
                 <Button
+                    testId="cancel"
                     text={t('cancel')}
                     onClick={confirmationDialog.onCancel}
                     buttonStyle="btn--dark--solid"
                 />
                 <Button
+                    testId="continue"
                     text={t('continue')}
                     onClick={confirmationDialog.onContinue}
                     buttonStyle="btn--primary--solid"

@@ -10,7 +10,9 @@ export default function GameModes(props) {
     const storedTheme = localStorage.getItem("theme");
 
     return (
-        <Dialog open={gameModes.isOpen}
+        <Dialog
+            data-testid='game-modes'
+            open={gameModes.isOpen}
             // dark mode support
             PaperProps={{
                 style: {
@@ -24,21 +26,25 @@ export default function GameModes(props) {
                 {t('select_mode')}
             </DialogTitle>
             <Button
+                testId='easy'
                 text={t('easy')}
                 onClick={gameModes.onEasy}
                 buttonStyle="btn--light--solid"
             />
             <Button
+                testId='medium'
                 text={t('medium')}
                 onClick={gameModes.onMedium}
                 buttonStyle="btn--primary--solid"
             />
             <Button
+                testId='hard'
                 text={t('hard')}
                 onClick={gameModes.onHard}
                 buttonStyle="btn--medium--solid"
             />
             <Button
+                testId='expert'
                 text={t('expert')}
                 onClick={gameModes.onExpert}
                 buttonStyle="btn--dark--solid"

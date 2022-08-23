@@ -22,9 +22,9 @@ export default function ShareURL(props) {
                 onCopy={handleClick}
             >
                 {props.btn ? (
-                    <Button text={<i className="fa fa-regular fa-link share-link-icon" />} />
+                    <Button testId='btn-share' text={<i className="fa fa-regular fa-link share-link-icon" />} />
                 ) : (
-                    <div className='share-link-icon custom-details'>
+                    <div data-testid='text-share' className='share-link-icon custom-details'>
                         <b>{props.text}</b> <i data-testid="share-url-icon" className="fa fa-regular fa-link" />
                     </div>
                 )}

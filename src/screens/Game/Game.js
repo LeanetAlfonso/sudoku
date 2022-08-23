@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import "./Game.css";
-import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku, makeAllReadOnly } from "../utils/index";
+import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku, makeAllReadOnly } from "../../utils/index";
 import { cloneDeep } from "lodash";
-import Button from "../components/Button/Button";
-import DarkMode from "../components/DarkMode/DarkMode";
-import LanguageMenu from "../components/LanguageMenu/LanguageMenu";
-import ConfirmationDialog from "../components/Modals/Dialog/ConfirmationDialog";
-import GameInstructions from "../components/Modals/GameInstructions/GameInstructions";
-import GameDetails from "../components/Modals/GameDetails/GameDetails";
-import FriendChallenge from "../components/Modals/FriendChallenge/FriendChallenge";
-import GameModes from "../components/Modals/GameModes/GameModes";
-import GameBoard from "../components/GameBoard/GameBoard";
+import Button from "../../components/Button/Button";
+import DarkMode from "../../components/DarkMode/DarkMode";
+import LanguageMenu from "../../components/LanguageMenu/LanguageMenu";
+import ConfirmationDialog from "../../components/Modals/Dialog/ConfirmationDialog";
+import GameInstructions from "../../components/Modals/GameInstructions/GameInstructions";
+import GameDetails from "../../components/Modals/GameDetails/GameDetails";
+import FriendChallenge from "../../components/Modals/FriendChallenge/FriendChallenge";
+import GameModes from "../../components/Modals/GameModes/GameModes";
+import GameBoard from "../../components/GameBoard/GameBoard";
 import { useTranslation } from "react-i18next";
-import ShareURL from "../components/ShareURL/ShareURL";
+import ShareURL from "../../components/ShareURL/ShareURL";
 
 const Game = () => {
 
@@ -381,10 +381,10 @@ const Game = () => {
 
             <div className="action-container">
                 {hasWon && !pressedSolve && url && <ShareURL url={url} btn={true} />}
-                {!hasWon && <Button text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
-                {!hasWon && <Button text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
-                {((helpSolve && !hasWon) || cheatingModeOn) && <Button text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
-                <Button text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
+                {!hasWon && <Button testId="btn-help" text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
+                {!hasWon && <Button testId="btn-clear" text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
+                {((helpSolve && !hasWon) || cheatingModeOn) && <Button testId="btn-solve" text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
+                <Button testId="btn-new" text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
             </div>
         </div>
     );

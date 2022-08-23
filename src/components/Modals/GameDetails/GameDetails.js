@@ -17,7 +17,9 @@ export default function GameDetails(props) {
     const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve, mode, url, URLdata } = props;
     const storedTheme = localStorage.getItem("theme");
     return (
-        <Dialog open={gameDetails.isOpen}
+        <Dialog
+            data-testid='game-details'
+            open={gameDetails.isOpen}
             // black mode support
             PaperProps={{
                 style: {
