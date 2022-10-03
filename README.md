@@ -8,6 +8,8 @@ This app allows you to solve sudoku puzzles at different difficulties. You can c
 
 Visit [sudokupuzzle.ga](https://www.sudokupuzzle.ga/) to play now.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5b5228d1-6040-4e0d-be1e-a74ba212dd5e/deploy-status)](https://app.netlify.com/sites/leasudokupuzzle/deploys)
+
 <img alt="demo" src="demo.gif" width="400" height="auto"/>
 
 ## Running Locally
