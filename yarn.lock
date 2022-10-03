@@ -1307,7 +1307,7 @@
     terminal-link "^2.0.0"
     v8-to-istanbul "^8.1.0"
 
-"@jest/schemas@^28.0.2", "@jest/schemas@^28.1.3":
+"@jest/schemas@^28.1.3":
   version "28.1.3"
   resolved "https://registry.npmjs.org/@jest/schemas/-/schemas-28.1.3.tgz"
   dependencies:
@@ -1774,9 +1774,9 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@testing-library/dom@^8.17.1", "@testing-library/dom@^8.5.0":
-  version "8.17.1"
-  resolved "https://registry.npmjs.org/@testing-library/dom/-/dom-8.17.1.tgz"
+"@testing-library/dom@^8.18.1", "@testing-library/dom@^8.5.0":
+  version "8.18.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.18.1.tgz#80f91be02bc171fe5a3a7003f88207be31ac2cf3"
   dependencies:
     "@babel/code-frame" "^7.10.4"
     "@babel/runtime" "^7.12.5"
@@ -6895,16 +6895,7 @@ pretty-format@^27.0.2, pretty-format@^27.5.1:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-pretty-format@^28.0.0, pretty-format@^28.1.1:
-  version "28.1.1"
-  resolved "https://registry.npmjs.org/pretty-format/-/pretty-format-28.1.1.tgz"
-  dependencies:
-    "@jest/schemas" "^28.0.2"
-    ansi-regex "^5.0.1"
-    ansi-styles "^5.0.0"
-    react-is "^18.0.0"
-
-pretty-format@^28.1.3:
+pretty-format@^28.0.0, pretty-format@^28.1.1, pretty-format@^28.1.3:
   version "28.1.3"
   resolved "https://registry.npmjs.org/pretty-format/-/pretty-format-28.1.3.tgz"
   dependencies:
