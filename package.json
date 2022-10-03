@@ -13,7 +13,7 @@
 		"flag-icons": "^6.6.6",
 		"i18next": "^21.9.1",
 		"i18next-browser-languagedetector": "^6.1.5",
-		"i18next-http-backend": "^1.4.1",
+		"i18next-http-backend": "^1.4.4",
 		"lodash": "^4.17.21",
 		"mdbreact": "^5.2.0",
 		"react": "^18.2.0",
