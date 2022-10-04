@@ -12,6 +12,7 @@ export default class Cell extends Component {
         return (
             <input
                 data-testid="cell"
+                aria-label={`${cell.row}-${cell.col}`}
                 key={`${cell.row}-${cell.col}`}
                 id={`${cell.row}-${cell.col}`}
                 className={getCellClassName()}
