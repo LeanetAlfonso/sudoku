@@ -381,10 +381,10 @@ const Game = () => {
 
             <div className="action-container">
                 {hasWon && !pressedSolve && url && <ShareURL url={url} btn={true} />}
-                {!hasWon && <Button name="help" testId="btn-help" text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
-                {!hasWon && <Button name="clear board" testId="btn-clear" text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
-                {((helpSolve && !hasWon) || cheatingModeOn) && <Button name="solve" testId="btn-solve" text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
-                <Button name="new game" testId="btn-new" text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
+                {!hasWon && <Button name={t("help").toLowerCase()} testId="btn-help" text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
+                {!hasWon && <Button name={t("clear_btn_title").toLowerCase()} testId="btn-clear" text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
+                {((helpSolve && !hasWon) || cheatingModeOn) && <Button name={t("solve").toLowerCase()} testId="btn-solve" text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
+                <Button name={t("new_game").toLowerCase()} testId="btn-new" text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
             </div>
         </div>
     );

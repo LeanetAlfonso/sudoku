@@ -34,5 +34,9 @@
 	"share_url": "Challenge a friend",
 	"challenge_title": "You have been challenged to a game of Sudoku!",
 	"challenge_subtitle": "Try to break your enemy's record:",
-	"accept_challenge": "Accept Challenge"
+	"accept_challenge": "Accept Challenge",
+	"play": "resume",
+	"pause": "pause",
+	"help": "help",
+	"clear_btn_title": "clear board"
 }

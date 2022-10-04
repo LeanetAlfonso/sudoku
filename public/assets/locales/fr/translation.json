@@ -34,5 +34,9 @@
 	"share_url": "Défiez un ami",
 	"challenge_title": "Vous avez été défié à une partie de Sudoku !",
 	"challenge_subtitle": "Essayez de battre le record de votre ennemi :",
-	"accept_challenge": "Accepter le Défi"
+	"accept_challenge": "Accepter le Défi",
+	"play": "reprendre",
+	"pause": "pause",
+	"help": "aide",
+	"clear_btn_title": "tout effacer"
 }
