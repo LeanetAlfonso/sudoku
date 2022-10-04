@@ -7,7 +7,7 @@
 .lang-menu-select {
 	border: none;
 	background: var(--background-color);
-	color: var(--primary);
+	color: var(--light);
 	outline: none;
 	cursor: pointer;
 }

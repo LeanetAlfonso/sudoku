@@ -13,13 +13,13 @@ const STYLES = [
     "btn--purple--solid",
 ];
 
-const Button = ({ testId, text, onClick, buttonStyle }) => {
+const Button = ({ name, testId, text, onClick, buttonStyle }) => {
     const checkButtonStyle = STYLES.includes(buttonStyle)
         ? buttonStyle
         : STYLES[0];
 
     return (
-        <button data-testid={testId} className={`btn ${checkButtonStyle}`} onClick={onClick}>
+        <button data-testid={testId} className={`btn ${checkButtonStyle}`} onClick={onClick} title={name}>
             {text}
         </button>
     );

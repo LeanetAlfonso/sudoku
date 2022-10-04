@@ -19,8 +19,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.btn-pause-play:hover,
-	.lang-menu-label:hover {
+	.btn-pause-play:hover {
 		opacity: 0.75;
 	}
 }
