@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { formatTime } from "../../utils/index";
+import { useTranslation } from "react-i18next";
 
 const Timer = (props) => {
     const [seconds, setSeconds] = useState(props.seconds);
+
+    // Translation
+    const { t } = useTranslation();
 
     // Handle timer pause/play button
     const handlePausePlay = () => {
@@ -39,7 +43,20 @@ const Timer = (props) => {
     }, [seconds, setSeconds, props]);
 
     return <h2 className="timer">
-        {formatTime(seconds)} {!props.hasWon && <i data-testid={`${props.isRunning ? "pause-icon" : "play-icon"}`} className={`btn-pause-play ${props.isRunning ? "far fa-pause-circle" : "pauseplay far fa-play-circle"}`} onClick={handlePausePlay}> </i>}
+        {formatTime(seconds)} {!props.hasWon && (props.isRunning ?
+            <i
+                title={t("pause").toLowerCase()}
+                data-testid="pause-icon"
+                className="btn-pause-play far fa-pause-circle"
+                onClick={handlePausePlay}
+            />
+            :
+            <i title={t("play").toLowerCase()}
+                data-testid="play-icon"
+                className="btn-pause-play far fa-play-circle"
+                onClick={handlePausePlay}
+            />
+        )}
     </h2>;
 };
 
