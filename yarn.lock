@@ -4664,9 +4664,9 @@ i18next-http-backend@^1.4.4:
   dependencies:
     cross-fetch "3.1.5"
 
-i18next@^21.10.0:
-  version "21.10.0"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.10.0.tgz#85429af55fdca4858345d0e16b584ec29520197d"
+i18next@^22.0.0:
+  version "22.0.0"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-22.0.0.tgz#88216ea42667699312eaf47d855fb8f6594e712b"
   dependencies:
     "@babel/runtime" "^7.17.2"
 
