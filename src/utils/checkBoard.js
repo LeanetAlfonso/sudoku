@@ -1,3 +1,5 @@
+import getBoxNumber from "./getBoxNumber";
+
 // Gets invalid lines (invalid rows and/or columns)
 const getInvalidLines = (board, type) => {
     let invalidLines = new Set();
@@ -24,10 +26,11 @@ const getInvalidLines = (board, type) => {
     return invalidLines;
 };
 
-// Checks whether a specific box is valid
-const isBoxValid = (board, x0, y0) => {
+// Checks whether a specific entry causes box to not be valid
+const isBoxValid = (board, x0, y0, r, c) => {
     let dict = {};
 
+    // store value counts
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
             let key = board.rows[x0 + i].cols[y0 + j].value;
@@ -36,17 +39,51 @@ const isBoxValid = (board, x0, y0) => {
 
             if (Object.hasOwnProperty.call(dict, key)) {
                 dict[key] += 1;
-                if (dict[key] > 1) {
-                    return false;
+            } else {
+                dict[key] = 1;
+            };
+        }
+    }
+
+    // set cell with duplicated values as invalid value
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            let key = board.rows[x0 + i].cols[y0 + j].value;
+
+            if (key === null) {
+                board.rows[x0 + i].cols[y0 + j].isInvalidValue = false;
+            };
+
+            if (dict[key] > 1) {
+                board.rows[x0 + i].cols[y0 + j].isInvalidValue = true;
+                if (((x0 + i) === r) && ((y0 + j) === c)) {
+                    board.rows[x0 + i].cols[y0 + j].isInvalidValueCause = true;
                 }
-            } else dict[key] = 1;
+            }
+            else {
+                board.rows[x0 + i].cols[y0 + j].isInvalidValue = false;
+                board.rows[x0 + i].cols[y0 + j].isInvalidValueCause = false;
+            }
+        }
+    }
+
+    // set box invalid if at least one cell has an invalid value
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            let key = board.rows[x0 + i].cols[y0 + j].value;
+
+            if (key === null) continue;
+
+            if (dict[key] > 1) {
+                return false;
+            }
         }
     }
     return true;
 };
 
 // Gets invalid boxes
-const getInvalidBoxes = (board) => {
+const getInvalidBoxes = (board, r, c) => {
     let invalidBoxes = new Set();
     let boxValues = {
         0: { x: 0, y: 0 },
@@ -67,7 +104,7 @@ const getInvalidBoxes = (board) => {
         let y0 = boxValues[box].y;
 
         // adds all invalid boxes to invalidBoxes set
-        if (!isBoxValid(board, x0, y0)) {
+        if (!isBoxValid(board, x0, y0, r, c)) {
             invalidBoxes.add(box);
         }
     }
@@ -75,24 +112,12 @@ const getInvalidBoxes = (board) => {
     return invalidBoxes;
 };
 
-// Gets box number
-const getBoxNumber = (x, y) => {
-    let x0 = Math.floor(x / 3);
-    let y0 = Math.floor(y / 3);
-    return [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-    ][x0][y0];
-};
-
 
 // Sets cells invalid according to invalid rows/cols/boxes
-const checkBoard = (board) => {
-
+const checkBoard = (board, newValue, r, c) => {
     let invalidRow = getInvalidLines(board, "row");
     let invalidCol = getInvalidLines(board, "col");
-    let invalidBoxes = getInvalidBoxes(board);
+    let invalidBoxes = getInvalidBoxes(board, r, c);
 
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
