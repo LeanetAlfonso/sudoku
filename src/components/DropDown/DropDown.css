@@ -1,7 +1,9 @@
-.lang-menu-select {
+.menu-select {
 	border: none;
 	background: var(--background-color);
-	color: var(--lang-color);
+	color: var(--primary);
 	outline: none;
 	cursor: pointer;
+	max-width: fit-content;
+	width: auto;
 }

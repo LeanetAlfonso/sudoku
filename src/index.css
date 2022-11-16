@@ -2,15 +2,15 @@
 	--font-color: #333;
 	--background-color: #eee;
 	--primary: #5b8588;
-	--focus-color: #e1f7f8;
-	--invalid-color: #f7aeae;
+	--focus-color: #bfd4d5;
+	--darker-focus-color: #84a7a9;
+	--invalid-color: #e0bdbd;
 	--grey-color: #6d6c6c;
+	--darker-grey-color: #616161;
 	--yellow: #e59825;
 	--blue: #3578b2;
 	--redish-orange: #ff8271;
 	--purple: #897390;
-	--success: #75fa83;
-	--white: #fdfdfd;
 	--white: #ffffff;
 	--light: #8cb6b8;
 	--medium: #4a6d6e;
@@ -18,19 +18,23 @@
 	--slider-background: #ccc;
 	--light-grey-color: #d3d3d3;
 	--lang-color: #3f6467;
+	--invalid-font-color: #8e3131;
+	--invalid-darker-color: #d08d8d;
+	--invalid-darker-color: #db8888;
 }
 
 [data-theme='dark'] {
 	--font-color: #dbd7d7;
 	--background-color: #242727;
-	--primary: #5e7b7d;
+	--primary: #5b8588;
 	--focus-color: #283b3b;
+	--darker-focus-color: #1b2c2c;
 	--invalid-color: #522f2f;
-	--grey-color: #5f797a;
+	--grey-color: #769091;
+	--darker-grey-color: #7d9696;
 	--yellow: #6f4f20;
 	--redish-orange: #91473e;
 	--blue: #2f6080;
-	--success: #75fa83;
 	--white: #dbd7d7;
 	--light: #7b9294;
 	--medium: #446364;
@@ -39,6 +43,8 @@
 	--slider-background: #ccc;
 	--light-grey-color: #adadad;
 	--lang-color: #95abad;
+	--invalid-font-color: #bb6161;
+	--invalid-darker-color: #341313;
 }
 
 body {
@@ -59,4 +65,9 @@ a {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
+}
+
+select {
+	font-weight: bolder;
+	font-size: 16px;
 }

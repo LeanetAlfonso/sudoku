@@ -5,3 +5,6 @@
 	display: flex;
 	align-items: center;
 }
+.lang-menu-label i {
+	margin-right: 4px;
+}
