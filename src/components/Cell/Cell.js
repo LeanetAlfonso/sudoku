@@ -3,10 +3,13 @@ import "./Cell.css";
 
 export default class Cell extends Component {
     render() {
-        const { cell, handleChangeCallback } = this.props;
+        const { cell, isPaused, handleChangeCallback, handleFocusCallback } = this.props;
         const getCellClassName = () => {
             return `cell 
-            ${cell.isInvalid ? "cell-invalid" : ""}
+            ${cell.isInvalid && "cell-invalid"}  ${cell.isInvalidValue && "cell-invalid-value"}
+            ${cell.isInvalidValueCause && "cell-invalid-value-cause"}
+            ${cell.isHighlighted && "cell-highlighted"}
+            ${isPaused && "cell-paused"}
             `;
         };
         return (
@@ -23,6 +26,7 @@ export default class Cell extends Component {
                 onChange={(e) => handleChangeCallback(e.target.value, cell)}
                 maxLength="1"
                 type="tel"
+                onFocus={() => handleFocusCallback(cell)}
             />
         );
     }

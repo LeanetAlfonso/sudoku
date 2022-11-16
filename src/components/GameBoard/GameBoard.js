@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Grid from "../Grid/Grid";
 import Timer from "../Timer/Timer";
+import ModeMenu from "../ModeMenu/ModeMenu";
+import './GameBoard.css';
 
 const GameBoard = (props) => {
 
@@ -12,27 +14,38 @@ const GameBoard = (props) => {
         setIsRunningTimer(!isRunningTimer);
     };
 
-    // Handle isRunning from timer
+    // Handle resume (turn on running) from timer
     const handleTurnOnRunningCallback = () => {
         setIsRunningTimer(true);
     };
 
     return <div>
-        <Timer
-            seconds={props.seconds}
-            isRunning={isRunningTimer && props.isRunning}
-            handleSecondsCallback={props.handleSecondsCallback}
-            hasWon={props.hasWon}
-            handleIsRunningCallback={handleIsRunningCallback}
-            handleResetCallback={props.handleResetCallback}
-            reset={props.reset}
-            handleTurnOnRunningCallback={handleTurnOnRunningCallback}
-        />
-
+        <div className="mode-timer-wrapper">
+            <div className="mode-timer">
+                <div className="modes-dropdown">
+                    <ModeMenu
+                        mode={props.mode}
+                        changeModeHandler={props.handleChangeModeCallback}
+                    />
+                </div>
+               
+                    <Timer
+                        seconds={props.seconds}
+                        isRunning={isRunningTimer && props.isRunning}
+                        handleSecondsCallback={props.handleSecondsCallback}
+                        hasWon={props.hasWon}
+                        handleIsRunningCallback={handleIsRunningCallback}
+                        handleResetCallback={props.handleResetCallback}
+                        reset={props.reset}
+                        handleTurnOnRunningCallback={handleTurnOnRunningCallback}
+                    />
+                
+            </div>
+        </div>
         <Grid
-            className="grid"
             grid={props.grid}
             onChange={props.handleChange}
+            onFocus={props.handleFocus}
             isPaused={(!isRunningTimer || !props.isRunning) && !props.hasWon}
         />
     </div>;

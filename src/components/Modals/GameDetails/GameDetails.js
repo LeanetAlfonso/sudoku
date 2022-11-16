@@ -51,10 +51,10 @@ export default function GameDetails(props) {
                 <div className="column" >
                     {URLdata &&
                         <Typography variant="h6" align="center" className="custom-details">
-                            <b>{t('You')}</b>
+                            <b>{t('you')}</b>
                         </Typography>}
                     <Typography variant="subtitle1">
-                        <b>{t('Mode')}:</b> {t(mode)}
+                        <b>{t('mode')}:</b> {t(mode)}
                     </Typography>
                     <Typography variant="subtitle1">
                         <b>{t('moves')}:</b> {movesTaken}
@@ -66,10 +66,10 @@ export default function GameDetails(props) {
                 {URLdata &&
                     <div className="column" >
                         <Typography variant="h6" align="center" className="custom-details">
-                            <b>{t('Enemy')}</b>
+                            <b>{t('enemy')}</b>
                         </Typography>
                         <Typography variant="subtitle1">
-                            <b>{t('Mode')}:</b> {t(URLdata.mode)}
+                            <b>{t('mode')}:</b> {t(URLdata.mode)}
                         </Typography>
                         <Typography variant="subtitle1">
                             <b>{t('moves')}:</b> {URLdata.moves}

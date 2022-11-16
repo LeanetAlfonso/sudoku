@@ -4,7 +4,7 @@ import Cell from "../Cell/Cell";
 
 export default class Grid extends Component {
     render() {
-        const { grid, onChange, isPaused } = this.props;
+        const { grid, onChange, onFocus, isPaused } = this.props;
         return <div className="grid" data-testid="grid">
             {grid &&
                 grid.rows.map(row => (
@@ -18,8 +18,13 @@ export default class Grid extends Component {
                                     value: null,
                                     readOnly: true,
                                     isInvalid: false,
+                                    isInvalidValue: false,
+                                    isInvalidValueCause: false,
+                                    isHighlighted: false
                                 } : cell}
+                                isPaused={isPaused}
                                 handleChangeCallback={onChange}
+                                handleFocusCallback={onFocus}
                             />
                         ))}
                     </div>

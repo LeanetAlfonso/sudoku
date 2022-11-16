@@ -1,0 +1,62 @@
+.mode-timer-wrapper {
+	width: 100%;
+	align-content: center;
+	justify-content: center;
+	display: flex;
+}
+.mode-timer {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	align-self: center;
+	text-align: center;
+	justify-self: center;
+	width: 30.5rem;
+}
+.timer {
+	align-items: center;
+	font-weight: bold;
+	justify-self: right;
+	display: flex;
+	justify-self: end;
+	margin-left: auto;
+	margin-right: 1px;
+	display: flex;
+	align-items: center;
+}
+.timer p {
+	font-size: 16px;
+}
+.timer i {
+	margin-left: 8px;
+	font-size: 25px;
+}
+
+.modes-dropdown {
+	justify-self: end;
+	display: flex;
+}
+
+@media (max-width: 575px) {
+	.mode-timer {
+		width: 21.5rem;
+	}
+}
+
+@media (max-width: 450px) {
+	.mode-timer {
+		width: 19.5rem;
+	}
+}
+
+@media (max-width: 345px) {
+	.mode-timer {
+		width: 17rem;
+	}
+}
+
+@media (max-width: 294px) {
+	.mode-timer {
+		width: 15rem;
+	}
+}

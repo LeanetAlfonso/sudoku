@@ -5,7 +5,6 @@ const STYLES = [
     "btn--primary--solid",
     "btn--yellow--solid",
     "btn--redish-orange--solid",
-    "btn--success--solid",
     "btn--dark--solid",
     "btn--light--solid",
     "btn--medium--solid",

@@ -1,0 +1,8 @@
+.mode-menu {
+	display: inline-flex;
+	align-items: center;
+}
+.mode-menu h4 {
+	color: var(--font-color);
+	margin-right: 8px;
+}

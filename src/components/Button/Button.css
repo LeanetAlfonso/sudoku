@@ -31,10 +31,6 @@
 	background-color: var(--redish-orange);
 }
 
-.btn--success--solid {
-	background-color: var(--success);
-}
-
 .btn--dark--solid {
 	background-color: var(--dark);
 }

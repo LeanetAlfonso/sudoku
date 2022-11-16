@@ -2,12 +2,9 @@
 	justify-self: end;
 	margin-left: auto;
 	margin-right: 1px;
+	display: flex;
+	align-items: center;
 }
-
-.lang-menu-select {
-	border: none;
-	background: var(--background-color);
-	color: var(--lang-color);
-	outline: none;
-	cursor: pointer;
+.lang-menu-label i {
+	margin-right: 4px;
 }

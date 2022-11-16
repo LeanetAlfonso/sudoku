@@ -4,7 +4,7 @@ import solveSudoku from "./solveSudoku";
 import checkPlayerWon from "./checkPlayerWon";
 import formatTime from "./formatTime";
 import makeAllReadOnly from "./makeAllReadOnly";
-
+import updateHighlight from "./updateHighlight";
 export {
     generateSudoku,
     convertBoard,
@@ -14,5 +14,6 @@ export {
     solveSudoku,
     checkPlayerWon,
     formatTime,
-    makeAllReadOnly
+    makeAllReadOnly,
+    updateHighlight
 };
