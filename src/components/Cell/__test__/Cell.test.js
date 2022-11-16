@@ -9,6 +9,9 @@ describe('Cell', () => {
             value: '',
             readOnly: false,
             isInvalid: false,
+            isInvalidValue: false,
+            isInvalidValueCause: false,
+            isHighlighted: false,
         }} />);
         const cell = screen.getByRole('textbox');
         expect(cell).toBeInTheDocument();

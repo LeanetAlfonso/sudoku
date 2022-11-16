@@ -42,8 +42,8 @@ const Timer = (props) => {
         return undefined;
     }, [seconds, setSeconds, props]);
 
-    return <h2 className="timer">
-        {formatTime(seconds)} {!props.hasWon && (props.isRunning ?
+    return <div className="timer" data-testid="timer">
+        <p>{formatTime(seconds)}</p>{!props.hasWon && (props.isRunning ?
             <i
                 title={t("pause").toLowerCase()}
                 data-testid="pause-icon"
@@ -57,7 +57,7 @@ const Timer = (props) => {
                 onClick={handlePausePlay}
             />
         )}
-    </h2>;
+    </div>;
 };
 
 export default Timer;

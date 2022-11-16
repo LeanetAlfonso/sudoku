@@ -52,7 +52,9 @@ export function convertBoard(rawBoard) {
                 col: j,
                 value: value,
                 readOnly: value !== null,
-                isInvalid: false
+                isInvalid: false,
+                isInvalidValue: false,
+                isHighlighted: false
             };
             row.cols.push(col);
         }

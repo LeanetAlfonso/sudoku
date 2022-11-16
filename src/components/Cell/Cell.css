@@ -8,13 +8,14 @@
 	border-radius: 0%;
 	padding: 5px;
 	margin: 0;
-	caret-color: var(--primary);
+	caret-color: transparent;
 	background-color: var(--background-color);
+	cursor: default;
 }
 
 @media (max-width: 575px) {
 	.cell {
-		width: 5%;
+		width: 1.5rem;
 		font-size: 1.5rem;
 	}
 }
@@ -22,36 +23,59 @@
 @media (max-width: 450px) {
 	.cell {
 		font-size: 1.3rem;
+		width: 1.3rem;
 	}
 }
 
 @media (max-width: 390px) {
-	.cell {
-		font-size: 1rem;
-	}
 	h2 {
 		font-size: 1.2rem;
+	}
+}
+@media (max-width: 345px) {
+	.cell {
+		font-size: 1rem;
+		width: 1rem;
+	}
+}
+
+@media (max-width: 294px) {
+	.cell {
+		width: 0.8rem;
 	}
 }
 
 .cell:focus {
 	outline: none;
+	background-color: var(--darker-focus-color);
 }
 
 .cell:not([readOnly]):focus {
+	color: var(--darker-grey-color);
+}
+
+.cell-highlighted {
 	background-color: var(--focus-color);
 }
 
 .cell-invalid {
 	background-color: var(--invalid-color);
+	color: var(--darker-grey-color);
+}
+
+.cell-invalid-value {
+	background-color: var(--invalid-darker-color);
+}
+
+.cell-invalid-value-cause {
+	color: var(--invalid-font-color) !important;
 }
 
 .cell[readOnly] {
 	color: var(--font-color);
 }
 
-.cell[isPaused] {
-	color: var(--background-color);
+.cell-paused:focus {
 	background-color: var(--background-color);
 }
 

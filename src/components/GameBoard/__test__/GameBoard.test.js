@@ -10,12 +10,12 @@ const mockHandleTurnOnRunningCallback = jest.fn();
 const mockGrid = {
     rows: [
         {
-            cols: [{ row: 0, col: 0, value: 1, readOnly: true, isInvalid: false },
-            { row: 0, col: 1, value: null, readOnly: false, isInvalid: false }],
+            cols: [{ row: 0, col: 0, value: 1, readOnly: true, isInvalid: false, isInvalidValue: false, isInvalidValueCause: false, isHighlighted: false },
+            { row: 0, col: 1, value: null, readOnly: false, isInvalid: false, isInvalidValue: false, isInvalidValueCause: false, isHighlighted: false }],
         },
         {
-            cols: [{ row: 1, col: 0, value: 3, readOnly: true, isInvalid: false },
-            { row: 1, col: 1, value: 4, readOnly: false, isInvalid: false }],
+            cols: [{ row: 1, col: 0, value: 3, readOnly: true, isInvalid: false, isInvalidValue: false, isInvalidValueCause: false, isHighlighted: false },
+            { row: 1, col: 1, value: 4, readOnly: false, isInvalid: false, isInvalidValue: false, isInvalidValueCause: false, isHighlighted: false }],
         }
     ]
 };

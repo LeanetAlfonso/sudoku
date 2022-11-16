@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Game.css";
-import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku, makeAllReadOnly } from "../../utils/index";
+import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku, makeAllReadOnly, updateHighlight } from "../../utils/index";
 import { cloneDeep } from "lodash";
 import Button from "../../components/Button/Button";
 import DarkMode from "../../components/DarkMode/DarkMode";
@@ -83,7 +83,7 @@ const Game = () => {
         setURLdata(null);
         setURL(null);
         setHelpSolve(true);
-        setReset(false);
+        setReset(true);
 
         // close dialog
         closeDialog();
@@ -134,9 +134,18 @@ const Game = () => {
         setIsRunning(!isRunning);
     };
 
+    const handleFocus = (cell) => {
+        setIsRunning(true);
+        const row = cell.row;
+        const col = cell.col;
+        const newGrid = cloneDeep(grid);
+        updateHighlight(newGrid, row, col);
+        setGrid(newGrid);
+
+
+    };
     // Handle cell changes
     const handleChange = (val, cell) => {
-
         setHasWon(false);
         setIsRunning(true);
 
@@ -156,7 +165,7 @@ const Game = () => {
             newGrid.rows[row].cols[col].value = value;
 
             // check if move is valid
-            checkBoard(newGrid);
+            checkBoard(newGrid, value, row, col);
 
             // check if player won
             let playerWon = checkPlayerWon(newGrid);
@@ -172,13 +181,13 @@ const Game = () => {
     };
 
 
-    // Continue option for clear 
+    // Continue option for clear
     const onContinueClear = () => {
         handleClearBoard();
         closeDialog();
     };
 
-    // Continue option for solve 
+    // Continue option for solve
     const onContinueSolve = () => {
         handleSolve();
     };
@@ -231,40 +240,39 @@ const Game = () => {
             icon: "far fa-plus-square",
             custom: "new",
             onContinue: () => {
-                setHasWon(false);
-                setReset(true);
-                setIsRunning(false);
-                window.history.pushState({}, document.title, "/"); // remove url query string
+                resetGame();
                 selectModeHandler();
             },
             onCancel: () => { closeDialog(); }
         });
     };
 
+    const resetGame = () => {
+        setHasWon(false);
+        setReset(true);
+        setIsRunning(false);
+        window.history.pushState({}, document.title, "/"); // remove url query string
+    };
 
+    const handleChangeModeCallback = (val) => {
+        resetGame();
+        changeMode(val);
+    };
+
+    const changeMode = (value) => {
+        setMode(value);
+        handleNewGame(MODE[value]);
+    };
     // Handle select mode dialog for new game
     const selectModeHandler = () => {
         setConfirmationDialog({ ...confirmationDialog, isOpen: false });
 
-        setIsRunning(false);
         setGameModes({
             isOpen: true,
-            onEasy: () => {
-                setMode("easy");
-                handleNewGame(MODE.easy);
-            },
-            onMedium: () => {
-                setMode("medium");
-                handleNewGame(MODE.medium);
-            },
-            onHard: () => {
-                setMode("hard");
-                handleNewGame(MODE.hard);
-            },
-            onExpert: () => {
-                setMode("expert");
-                handleNewGame(MODE.expert);
-            }
+            onEasy: () => changeMode("easy"),
+            onMedium: () => changeMode("medium"),
+            onHard: () => changeMode("hard"),
+            onExpert: () => changeMode("expert")
         });
     };
 
@@ -374,9 +382,12 @@ const Game = () => {
                 handleSecondsCallback={handleSecondsCallback}
                 grid={grid}
                 handleChange={handleChange}
+                handleFocus={handleFocus}
                 hasWon={hasWon}
                 handleResetCallback={handleResetCallback}
                 reset={reset}
+                mode={mode}
+                handleChangeModeCallback={handleChangeModeCallback}
             />
 
             <div className="action-container">

@@ -7,8 +7,8 @@ const mockHandleIsRunningCallback = jest.fn();
 const mockHandleSecondsCallback = jest.fn();
 
 describe('Timer', () => {
-    describe('heading', () => {
-        it('should render a heading (timer)', () => {
+    describe('timer component', () => {
+        it('should render a timer', () => {
             render(<Timer
                 seconds={3}
                 handleTurnOnRunningCallback={mockHandleTurnOnRunningCallback}
@@ -16,7 +16,7 @@ describe('Timer', () => {
                 handleIsRunningCallback={mockHandleIsRunningCallback}
                 handleSecondsCallback={mockHandleSecondsCallback}
             />);
-            const timer = screen.getByRole('heading');
+            const timer = screen.getByTestId('timer');
             expect(timer).toBeInTheDocument();
         });
     });
