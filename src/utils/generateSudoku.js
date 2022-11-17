@@ -54,7 +54,8 @@ export function convertBoard(rawBoard) {
                 readOnly: value !== null,
                 isInvalid: false,
                 isInvalidValue: false,
-                isHighlighted: false
+                isHighlighted: false,
+                isFocused: false,
             };
             row.cols.push(col);
         }

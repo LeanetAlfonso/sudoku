@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Grid from "../Grid/Grid";
 import Timer from "../Timer/Timer";
 import ModeMenu from "../ModeMenu/ModeMenu";
+import KeyPad from "../KeyPad/KeyPad";
 import './GameBoard.css';
 
 const GameBoard = (props) => {
@@ -14,7 +15,7 @@ const GameBoard = (props) => {
         setIsRunningTimer(!isRunningTimer);
     };
 
-    // Handle resume (turn on running) from timer
+    // Handle resume timer (turn on running) from timer
     const handleTurnOnRunningCallback = () => {
         setIsRunningTimer(true);
     };
@@ -28,18 +29,18 @@ const GameBoard = (props) => {
                         changeModeHandler={props.handleChangeModeCallback}
                     />
                 </div>
-               
-                    <Timer
-                        seconds={props.seconds}
-                        isRunning={isRunningTimer && props.isRunning}
-                        handleSecondsCallback={props.handleSecondsCallback}
-                        hasWon={props.hasWon}
-                        handleIsRunningCallback={handleIsRunningCallback}
-                        handleResetCallback={props.handleResetCallback}
-                        reset={props.reset}
-                        handleTurnOnRunningCallback={handleTurnOnRunningCallback}
-                    />
-                
+
+                <Timer
+                    seconds={props.seconds}
+                    isRunning={isRunningTimer && props.isRunning}
+                    handleSecondsCallback={props.handleSecondsCallback}
+                    hasWon={props.hasWon}
+                    handleIsRunningCallback={handleIsRunningCallback}
+                    handleResetCallback={props.handleResetCallback}
+                    reset={props.reset}
+                    handleTurnOnRunningCallback={handleTurnOnRunningCallback}
+                />
+
             </div>
         </div>
         <Grid
@@ -47,7 +48,16 @@ const GameBoard = (props) => {
             onChange={props.handleChange}
             onFocus={props.handleFocus}
             isPaused={(!isRunningTimer || !props.isRunning) && !props.hasWon}
+            hasWon={props.hasWon}
+            selectedCell={props.selectedCell}
         />
+
+        {!props.hasWon &&
+            <KeyPad
+                onClick={props.handleChange}
+                selectedCell={props.selectedCell}
+                isPaused={(!isRunningTimer || !props.isRunning) && !props.hasWon}
+            />}
     </div>;
 };
 

@@ -45,9 +45,17 @@
 	}
 }
 
-.cell:focus {
+@media (max-width: 244px) {
+	.cell {
+		width: 0.5rem;
+		font-size: 12px;
+	}
+}
+
+.cell:focus,
+.cell-focused {
 	outline: none;
-	background-color: var(--darker-focus-color);
+	background-color: var(--darker-focus-color) !important;
 }
 
 .cell:not([readOnly]):focus {
@@ -76,7 +84,7 @@
 }
 
 .cell-paused:focus {
-	background-color: var(--background-color);
+	background-color: var(--background-color) !important;
 }
 
 /* Sudoku board 3 by 3 border */

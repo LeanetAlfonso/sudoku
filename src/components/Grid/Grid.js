@@ -4,8 +4,10 @@ import Cell from "../Cell/Cell";
 
 export default class Grid extends Component {
     render() {
-        const { grid, onChange, onFocus, isPaused } = this.props;
+        const { grid, onChange, onFocus, isPaused, hasWon, selectedCell } = this.props;
+
         return <div className="grid" data-testid="grid">
+
             {grid &&
                 grid.rows.map(row => (
                     <div key={row.cols[0].row}>
@@ -20,11 +22,14 @@ export default class Grid extends Component {
                                     isInvalid: false,
                                     isInvalidValue: false,
                                     isInvalidValueCause: false,
-                                    isHighlighted: false
+                                    isHighlighted: false,
+                                    isFocused: false,
                                 } : cell}
                                 isPaused={isPaused}
+                                hasWon={hasWon}
                                 handleChangeCallback={onChange}
                                 handleFocusCallback={onFocus}
+                                isSelected={JSON.stringify(selectedCell) === JSON.stringify(cell)}
                             />
                         ))}
                     </div>
