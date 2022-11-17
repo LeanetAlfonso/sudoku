@@ -1,11 +1,12 @@
 .main-title {
-	margin: 0px 0px 0px 0px;
+	font-size: 24px;
+	margin: 0px;
 	text-decoration: none;
 	color: var(--font-color);
 }
 
 .action-container {
-	margin-top: 1.5rem;
+	margin-top: 1rem;
 }
 
 .game {

@@ -1,0 +1,42 @@
+.keypad {
+	margin: 1rem 0px 0rem 0px;
+}
+
+.keypad button {
+	margin: 1px !important;
+	color: var(--primary);
+	border: none;
+	padding: 0px;
+	width: 2.3rem;
+	font-size: 49px;
+	font-weight: bold;
+}
+
+.keypad svg {
+	padding: 3px;
+	filter: invert(52%) sepia(8%) saturate(1326%) hue-rotate(135deg)
+		brightness(92%) contrast(89%);
+	width: 30px;
+	height: auto;
+	justify-self: center;
+}
+
+@media (max-width: 394px) {
+	.keypad button {
+		font-size: 40px;
+		width: 2rem;
+	}
+	.keypad svg {
+		width: 25px;
+	}
+}
+
+@media (max-width: 343px) {
+	.keypad button {
+		font-size: 35px;
+		width: 1.5rem;
+	}
+	.keypad svg {
+		width: 20px;
+	}
+}

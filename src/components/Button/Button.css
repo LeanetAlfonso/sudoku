@@ -12,10 +12,17 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.btn:hover {
+	.btn:not([disabled]):hover {
 		transform: translateY(-3px);
 		opacity: 0.8 !important;
 	}
+}
+.btn:focus {
+	outline: none;
+}
+
+.btn[disabled] {
+	pointer-events: none;
 }
 
 /* Button colors and styles */
@@ -47,4 +54,8 @@
 }
 .btn--light--solid {
 	background-color: var(--light);
+}
+.btn--primary--outline {
+	border: 2px solid var(--primary);
+	background-color: var(--background-color);
 }

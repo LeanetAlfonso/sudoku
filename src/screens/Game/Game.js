@@ -29,6 +29,7 @@ const Game = () => {
     const [mode, setMode] = useState("easy");
     const [reset, setReset] = useState(false);
     const [helpSolve, setHelpSolve] = useState(true);
+    const [selectedCell, setSelectedCell] = useState(null);
 
     // Modals
     const [noSolution, setNoSolution] = useState({ isOpen: false });
@@ -134,23 +135,26 @@ const Game = () => {
         setIsRunning(!isRunning);
     };
 
+    // Handle focus (selected cell)
     const handleFocus = (cell) => {
-        setIsRunning(true);
-        const row = cell.row;
-        const col = cell.col;
-        const newGrid = cloneDeep(grid);
-        updateHighlight(newGrid, row, col);
-        setGrid(newGrid);
-
-
+        if (!hasWon) {
+            setSelectedCell(cell);
+            setIsRunning(true);
+            const row = cell.row;
+            const col = cell.col;
+            const newGrid = cloneDeep(grid);
+            updateHighlight(newGrid, row, col);
+            setGrid(newGrid);
+        }
     };
+
     // Handle cell changes
     const handleChange = (val, cell) => {
         setHasWon(false);
         setIsRunning(true);
 
         // check if cell is not read-only
-        if (!cell.readOnly) {
+        if (selectedCell !== null && !cell.readOnly) {
             // set value to null or parse it into an integer accordingly
             const value = val === "" ? null : parseInt(val, 10);
 
@@ -339,9 +343,9 @@ const Game = () => {
                 <LanguageMenu />
             </div>
 
-            <h1 className="main-title">
+            <h2 className="main-title">
                 Sudoku
-            </h1>
+            </h2>
 
             <ConfirmationDialog
                 confirmationDialog={confirmationDialog}
@@ -388,8 +392,8 @@ const Game = () => {
                 reset={reset}
                 mode={mode}
                 handleChangeModeCallback={handleChangeModeCallback}
+                selectedCell={selectedCell}
             />
-
             <div className="action-container">
                 {hasWon && !pressedSolve && url && <ShareURL url={url} btn={true} />}
                 {!hasWon && <Button name={t("help").toLowerCase()} testId="btn-help" text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
@@ -397,6 +401,7 @@ const Game = () => {
                 {((helpSolve && !hasWon) || cheatingModeOn) && <Button name={t("solve").toLowerCase()} testId="btn-solve" text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
                 <Button name={t("new_game").toLowerCase()} testId="btn-new" text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
             </div>
+
         </div>
     );
 };

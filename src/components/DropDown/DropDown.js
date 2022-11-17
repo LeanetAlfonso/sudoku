@@ -14,7 +14,6 @@ const BootstrapInput = styled(InputBase)(() => ({
     '& .MuiSvgIcon-root': {
         color: "#5b8588",
     },
-
     '& .MuiInputBase-input': {
         borderRadius: 0,
         position: 'relative',
@@ -45,36 +44,23 @@ const BootstrapInput = styled(InputBase)(() => ({
 
 const DropDown = ({ selected, content, changeHandler }) => {
 
-    // const classes = useStyles();
     const { t } = useTranslation();
 
-
     return (
-        // <select data-testid="menu-select" id="menu-select" className="menu-select" value={selected}
-        //     onChange={changeHandler}>
-        //     {content.map(({ name, value }) => (
-        //         <option data-testid="menu-select-option" value={value} key={value}>
-        //             {t(name)}
-        //         </option>
-        //     ))}
-        // </select>
-        <div>
-
-            <FormControl variant="standard">
-                <NativeSelect
-                    id="demo-customized-select-native"
-                    value={selected}
-                    onChange={changeHandler}
-                    input={<BootstrapInput />}
-                >
-                    {content.map(({ name, value }) => (
-                        <option data-testid="menu-select-option" value={value} key={value}>
-                            {t(name)}
-                        </option>
-                    ))}
-                </NativeSelect>
-            </FormControl>
-        </div>
+        <FormControl variant="standard">
+            <NativeSelect
+                id={t(selected)}
+                value={selected}
+                onChange={changeHandler}
+                input={<BootstrapInput />}
+            >
+                {content.map(({ name, value }) => (
+                    <option data-testid="menu-select-option" value={value} key={value}>
+                        {t(name)}
+                    </option>
+                ))}
+            </NativeSelect>
+        </FormControl>
     );
 };
 

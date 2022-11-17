@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, getByTestId, render, screen } from '@testing-library/react';
 import Game from '../Game';
 
 jest.mock('react-i18next', () => ({
@@ -28,12 +28,23 @@ describe('Game', () => {
             render(<Game />);
             const cells = screen.getAllByTestId('cell');
             const cell = getFirstEmptyCell(cells);
+            const key = screen.getByTestId('key-4');
+            const deleteBtn = screen.getByTestId('delete-button');
 
             expect(cell).toHaveValue('');
-            fireEvent.change(cell, { target: { value: '4' } });
+            fireEvent.focusIn(cell);
+
+            fireEvent.click(key);
             expect(cell).toHaveValue('4');
+
+            fireEvent.change(cell, { target: { value: '6' } });
+            expect(cell).toHaveValue('6');
+
             fireEvent.change(cell, { target: { value: '9' } });
             expect(cell).toHaveValue('9');
+
+            fireEvent.click(deleteBtn);
+            expect(cell).toHaveValue('');
         });
 
         it('should not change the value of a write-only cell', () => {

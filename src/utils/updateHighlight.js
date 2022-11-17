@@ -9,6 +9,12 @@ const updateHighlight = (board, r, c) => {
             else {
                 board.rows[i].cols[j].isHighlighted = false;
             }
+            if (i === r && j === c) {
+                board.rows[i].cols[j].isFocused = true;
+            }
+            else {
+                board.rows[i].cols[j].isFocused = false;
+            }
         }
     }
 };
