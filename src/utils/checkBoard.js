@@ -104,8 +104,10 @@ const isBoxValid = (board, x0, y0, r, c) => {
                 }
             }
             else {
+                if (board.rows[x0 + i].cols[y0 + j].isInvalidValue === false) {
+                    board.rows[x0 + i].cols[y0 + j].isInvalidValueCause = false;
+                }
                 board.rows[x0 + i].cols[y0 + j].isInvalidValue = false;
-                // board.rows[x0 + i].cols[y0 + j].isInvalidValueCause = false;
             }
         }
     }

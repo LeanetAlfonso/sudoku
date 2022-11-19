@@ -1,3 +1,4 @@
+import Toggle from "../Toggle/Toggle";
 import "./DarkMode.css";
 
 const setDark = () => {
@@ -23,17 +24,13 @@ if (defaultDark) {
 const DarkMode = () => {
     return (
         <div className="toggle-theme-wrapper">
-            <span></span>
             <i className="fas fa-solid fa-sun"></i>
-            <label className="toggle-theme" htmlFor="checkbox">
-                <input
-                    type="checkbox"
-                    id="checkbox"
-                    onChange={(e) => (e.target.checked ? setDark() : setLight())}
-                    defaultChecked={defaultDark}
-                />
-                <div className="slider round"></div>
-            </label>
+            <Toggle
+                name="checkbox-theme"
+                onChange={(e) => (e.target.checked ? setDark() : setLight())}
+                defaultChecked={defaultDark}
+                content=''
+            />
             <i className="fas fa-light fa-moon fa-xs"></i>
         </div>
     );

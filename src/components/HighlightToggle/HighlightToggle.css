@@ -1,6 +1,6 @@
-.toggle-theme-wrapper {
+.toggle-highlight-wrapper {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-self: flex-start;
+	justify-self: flex-center;
 }

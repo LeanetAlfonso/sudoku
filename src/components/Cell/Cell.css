@@ -9,6 +9,7 @@
 	padding: 5px;
 	margin: 0;
 	caret-color: transparent;
+	caret-color: var(--primary);
 	background-color: var(--background-color);
 	cursor: default;
 }
@@ -52,13 +53,14 @@
 	}
 }
 
-.cell:focus,
+/* .cell:focus, */
 .cell-focused {
 	outline: none;
 	background-color: var(--darker-focus-color) !important;
 }
 
-.cell:not([readOnly]):focus {
+.cell:not([readOnly]):focus,
+.cell-focused {
 	color: var(--darker-grey-color);
 }
 
@@ -68,11 +70,12 @@
 
 .cell-invalid {
 	background-color: var(--invalid-color);
-	color: var(--darker-grey-color);
+	color: var(--grey-color);
 }
 
 .cell-invalid-value {
 	background-color: var(--invalid-darker-color);
+	color: var(--darker-grey-color);
 }
 
 .cell-invalid-value-cause {
@@ -84,7 +87,7 @@
 }
 
 .cell-paused:focus {
-	background-color: var(--background-color) !important;
+	background-color: var(--background-color);
 }
 
 /* Sudoku board 3 by 3 border */
