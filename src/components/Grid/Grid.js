@@ -4,27 +4,41 @@ import Cell from "../Cell/Cell";
 
 export default class Grid extends Component {
     render() {
-        const { grid, onChange, onFocus, isPaused, hasWon, selectedCell } = this.props;
+        const { grid, onChange, onFocus, isPaused, hasWon, selectedCell, highlightOff } = this.props;
 
-        return <div className="grid" data-testid="grid">
+        const getCell = (cell) => {
+            if (isPaused)
+                return {
+                    ...cell,
+                    value: null,
+                    readOnly: true,
+                    isInvalid: false,
+                    isInvalidValue: false,
+                    isInvalidValueCause: false,
+                    isHighlighted: false,
+                    isFocused: false,
+                };
 
+            else if (highlightOff) {
+                return {
+                    ...cell,
+                    isInvalid: false,
+                    isInvalidValue: false,
+                    isInvalidValueCause: false,
+                    isHighlighted: false,
+                };
+            }
+
+            else return cell;
+        };
+        return <div className="grid" data-testid="grid" >
             {grid &&
                 grid.rows.map(row => (
                     <div key={row.cols[0].row}>
                         {row.cols.map(cell => (
                             <Cell
                                 key={`${cell.row}-${cell.col}`}
-                                cell={isPaused ? {
-                                    row: cell.row,
-                                    col: cell.col,
-                                    value: null,
-                                    readOnly: true,
-                                    isInvalid: false,
-                                    isInvalidValue: false,
-                                    isInvalidValueCause: false,
-                                    isHighlighted: false,
-                                    isFocused: false,
-                                } : cell}
+                                cell={getCell(cell)}
                                 isPaused={isPaused}
                                 hasWon={hasWon}
                                 handleChangeCallback={onChange}
@@ -34,6 +48,6 @@ export default class Grid extends Component {
                         ))}
                     </div>
                 ))}
-        </div>;
+        </div >;
     }
 }

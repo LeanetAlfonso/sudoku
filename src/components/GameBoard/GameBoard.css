@@ -4,6 +4,7 @@
 	justify-content: center;
 	display: flex;
 }
+
 .mode-timer {
 	display: flex;
 	align-items: center;
@@ -12,7 +13,9 @@
 	text-align: center;
 	justify-self: center;
 	width: 30.5rem;
+	justify-content: space-around;
 }
+
 .timer {
 	align-items: center;
 	font-weight: bold;
@@ -25,16 +28,21 @@
 	align-items: center;
 }
 .timer p {
-	font-size: 16px;
+	font-size: 14px;
 }
 .timer i {
 	margin-left: 8px;
-	font-size: 25px;
+	font-size: 20px;
 }
 
 .modes-dropdown {
 	justify-self: end;
 	display: flex;
+	margin-left: 0px;
+}
+
+.highlight-container {
+	position: absolute;
 }
 
 @media (max-width: 575px) {
