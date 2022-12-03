@@ -12,6 +12,8 @@
 	caret-color: var(--primary);
 	background-color: var(--background-color);
 	cursor: default;
+	opacity: 1; /* required on iOS */
+	-webkit-text-fill-color: var(--grey-color);
 }
 
 @media (max-width: 575px) {
@@ -62,6 +64,7 @@
 .cell:not([readOnly]):focus,
 .cell-focused {
 	color: var(--darker-grey-color);
+	-webkit-text-fill-color: var(--darker-grey-color);
 }
 
 .cell-highlighted {
@@ -71,19 +74,23 @@
 .cell-invalid {
 	background-color: var(--invalid-color);
 	color: var(--grey-color);
+	-webkit-text-fill-color: var(--grey-color);
 }
 
 .cell-invalid-value {
 	background-color: var(--invalid-darker-color);
 	color: var(--darker-grey-color);
+	-webkit-text-fill-color: var(--darker-grey-color);
 }
 
 .cell-invalid-value-cause {
 	color: var(--invalid-font-color) !important;
+	-webkit-text-fill-color: var(--invalid-font-color) !important;
 }
 
 .cell[readOnly] {
 	color: var(--font-color);
+	-webkit-text-fill-color: var(--font-color);
 }
 
 .cell-paused:focus {
