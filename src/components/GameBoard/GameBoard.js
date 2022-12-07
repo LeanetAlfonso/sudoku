@@ -6,7 +6,20 @@ import KeyPad from "../KeyPad/KeyPad";
 import HighlightToggle from "../HighlightToggle/HighlightToggle";
 import './GameBoard.css';
 
-const GameBoard = (props) => {
+const GameBoard = ({
+    seconds,
+    isRunning,
+    handleSecondsCallback,
+    grid,
+    handleChange,
+    handleFocus,
+    hasWon,
+    handleResetCallback,
+    reset,
+    mode,
+    handleChangeModeCallback,
+    selectedCell
+}) => {
 
     // Keep track of running state of timer due to pause/play button only
     const [isRunningTimer, setIsRunningTimer] = useState(true);
@@ -38,44 +51,44 @@ const GameBoard = (props) => {
             <div className="mode-timer">
                 <div className="modes-dropdown">
                     <ModeMenu
-                        mode={props.mode}
-                        changeModeHandler={props.handleChangeModeCallback}
+                        mode={mode}
+                        changeModeHandler={handleChangeModeCallback}
                     />
                 </div>
                 <div className="highlight-container">
                     <HighlightToggle
                         defaultHighlight={defaultHighlight}
-                        setHighlightOff={() => switchHighlight('off')} setHighlightOn={() => switchHighlight('on')}
+                        setHighlightOff={() => switchHighlight('off')}
+                        setHighlightOn={() => switchHighlight('on')}
                     />
                 </div>
                 <Timer
-                    seconds={props.seconds}
-                    isRunning={isRunningTimer && props.isRunning}
-                    handleSecondsCallback={props.handleSecondsCallback}
-                    hasWon={props.hasWon}
+                    seconds={seconds}
+                    isRunning={isRunningTimer && isRunning}
+                    handleSecondsCallback={handleSecondsCallback}
+                    hasWon={hasWon}
                     handleIsRunningCallback={handleIsRunningCallback}
-                    handleResetCallback={props.handleResetCallback}
-                    reset={props.reset}
+                    handleResetCallback={handleResetCallback}
+                    reset={reset}
                     handleTurnOnRunningCallback={handleTurnOnRunningCallback}
                 />
-
             </div>
         </div>
         <Grid
-            grid={props.grid}
-            onChange={props.handleChange}
-            onFocus={props.handleFocus}
-            isPaused={(!isRunningTimer || !props.isRunning) && !props.hasWon}
-            hasWon={props.hasWon}
-            selectedCell={props.selectedCell}
+            grid={grid}
+            onChange={handleChange}
+            onFocus={handleFocus}
+            isPaused={(!isRunningTimer || !isRunning) && !hasWon}
+            hasWon={hasWon}
+            selectedCell={selectedCell}
             highlightOff={highlight === 'off'}
         />
 
-        {!props.hasWon &&
+        {!hasWon &&
             <KeyPad
-                onClick={props.handleChange}
-                selectedCell={props.selectedCell}
-                isPaused={(!isRunningTimer || !props.isRunning) && !props.hasWon}
+                onClick={handleChange}
+                selectedCell={selectedCell}
+                isPaused={(!isRunningTimer || !isRunning) && !hasWon}
             />}
     </div>;
 };

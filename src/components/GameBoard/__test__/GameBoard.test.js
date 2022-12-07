@@ -7,6 +7,8 @@ const mockHandleChange = jest.fn();
 const mockHandleResetCallback = jest.fn();
 const mockHandleIsRunningCallback = jest.fn();
 const mockHandleTurnOnRunningCallback = jest.fn();
+const mockHandleChangeModeCallback = jest.fn();
+
 const mockGrid = {
     rows: [
         {
@@ -40,6 +42,68 @@ describe('GameBoard', () => {
             expect(play).toBeInTheDocument();
             fireEvent.click(play);
             expect(screen.getByTestId('pause-icon')).toBeInTheDocument();
+        });
+    });
+
+    describe('mode menu', () => {
+        it('should set the selected option as the current mode', () => {
+            render(<GameBoard
+                mode='expert'
+                handleSecondsCallback={mockHandleSecondsCallback}
+                handleChangeModeCallback={mockHandleChangeModeCallback}
+            />);
+            expect(screen.getByRole('option', { name: 'expert' }).selected).toBe(true);
+        });
+
+        it('should change modes', () => {
+            render(<GameBoard
+                handleSecondsCallback={mockHandleSecondsCallback}
+                handleChangeModeCallback={mockHandleChangeModeCallback}
+            />);
+            const menu = screen.getByRole('combobox');
+
+            fireEvent.change(menu, { target: { value: 'hard' } });
+            expect(screen.getByRole('option', { name: 'hard' }).selected).toBe(true);
+
+            fireEvent.change(menu, { target: { value: 'medium' } });
+            expect(screen.getByRole('option', { name: 'medium' }).selected).toBe(true);
+        });
+    });
+
+    describe('highlight toggle', () => {
+        it('should render highlight toggle', () => {
+            render(<GameBoard
+                seconds={4}
+                isRunning={true}
+                reset={false}
+                hasWon={false}
+                handlePausePlay={mockHandlePausePlay}
+                handleSecondsCallback={mockHandleSecondsCallback}
+                handleChange={mockHandleChange}
+                handleResetCallback={mockHandleResetCallback}
+            />);
+            const highlightToggle = screen.getByRole('checkbox');
+            expect(highlightToggle).toBeInTheDocument();
+        });
+
+        it('should switch between highlight and no highlight when clicked', () => {
+            render(<GameBoard
+                seconds={4}
+                isRunning={true}
+                reset={false}
+                hasWon={false}
+                handlePausePlay={mockHandlePausePlay}
+                handleSecondsCallback={mockHandleSecondsCallback}
+                handleChange={mockHandleChange}
+                handleResetCallback={mockHandleResetCallback}
+            />);
+            const highlightToggle = screen.getByRole('checkbox');
+
+            expect(highlightToggle).toBeChecked();
+            fireEvent.click(highlightToggle);
+            expect(highlightToggle).not.toBeChecked();
+            fireEvent.click(highlightToggle);
+            expect(highlightToggle).toBeChecked();
         });
     });
 

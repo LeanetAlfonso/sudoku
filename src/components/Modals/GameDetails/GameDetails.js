@@ -17,6 +17,7 @@ export default function GameDetails(props) {
     const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve, mode, url, URLdata } = props;
     const storedTheme = localStorage.getItem("theme");
     return (
+        (gameDetails.isOpen) &&
         <Dialog
             data-testid='game-details'
             open={gameDetails.isOpen}
@@ -47,7 +48,6 @@ export default function GameDetails(props) {
                 </>
             }
             <DialogContent className="row">
-
                 <div className="column" >
                     {URLdata &&
                         <Typography variant="h6" align="center" className="custom-details">
@@ -88,6 +88,7 @@ export default function GameDetails(props) {
             }
             <DialogActions>
                 <Button
+                    testId='ok'
                     text={t('ok')}
                     onClick={() => setGameDetails({ ...gameDetails, isOpen: false })}
                     buttonStyle="btn--primary--solid"

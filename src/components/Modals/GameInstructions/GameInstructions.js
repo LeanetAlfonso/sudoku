@@ -14,8 +14,11 @@ export default function GameInstructions(props) {
     const { t } = useTranslation();
     const { gameInstructions } = props;
     const storedTheme = localStorage.getItem("theme");
-    return (
-        <Dialog open={gameInstructions.isOpen}
+
+    return ((gameInstructions.isOpen) &&
+        <Dialog
+            data-testid='game-instructions'
+            open={gameInstructions.isOpen}
             PaperProps={{
                 style: {
                     backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
@@ -44,6 +47,7 @@ export default function GameInstructions(props) {
             </DialogContent>
             <DialogActions>
                 <Button
+                    testId='help-ok'
                     text={t('ok')}
                     onClick={gameInstructions.onOk}
                     buttonStyle="btn--primary--solid"

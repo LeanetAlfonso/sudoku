@@ -4,6 +4,7 @@ const Toggle = ({ name, onChange, defaultChecked, content }) => {
     return (
         <label className="toggle">
             <input
+                data-testid={name}
                 type="checkbox"
                 name={name}
                 value={name}
@@ -13,9 +14,7 @@ const Toggle = ({ name, onChange, defaultChecked, content }) => {
             <div className="toggle-circle">
                 {content}
             </div>
-            <div className="slider round">
-
-            </div>
+            <div className="slider round" />
         </label>
     );
 };

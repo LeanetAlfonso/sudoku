@@ -1,5 +1,3 @@
-import makeAllReadOnly from "./makeAllReadOnly";
-
 // Checks if player won
 const checkPlayerWon = (board) => {
     for (let i = 0; i < 9; i++) {
@@ -9,7 +7,6 @@ const checkPlayerWon = (board) => {
             }
         }
     }
-    makeAllReadOnly(board);
     return true;
 };
 

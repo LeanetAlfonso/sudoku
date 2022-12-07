@@ -1,3 +1,15 @@
+// Checks if board is empty (contains all null values)
+const isUndefined = (board) => {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (board.rows[i].cols[j].value === undefined) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
 // Checks if cell is valid
 const isValidCell = (row, col, value, board) => {
 
@@ -40,7 +52,7 @@ const solveSudoku = (board) => {
             }
         }
     }
-    return true;
+    return !isUndefined(board);
 };
 
 export default solveSudoku;

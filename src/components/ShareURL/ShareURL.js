@@ -29,13 +29,16 @@ export default function ShareURL(props) {
                     </div>
                 )}
             </CopyToClipboard>
-            <Snackbar
-                data-testid="snackbar"
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                message="Copied to Clipboard!"
-            />
+            {open &&
+                <Snackbar
+                    data-testid="snackbar"
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                    message="Copied to Clipboard!"
+                />
+            }
+
         </>
     );
 }
