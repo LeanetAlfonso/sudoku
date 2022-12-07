@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, act, render, screen } from '@testing-library/react';
+
 import ShareURL from '../ShareURL';
 
 describe('ShareURL', () => {
@@ -65,5 +66,18 @@ describe('ShareURL', () => {
             const snackbar = screen.getByTestId('snackbar');
             expect(snackbar).toBeInTheDocument();
         });
+
+        jest.useFakeTimers();
+        it('should close snackbar after 6 seconds', () => {
+
+            render(<ShareURL btn={false} />);
+            const shareURLicon = screen.getByTestId('share-url-icon');
+            expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
+            fireEvent.click(shareURLicon);
+            expect(screen.getByTestId('snackbar')).toBeInTheDocument();
+            act(() => jest.advanceTimersByTime(6000));
+            expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
+        });
+
     });
 });

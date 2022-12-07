@@ -15,7 +15,7 @@ export default function FriendChallenge(props) {
     const { friendChallenge } = props;
     const storedTheme = localStorage.getItem("theme");
 
-    return (
+    return ((friendChallenge.isOpen) &&
         <Dialog
             data-testid='friend-challenge'
             open={friendChallenge.isOpen}
@@ -51,6 +51,7 @@ export default function FriendChallenge(props) {
             </DialogContent>
             <DialogActions>
                 <Button
+                    testId="challenge-btn-ok"
                     text={t('accept_challenge')}
                     onClick={friendChallenge.onAccept}
                     buttonStyle="btn--primary--solid"

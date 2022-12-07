@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Game.css";
-import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku, makeAllReadOnly, updateHighlight } from "../../utils/index";
+import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku, updateHighlight } from "../../utils/index";
 import { cloneDeep } from "lodash";
 import Button from "../../components/Button/Button";
 import DarkMode from "../../components/DarkMode/DarkMode";
@@ -10,17 +10,18 @@ import GameInstructions from "../../components/Modals/GameInstructions/GameInstr
 import GameDetails from "../../components/Modals/GameDetails/GameDetails";
 import FriendChallenge from "../../components/Modals/FriendChallenge/FriendChallenge";
 import GameModes from "../../components/Modals/GameModes/GameModes";
+import NoSolution from "../../components/NoSolution/NoSolution";
 import GameBoard from "../../components/GameBoard/GameBoard";
 import { useTranslation } from "react-i18next";
 import ShareURL from "../../components/ShareURL/ShareURL";
 
-const Game = () => {
+const Game = (props) => {
 
     // Game
     const [url, setURL] = useState(null);
     const [URLdata, setURLdata] = useState(null);
-    const [grid, setGrid] = useState(null);
-    const [startingGrid, setStartingGrid] = useState(null);
+    const [grid, setGrid] = useState(props.grid || null);
+    const [startingGrid, setStartingGrid] = useState(props.grid || null);
     const [pressedSolve, setPressedSolve] = useState(false);
     const [movesTaken, setMovesTaken] = useState(0);
     const [seconds, setSeconds] = useState(0);
@@ -104,19 +105,27 @@ const Game = () => {
         setGrid(cloneDeep(convertBoard(startingGrid)));
     };
 
+    // Handle no solution
+    const handleNoSolution = () => {
+        setNoSolution({
+            ...noSolution,
+            isOpen: true
+        });
+    };
 
     // Handle solving the puzzle
     const handleSolve = () => {
         let solvedGrid = cloneDeep(convertBoard(startingGrid));
         let solvedStatus = solveSudoku(solvedGrid);
         if (solvedStatus === false) {
-            setNoSolution({
-                ...noSolution,
-                isOpen: true
+            handleNoSolution();
+            setConfirmationDialog({
+                ...confirmationDialog,
+                isOpen: false
             });
             return;
         }
-        !cheatingModeOn && cloneDeep(makeAllReadOnly(solvedGrid));
+        !cheatingModeOn && cloneDeep(solvedGrid);
         setGrid(solvedGrid);
 
         cheatingModeOn || setPressedSolve(true);
@@ -127,12 +136,6 @@ const Game = () => {
             isOpen: false
         });
         gameDetailsHandler();
-    };
-
-    // Handle timer pause/play button
-    const handlePausePlay = () => {
-        setHasWon(false);
-        setIsRunning(!isRunning);
     };
 
     // Handle focus (selected cell)
@@ -379,10 +382,14 @@ const Game = () => {
                 setGameInstructions={setGameInstructions}
             />
 
+            <NoSolution
+                noSolution={noSolution}
+                setNoSolution={setNoSolution}
+            />
+
             <GameBoard
                 seconds={seconds}
                 isRunning={isRunning}
-                handlePausePlay={handlePausePlay}
                 handleSecondsCallback={handleSecondsCallback}
                 grid={grid}
                 handleChange={handleChange}
@@ -400,6 +407,7 @@ const Game = () => {
                 {!hasWon && <Button name={t("clear_btn_title").toLowerCase()} testId="btn-clear" text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
                 {((helpSolve && !hasWon) || cheatingModeOn) && <Button name={t("solve").toLowerCase()} testId="btn-solve" text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
                 <Button name={t("new_game").toLowerCase()} testId="btn-new" text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
+                {props.unsolvable && <Button name={t("no-solution").toLowerCase()} testId="btn-no-sol" text={<b>No solution</b>} onClick={handleNoSolution} />}
             </div>
 
         </div>

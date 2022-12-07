@@ -1,29 +1,19 @@
-import { fireEvent, getByTestId, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Game from '../Game';
+import { mockUnsolvabledGrid } from '../mocks/mockUnsolvabledGrid';
+import { mockAlmostSolvedGrid } from '../mocks/mockAlmostSolvedGrid';
 
-jest.mock('react-i18next', () => ({
-    // this mock makes sure any components using the translate hook can use it without a warning being shown
-    useTranslation: () => {
-        return {
-            t: (str) => str,
-            i18n: {
-                changeLanguage: () => new Promise(() => { /* mock changeLanguage */ }),
-            },
-        };
-    },
-}));
 
 describe('Game', () => {
-    describe('cell change', () => {
-        const getFirstEmptyCell = (arr) => {
-            for (let elem of arr) {
-                if (elem.value === '') {
-                    return elem;
-                }
+    const getFirstEmptyCell = (arr) => {
+        for (let elem of arr) {
+            if (elem.value === '') {
+                return elem;
             }
-            return null;
-        };
-
+        }
+        return null;
+    };
+    describe('cell change', () => {
         it('should change the value of a writable cell', () => {
             render(<Game />);
             const cells = screen.getAllByTestId('cell');
@@ -93,7 +83,6 @@ describe('Game', () => {
         });
     });
 
-
     describe('action container', () => {
         it('should only render a share link button if game is won', () => {
             render(<Game />);
@@ -150,13 +139,99 @@ describe('Game', () => {
         });
     });
 
+    describe('solve game', () => {
+        it('should close solve confirmation dialog when cancel button is clicked', () => {
+            render(<Game />);
+            const solveBtn = screen.getByTestId('btn-solve');
+            fireEvent.click(solveBtn);
+
+            const cancelBtn = screen.getByTestId('cancel');
+            fireEvent.click(cancelBtn);
+            expect(screen.queryByTestId('confirmation-dialog')).not.toBeInTheDocument();
+        });
+
+        it('should close game details modal on ok', () => {
+            render(<Game />);
+
+            const solveBtn = screen.getByTestId('btn-solve');
+            expect(solveBtn).toBeInTheDocument();
+            fireEvent.click(solveBtn);
+
+            const continueBtn = screen.getByTestId('continue');
+            expect(continueBtn).toBeInTheDocument();
+
+            expect(screen.queryByTestId('game-details')).not.toBeInTheDocument();
+
+            fireEvent.click(continueBtn);
+            expect(screen.getByTestId('game-details')).toBeInTheDocument();
+
+            const okBtn = screen.getByTestId('ok');
+            expect(okBtn).toBeInTheDocument();
+            fireEvent.click(okBtn);
+            expect(screen.queryByTestId('game-details')).not.toBeInTheDocument();
+        });
+
+        it('should render game getails modal when game is won', () => {
+            render(<Game grid={mockAlmostSolvedGrid} />);
+
+            expect(screen.queryByTestId('game-details')).not.toBeInTheDocument();
+
+            const cells = screen.getAllByTestId('cell');
+            const cell = cells[0];
+
+            expect(cell).toHaveValue('');
+            fireEvent.focusIn(cell);
+            // last entry to win game (on change trigger)
+            fireEvent.change(cell, { target: { value: '9' } });
+            expect(screen.getByTestId('game-details')).toBeInTheDocument();
+        });
+
+        it('should change cell class if cell becomes invalid', () => {
+            render(<Game grid={mockAlmostSolvedGrid} />);
+
+            const cells = screen.getAllByTestId('cell');
+            const cell = cells[0];
+            expect(cell).not.toHaveClass('cell-highlighted');
+            fireEvent.focusIn(cell);
+            expect(cell).toHaveClass('cell-highlighted');
+            expect(cell).not.toHaveClass('cell-invalid');
+            expect(cell).not.toHaveClass('cell-invalid-value');
+            expect(cell).not.toHaveClass('cell-invalid-value-cause');
+
+            // cause row and box to be invalid, hence cell must become invalid in all senses
+            fireEvent.change(cell, { target: { value: '5' } });
+            expect(cell).toHaveClass('cell-invalid');
+            expect(cell).toHaveClass('cell-invalid-value');
+            expect(cell).toHaveClass('cell-invalid-value-cause');
+
+        });
+    });
+
+    describe('no solution', () => {
+        it('should close no solution modal when ok is clicked', () => {
+            render(<Game unsolvable />);
+            const noSolBtn = screen.getByTestId('btn-no-sol');
+            fireEvent.click(noSolBtn);
+            expect(screen.getByTestId('no-solution')).toBeInTheDocument();
+            const okBtn = screen.getByTestId('ok-no-solution');
+            fireEvent.click(okBtn);
+            expect(screen.queryByTestId('no-solution')).not.toBeInTheDocument();
+        });
+
+        it('should render a no solution modal if board is unsolvable', () => {
+            render(<Game grid={mockUnsolvabledGrid} unsolvable />);
+            const solveBtn = screen.getByTestId('btn-solve');
+            fireEvent.click(solveBtn);
+
+            const continueBtn = screen.getByTestId('continue');
+            fireEvent.click(continueBtn);
+            expect(screen.getByTestId('no-solution')).toBeInTheDocument();
+        });
+
+    });
+
     describe('new game', () => {
-
-        const getValuesFromCells = (cells) => {
-            return cells.map(cell => cell.value);
-        };
-
-        describe('open/close modal', () => {
+        describe('open/close new game modal', () => {
             it('should open a confirmation dialog when the new game button is clicked', () => {
                 render(<Game />);
                 const newGameBtn = screen.getByTestId('btn-new');
@@ -198,51 +273,135 @@ describe('Game', () => {
             });
         });
 
-        describe('hide/show cell values', () => {
-
-            const hiddenValues = (cells) => {
-                const values = getValuesFromCells(cells);
-                for (let val of values) {
-                    if (val !== '') {
-                        return false;
-                    }
-                }
-                return true;
-            };
-
-            it('should hide cell values when confirmation dialog is open and unhide them when closed', () => {
-                render(<Game />);
-                expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
-
-                const newGameBtn = screen.getByTestId('btn-new');
-                fireEvent.click(newGameBtn);
-                expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
-
-                const cancelBtn = screen.getByTestId('cancel');
-                fireEvent.click(cancelBtn);
-                expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
-            });
-
-            it('should keep cell values hidden before and after opening/closing confirmation dialog if game is paused', () => {
-                render(<Game />);
-
-                expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
-
-                const pause = screen.getByTestId('pause-icon');
-                fireEvent.click(pause);
-                expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
-
-                const newGameBtn = screen.getByTestId('btn-new');
-                fireEvent.click(newGameBtn);
-                expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
-
-                const cancelBtn = screen.getByTestId('cancel');
-                fireEvent.click(cancelBtn);
-                expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
-            });
-        });
-
         describe('cell values', () => {
+            const getValuesFromCells = (cells) => {
+                return cells.map(cell => cell.value);
+            };
+            describe('new game on mode dropdown select', () => {
+
+                it('should generate a new board when a different mode is selected from mode dropdown', () => {
+                    render(<Game />);
+                    const menus = screen.getAllByRole('combobox');
+                    const menu = menus[1]; // second select is mode dropdown
+
+                    var oldCells = getValuesFromCells(screen.getAllByTestId('cell'));
+
+                    fireEvent.change(menu, { target: { value: 'hard' } });
+                    var newCells = getValuesFromCells(screen.getAllByTestId('cell'));
+                    expect(newCells).not.toEqual(oldCells);
+
+                    fireEvent.change(menu, { target: { value: 'easy' } });
+                    oldCells = getValuesFromCells(screen.getAllByTestId('cell'));
+                    expect(newCells).not.toEqual(oldCells);
+
+                    fireEvent.change(menu, { target: { value: 'expert' } });
+                    newCells = getValuesFromCells(screen.getAllByTestId('cell'));
+                    expect(newCells).not.toEqual(oldCells);
+                });
+
+            });
+            describe('hide/show cell values', () => {
+                const hiddenValues = (cells) => {
+                    const values = getValuesFromCells(cells);
+                    for (let val of values) {
+                        if (val !== '') {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
+
+                it('should hide cell values when confirmation dialog is open and unhide them when closed', () => {
+                    render(<Game />);
+                    expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
+
+                    const newGameBtn = screen.getByTestId('btn-new');
+                    fireEvent.click(newGameBtn);
+                    expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
+
+                    const cancelBtn = screen.getByTestId('cancel');
+                    fireEvent.click(cancelBtn);
+                    expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
+                });
+
+                it('should keep cell values hidden before and after opening/closing confirmation dialog if game is paused', () => {
+                    render(<Game />);
+
+                    expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
+
+                    const pause = screen.getByTestId('pause-icon');
+                    fireEvent.click(pause);
+                    expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
+
+                    const newGameBtn = screen.getByTestId('btn-new');
+                    fireEvent.click(newGameBtn);
+                    expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
+
+                    const cancelBtn = screen.getByTestId('cancel');
+                    fireEvent.click(cancelBtn);
+                    expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
+                });
+
+                it('should keep cell values hidden while help modal is open', () => {
+                    render(<Game />);
+                    expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
+                    expect(screen.queryByTestId('game-instructions')).not.toBeInTheDocument();
+
+                    const helpBtn = screen.getByTestId('btn-help');
+                    fireEvent.click(helpBtn);
+                    expect(screen.getByTestId('game-instructions')).toBeInTheDocument();
+                    expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
+
+                    const okBtn = screen.getByTestId('help-ok');
+                    fireEvent.click(okBtn);
+                    expect(screen.queryByTestId('game-instructions')).not.toBeInTheDocument();
+                    expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
+                });
+
+                it('should keep cell values hidden while clear confirmation modal is open', () => {
+                    render(<Game />);
+                    expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
+                    expect(screen.queryByTestId('confirmation-dialog')).not.toBeInTheDocument();
+
+                    const clearBtn = screen.getByTestId('btn-clear');
+                    fireEvent.click(clearBtn);
+                    expect(screen.getByTestId('confirmation-dialog')).toBeInTheDocument();
+                    expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
+
+                    const cancelBtn = screen.getByTestId('cancel');
+                    fireEvent.click(cancelBtn);
+                    expect(screen.queryByTestId('confirmation-dialog')).not.toBeInTheDocument();
+                    expect(hiddenValues((screen.queryAllByTestId('cell')))).not.toBeTruthy();
+                });
+
+                it('should clear the board after clear continue is selected', () => {
+                    render(<Game />);
+                    const cells = screen.getAllByTestId('cell');
+                    const key = screen.getByTestId('key-4');
+
+                    const firstCell = getFirstEmptyCell(cells);
+                    expect(firstCell).toHaveValue('');
+                    fireEvent.focusIn(firstCell);
+                    fireEvent.click(key);
+                    expect(firstCell).toHaveValue('4');
+
+                    const secondCell = getFirstEmptyCell(cells);
+                    expect(secondCell).toHaveValue('');
+                    fireEvent.focusIn(secondCell);
+                    fireEvent.click(key);
+                    expect(secondCell).toHaveValue('4');
+
+                    const clearBtn = screen.getByTestId('btn-clear');
+                    fireEvent.click(clearBtn);
+
+                    const continueBtn = screen.getByTestId('continue');
+                    fireEvent.click(continueBtn);
+
+                    expect(firstCell).toHaveValue('');
+                    expect(secondCell).toHaveValue('');
+                });
+            });
+
             it('should not change the old cell values when clicking on new game and selecting cancel', () => {
                 render(<Game />);
                 const oldCells = getValuesFromCells(screen.getAllByTestId('cell'));
@@ -257,21 +416,82 @@ describe('Game', () => {
                 expect(newCells).toEqual(oldCells);
             });
 
-            it('should change the old cell values when clicking on new game and selecting a mode', () => {
+            it('should change the old cell values when clicking on new game and selecting hard mode', () => {
                 render(<Game />);
-                const oldCells = getValuesFromCells(screen.getAllByTestId('cell'));
+                var oldCells = getValuesFromCells(screen.getAllByTestId('cell'));
 
                 const newGameBtn = screen.getByTestId('btn-new');
                 fireEvent.click(newGameBtn);
-
                 const continueBtn = screen.getByTestId('continue');
                 fireEvent.click(continueBtn);
 
-                const modeBtn = screen.getByTestId('hard');
-                fireEvent.click(modeBtn);
-
-                const newCells = getValuesFromCells(screen.getAllByTestId('cell'));
+                // switch to hard mode
+                fireEvent.click(screen.getByTestId('hard'));
+                var newCells = getValuesFromCells(screen.getAllByTestId('cell'));
                 expect(newCells).not.toEqual(oldCells);
+            });
+
+            it('should change the old cell values when clicking on new game and selecting medium mode', () => {
+                render(<Game />);
+                var oldCells = getValuesFromCells(screen.getAllByTestId('cell'));
+
+                const newGameBtn = screen.getByTestId('btn-new');
+                fireEvent.click(newGameBtn);
+                const continueBtn = screen.getByTestId('continue');
+                fireEvent.click(continueBtn);
+
+                // switch to medium mode
+                fireEvent.click(screen.getByTestId('medium'));
+                var newCells = getValuesFromCells(screen.getAllByTestId('cell'));
+                expect(newCells).not.toEqual(oldCells);
+            });
+
+            it('should change the old cell values when clicking on new game and selecting easy mode', () => {
+                render(<Game />);
+                var oldCells = getValuesFromCells(screen.getAllByTestId('cell'));
+
+                const newGameBtn = screen.getByTestId('btn-new');
+                fireEvent.click(newGameBtn);
+                const continueBtn = screen.getByTestId('continue');
+                fireEvent.click(continueBtn);
+
+                // switch to medium mode
+                fireEvent.click(screen.getByTestId('easy'));
+                var newCells = getValuesFromCells(screen.getAllByTestId('cell'));
+                expect(newCells).not.toEqual(oldCells);
+            });
+            it('should change the old cell values when clicking on new game and selecting expert mode', () => {
+                render(<Game />);
+                var oldCells = getValuesFromCells(screen.getAllByTestId('cell'));
+
+                const newGameBtn = screen.getByTestId('btn-new');
+                fireEvent.click(newGameBtn);
+                const continueBtn = screen.getByTestId('continue');
+                fireEvent.click(continueBtn);
+
+                // switch to medium mode
+                fireEvent.click(screen.getByTestId('expert'));
+                var newCells = getValuesFromCells(screen.getAllByTestId('cell'));
+                expect(newCells).not.toEqual(oldCells);
+            });
+        });
+
+        describe('generate sudoku board', () => {
+            it('should render challenge a friend modal if valid url present', () => {
+                global.window = Object.create(window);
+                const url = 'http://localhost:3000/?sudoku=eyJyYXdCb2FyZCI6W251bGwsbnVsbCwxLG51bGwsNCxudWxsLG51bGwsbnVsbCxudWxsLDYsbnVsbCwyLG51bGwsbnVsbCxudWxsLG51bGwsOSw0LG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLDYsbnVsbCwyLG51bGwsbnVsbCxudWxsLG51bGwsMyxudWxsLG51bGwsNixudWxsLDIsMyw4LDEsOSxudWxsLDcsbnVsbCxudWxsLDQsbnVsbCw2LG51bGwsbnVsbCw4LDEsbnVsbCxudWxsLG51bGwsNixudWxsLG51bGwsbnVsbCxudWxsLG51bGwsMyw5LG51bGwsbnVsbCw1LG51bGwsNixudWxsLG51bGwsbnVsbCxudWxsLDMsbnVsbCxudWxsLDQsNyxudWxsLG51bGwsbnVsbCxudWxsXSwidGltZSI6NDIwLCJtb3ZlcyI6NTMsIm1vZGUiOiJoYXJkIn0';
+
+                Object.defineProperty(window, 'location', {
+                    value: {
+                        href: url
+                    }
+                });
+                render(<Game />);
+                expect(window.location.href).toEqual(url);
+                expect(screen.getByTestId('friend-challenge')).toBeInTheDocument();
+                const challengeBtnOk = screen.getByTestId('challenge-btn-ok');
+                fireEvent.click(challengeBtnOk);
+                expect(screen.queryByTestId('friend-challenge')).not.toBeInTheDocument();
             });
         });
     });
