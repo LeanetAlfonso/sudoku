@@ -3,13 +3,14 @@ import "./Cell.css";
 
 export default class Cell extends Component {
     render() {
-        const { cell, isPaused, hasWon, handleChangeCallback, handleFocusCallback } = this.props;
+        const { cell, isPaused, isDisabled, handleChangeCallback, handleFocusCallback } = this.props;
+
         const getCellClassName = () => {
             return `cell 
             ${cell.isInvalid && "cell-invalid"}  ${cell.isInvalidValue && "cell-invalid-value"}
             ${cell.isInvalidValueCause && "cell-invalid-value-cause"}
-            ${cell.isHighlighted && "cell-highlighted"}
-            ${cell.isFocused && !isPaused && "cell-focused"}
+            ${cell.isHighlighted && !isDisabled && "cell-highlighted"}
+            ${cell.isFocused && !isDisabled && "cell-focused"}
             ${isPaused && "cell-paused"}
             `;
         };
@@ -29,7 +30,7 @@ export default class Cell extends Component {
                 // type="tel"
                 inputMode='none' //prevent virtual keyboard from appearing
                 onFocus={() => handleFocusCallback(cell)}
-                disabled={isPaused || hasWon}
+                disabled={isDisabled}
             />
         );
     }

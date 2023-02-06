@@ -16,10 +16,10 @@ const Timer = (props) => {
     // Timer
     useEffect(() => {
         // reset state variables in GameBoard 
-        if (props.reset) {
+        if (props.resetTimer) {
             setSeconds(0);
             props.handleTurnOnRunningCallback();
-            props.handleResetCallback();
+            props.handleResetTimerCallback();
         }
 
         // ensure timer starts in next new game
@@ -35,25 +35,26 @@ const Timer = (props) => {
             return () => clearInterval(intervalId);
         }
 
-        // update seconds in Game
+        // update seconds in Game (game over)
         else {
             props.handleSecondsCallback(seconds);
         }
         return undefined;
     }, [seconds, setSeconds, props]);
 
-    return <div className="timer" data-testid="timer">
-        <p>{formatTime(seconds)}</p>{!props.hasWon && (props.isRunning ?
+    return <div className="timer" data-testid="timer" >
+
+        <p>{formatTime(seconds)}</p>{(props.isRunning ?
             <i
                 title={t("pause").toLowerCase()}
                 data-testid="pause-icon"
-                className="btn-pause-play far fa-pause-circle"
+                className={`${!props.hasWon && "btn-pause-play"} far fa-pause-circle`}
                 onClick={handlePausePlay}
             />
             :
             <i title={t("play").toLowerCase()}
                 data-testid="play-icon"
-                className="btn-pause-play far fa-play-circle"
+                className={`${!props.hasWon && "btn-pause-play"} far fa-play-circle`}
                 onClick={handlePausePlay}
             />
         )}

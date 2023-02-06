@@ -119,7 +119,7 @@ describe('GameBoard', () => {
                 reset={false}
                 handleTurnOnRunningCallback={mockHandleTurnOnRunningCallback}
                 handlePausePlay={mockHandlePausePlay}
-                grid={mockGrid}
+                startingGrid={mockGrid}
                 handleChange={mockHandleChange}
             />);
             const cell = screen.getAllByTestId('cell');
@@ -157,7 +157,7 @@ describe('GameBoard', () => {
                 reset={false}
                 handleTurnOnRunningCallback={mockHandleTurnOnRunningCallback}
                 handlePausePlay={mockHandlePausePlay}
-                grid={mockGrid}
+                startingGrid={mockGrid}
                 handleChange={mockHandleChange}
             />);
             const cell = screen.getAllByTestId('cell');

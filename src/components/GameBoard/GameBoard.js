@@ -2,23 +2,25 @@ import React, { useState } from "react";
 import Grid from "../Grid/Grid";
 import Timer from "../Timer/Timer";
 import ModeMenu from "../ModeMenu/ModeMenu";
-import KeyPad from "../KeyPad/KeyPad";
 import HighlightToggle from "../HighlightToggle/HighlightToggle";
 import './GameBoard.css';
 
 const GameBoard = ({
+    startingGrid,
     seconds,
     isRunning,
     handleSecondsCallback,
-    grid,
-    handleChange,
-    handleFocus,
     hasWon,
-    handleResetCallback,
-    reset,
+    handleResetTimerCallback,
+    handleResetGridCallback,
+    resetTimer,
     mode,
     handleChangeModeCallback,
-    selectedCell
+    resetGrid,
+    handleGridCallback,
+    pressedSolve,
+    cleared,
+    handleMovesCallback
 }) => {
 
     // Keep track of running state of timer due to pause/play button only
@@ -39,12 +41,12 @@ const GameBoard = ({
         setIsRunningTimer(true);
     };
 
+    // Highlight switch
     const switchHighlight = (val) => {
         setHighlight(val);
         localStorage.setItem("highlight", val);
         document.documentElement.setAttribute("highlight", val);
     };
-
 
     return <div>
         <div className="mode-timer-wrapper">
@@ -68,28 +70,24 @@ const GameBoard = ({
                     handleSecondsCallback={handleSecondsCallback}
                     hasWon={hasWon}
                     handleIsRunningCallback={handleIsRunningCallback}
-                    handleResetCallback={handleResetCallback}
-                    reset={reset}
+                    handleResetTimerCallback={handleResetTimerCallback}
+                    resetTimer={resetTimer}
                     handleTurnOnRunningCallback={handleTurnOnRunningCallback}
                 />
             </div>
         </div>
         <Grid
-            grid={grid}
-            onChange={handleChange}
-            onFocus={handleFocus}
+            startingGrid={startingGrid}
             isPaused={(!isRunningTimer || !isRunning) && !hasWon}
-            hasWon={hasWon}
-            selectedCell={selectedCell}
             highlightOff={highlight === 'off'}
+            resetGrid={resetGrid}
+            handleGridCallback={handleGridCallback}
+            handleResetGridCallback={handleResetGridCallback}
+            pressedSolve={pressedSolve}
+            cleared={cleared}
+            handleMovesCallback={handleMovesCallback}
+            hasWon={hasWon}
         />
-
-        {!hasWon &&
-            <KeyPad
-                onClick={handleChange}
-                selectedCell={selectedCell}
-                isPaused={(!isRunningTimer || !isRunning) && !hasWon}
-            />}
     </div>;
 };
 

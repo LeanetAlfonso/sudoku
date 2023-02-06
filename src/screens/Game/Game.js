@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Game.css";
-import { generateSudoku, generateURL, convertBoard, getURLdata, checkBoard, checkPlayerWon, solveSudoku, updateHighlight } from "../../utils/index";
+import { generateSudoku, generateURL, convertBoard, getURLdata, solveSudoku } from "../../utils/index";
 import { cloneDeep } from "lodash";
 import Button from "../../components/Button/Button";
 import DarkMode from "../../components/DarkMode/DarkMode";
@@ -28,14 +28,15 @@ const Game = (props) => {
     const [isRunning, setIsRunning] = useState(true);
     const [hasWon, setHasWon] = useState(false);
     const [mode, setMode] = useState("easy");
-    const [reset, setReset] = useState(false);
+    const [resetTimer, setResetTimer] = useState(false);
+    const [resetGrid, setResetGrid] = useState(false);
+    const [cleared, setCleared] = useState(false);
     const [helpSolve, setHelpSolve] = useState(true);
-    const [selectedCell, setSelectedCell] = useState(null);
 
     // Modals
     const [noSolution, setNoSolution] = useState({ isOpen: false });
     const [confirmationDialog, setConfirmationDialog] = useState({ isOpen: false, title: '', subTitle: '' });
-    const [gameDetails, setGameDetails] = useState({ isOpen: false, movesTaken: { movesTaken }, elapsed: { setSeconds }, pressedSolve: { pressedSolve } });
+    const [gameDetails, setGameDetails] = useState({ isOpen: false, movesTaken: 0, elapsed: 0, pressedSolve: false });
     const [gameInstructions, setGameInstructions] = useState({ isOpen: false });
     const [gameModes, setGameModes] = useState({ isOpen: false });
     const [friendChallenge, setFriendChallenge] = useState({ isOpen: false, moves: 0, time: 0, mode: '' });
@@ -49,8 +50,7 @@ const Game = (props) => {
     // Mode
     const MODE = { "easy": 12, "medium": 8, "hard": 4, "expert": 0 };
 
-
-    // Handle seconds from timer
+    // Handle seconds from timer (game over)
     const handleSecondsCallback = (timerSeconds) => {
         const newTime = timerSeconds;
         setSeconds(newTime);
@@ -58,10 +58,29 @@ const Game = (props) => {
     };
 
     // Handle timer reset
-    const handleResetCallback = () => {
-        setReset(false);
+    const handleResetTimerCallback = () => {
+        setResetTimer(false);
     };
 
+    // Handle moves from grid (when pressed solve)
+    const handleMovesCallback = (moves) => {
+        const newMoves = moves;
+        setMovesTaken(newMoves);
+        handleGameDetails(newMoves);
+    };
+
+    // Handle timer reset
+    const handleResetGridCallback = (moves) => {
+        setMovesTaken(moves);
+        setResetGrid(false);
+        setCleared(false);
+    };
+
+    // Handle game won without pressing solve
+    const handleGridCallback = (grid) => {
+        setHasWon(true);
+        setGrid(cloneDeep(convertBoard(grid)));
+    };
 
     // Handle new game
     const handleNewGame = (fill) => {
@@ -85,7 +104,8 @@ const Game = (props) => {
         setURLdata(null);
         setURL(null);
         setHelpSolve(true);
-        setReset(true);
+        setResetTimer(true);
+        setResetGrid(true);
 
         // close dialog
         closeDialog();
@@ -102,6 +122,8 @@ const Game = (props) => {
 
     // Handle clearing the board
     const handleClearBoard = () => {
+        setResetGrid(true);
+        setCleared(true);
         setGrid(cloneDeep(convertBoard(startingGrid)));
     };
 
@@ -113,8 +135,14 @@ const Game = (props) => {
         });
     };
 
-    // Handle solving the puzzle
-    const handleSolve = () => {
+    // Continue option for clear
+    const onContinueClear = () => {
+        handleClearBoard();
+        closeDialog();
+    };
+
+    // Continue option for solve
+    const onContinueSolve = () => {
         let solvedGrid = cloneDeep(convertBoard(startingGrid));
         let solvedStatus = solveSudoku(solvedGrid);
         if (solvedStatus === false) {
@@ -135,68 +163,7 @@ const Game = (props) => {
             ...confirmationDialog,
             isOpen: false
         });
-        gameDetailsHandler();
-    };
-
-    // Handle focus (selected cell)
-    const handleFocus = (cell) => {
-        if (!hasWon) {
-            setSelectedCell(cell);
-            setIsRunning(true);
-            const row = cell.row;
-            const col = cell.col;
-            const newGrid = cloneDeep(grid);
-            updateHighlight(newGrid, row, col);
-            setGrid(newGrid);
-        }
-    };
-
-    // Handle cell changes
-    const handleChange = (val, cell) => {
-        setHasWon(false);
-        setIsRunning(true);
-
-        // check if cell is not read-only
-        if (selectedCell !== null && !cell.readOnly) {
-            // set value to null or parse it into an integer accordingly
-            const value = val === "" ? null : parseInt(val, 10);
-
-            const row = cell.row;
-            const col = cell.col;
-
-            // increment number of moves
-            if (value !== 0) setMovesTaken((moves) => moves + 1);
-            const newGrid = cloneDeep(grid);
-
-            // set current value of cell to input value
-            newGrid.rows[row].cols[col].value = value;
-
-            // check if move is valid
-            checkBoard(newGrid, value, row, col);
-
-            // check if player won
-            let playerWon = checkPlayerWon(newGrid);
-
-            if (playerWon) {
-                setHasWon(true); // will trigger handleSecondsCallback from Timer
-                gameDetailsHandler();
-            }
-
-            // update grid state
-            setGrid(newGrid);
-        }
-    };
-
-
-    // Continue option for clear
-    const onContinueClear = () => {
-        handleClearBoard();
-        closeDialog();
-    };
-
-    // Continue option for solve
-    const onContinueSolve = () => {
-        handleSolve();
+        setResetGrid(true);
     };
 
     // Close dialog and resume timer
@@ -254,22 +221,27 @@ const Game = (props) => {
         });
     };
 
+    // Reset Game
     const resetGame = () => {
         setHasWon(false);
-        setReset(true);
+        setResetTimer(true);
+        setResetGrid(true);
         setIsRunning(false);
         window.history.pushState({}, document.title, "/"); // remove url query string
     };
 
+    // Change game mode from mode menu
     const handleChangeModeCallback = (val) => {
         resetGame();
         changeMode(val);
     };
 
+    // Change game mode
     const changeMode = (value) => {
         setMode(value);
         handleNewGame(MODE[value]);
     };
+
     // Handle select mode dialog for new game
     const selectModeHandler = () => {
         setConfirmationDialog({ ...confirmationDialog, isOpen: false });
@@ -299,12 +271,11 @@ const Game = (props) => {
     };
 
     // Handle game details modal
-    const gameDetailsHandler = () => {
+    const handleGameDetails = (moves) => {
         setIsRunning(false);
-
         setGameDetails({
             isOpen: true,
-            movesTaken: { movesTaken },
+            movesTaken: { moves },
             elapsed: { seconds },
             pressedSolve: { pressedSolve },
             url: { url },
@@ -315,7 +286,6 @@ const Game = (props) => {
     // Handle game details modal
     const friendChallengeHandler = (data) => {
         setIsRunning(false);
-
         setFriendChallenge({
             isOpen: true,
             moves: data.moves,
@@ -338,7 +308,6 @@ const Game = (props) => {
     if ((grid == null && startingGrid == null)) {
         handleNewGame(MODE.easy);
     }
-
     return (
         <div className="game">
             <div className="top-bar">
@@ -388,18 +357,21 @@ const Game = (props) => {
             />
 
             <GameBoard
+                startingGrid={grid}
                 seconds={seconds}
                 isRunning={isRunning}
                 handleSecondsCallback={handleSecondsCallback}
-                grid={grid}
-                handleChange={handleChange}
-                handleFocus={handleFocus}
                 hasWon={hasWon}
-                handleResetCallback={handleResetCallback}
-                reset={reset}
+                handleResetTimerCallback={handleResetTimerCallback}
+                handleResetGridCallback={handleResetGridCallback}
+                resetTimer={resetTimer}
                 mode={mode}
                 handleChangeModeCallback={handleChangeModeCallback}
-                selectedCell={selectedCell}
+                resetGrid={resetGrid}
+                handleGridCallback={handleGridCallback}
+                pressedSolve={pressedSolve}
+                cleared={cleared}
+                handleMovesCallback={handleMovesCallback}
             />
             <div className="action-container">
                 {hasWon && !pressedSolve && url && <ShareURL url={url} btn={true} />}
