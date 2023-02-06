@@ -7,6 +7,7 @@
 	border: 1px solid var(--primary);
 	border-radius: 0%;
 	padding: 5px;
+	outline: none;
 	margin: 0;
 	caret-color: transparent;
 	caret-color: var(--primary);

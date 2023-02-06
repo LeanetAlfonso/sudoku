@@ -4,7 +4,7 @@ import './KeyPad.css';
 import { ReactComponent as DeleteIcon } from '../../assets/delete-left-solid.svg';
 
 
-const KeyPad = ({ onClick, selectedCell, isPaused }) => {
+const KeyPad = ({ onClick, selectedCell, isDisabled }) => {
 
     const keys = Array.from({ length: 9 }, (_, i) => i + 1);
 
@@ -15,7 +15,7 @@ const KeyPad = ({ onClick, selectedCell, isPaused }) => {
                     key={`key-${val}`}
                     val={val}
                     onClick={() => onClick(val, selectedCell)}
-                    isPaused={isPaused}
+                    isDisabled={isDisabled}
                     label={`key-${val}`}
                 />);
             })}
@@ -23,7 +23,7 @@ const KeyPad = ({ onClick, selectedCell, isPaused }) => {
                 key="delete-button"
                 val={<DeleteIcon />}
                 onClick={() => onClick('', selectedCell)}
-                isPaused={isPaused}
+                isDisabled={isDisabled}
                 label="delete-button"
             />
         </div>

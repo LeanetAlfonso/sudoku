@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../Button/Button";
 
 
-const Key = ({ val, onClick, isPaused, label }) => {
+const Key = ({ val, onClick, isDisabled, label }) => {
     return (
         <Button
             name={label}
@@ -10,7 +10,7 @@ const Key = ({ val, onClick, isPaused, label }) => {
             text={val}
             onClick={onClick}
             buttonStyle="btn--primary--outline"
-            isDisabled={isPaused}
+            isDisabled={isDisabled}
             aria-label={`${label}-${val}`}
         />
     );

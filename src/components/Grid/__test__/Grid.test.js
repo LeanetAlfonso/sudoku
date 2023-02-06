@@ -25,7 +25,7 @@ describe('Grid', () => {
 
     it('should render a grid of 4 cells', () => {
         render(<Grid
-            grid={mockGrid}
+            startingGrid={mockGrid}
             onChange={mockOnChange}
             isPaused={true}
         />);
@@ -35,7 +35,7 @@ describe('Grid', () => {
 
     it('should render a grid of cells with their respective values when not paused', () => {
         render(<Grid
-            grid={mockGrid}
+            startingGrid={mockGrid}
             onChange={mockOnChange}
             isPaused={false}
         />);
@@ -48,7 +48,7 @@ describe('Grid', () => {
 
     it('should render a grid of only empty cells when paused', () => {
         render(<Grid
-            grid={mockGrid}
+            startingGrid={mockGrid}
             onChange={mockOnChange}
             isPaused={true}
         />);
@@ -61,7 +61,7 @@ describe('Grid', () => {
 
     it('should render a grid of cells with their respective read-only property when not paused', () => {
         render(<Grid
-            grid={mockGrid}
+            startingGrid={mockGrid}
             onChange={mockOnChange}
             isPaused={false}
         />);
@@ -74,7 +74,7 @@ describe('Grid', () => {
 
     it('should render a grid of only read-only cells when paused', () => {
         render(<Grid
-            grid={mockGrid}
+            startingGrid={mockGrid}
             onChange={mockOnChange}
             isPaused={true}
         />);
@@ -88,7 +88,7 @@ describe('Grid', () => {
     it('should render a grid of highlighted and invalid cells if applicable and if highlight is turned on', () => {
 
         render(<Grid
-            grid={mockGrid}
+            startingGrid={mockGrid}
             onChange={mockOnChange}
             isPaused={false}
             highlightOff={false}
@@ -104,7 +104,7 @@ describe('Grid', () => {
     it('should render a grid of non highlighted and valid cells if highlight is turned off', () => {
 
         render(<Grid
-            grid={mockGrid}
+            startingGrid={mockGrid}
             onChange={mockOnChange}
             isPaused={false}
             highlightOff={true}

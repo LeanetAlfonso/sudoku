@@ -171,7 +171,7 @@ describe('Game', () => {
             expect(screen.queryByTestId('game-details')).not.toBeInTheDocument();
         });
 
-        it('should render game getails modal when game is won', () => {
+        it('should render game details modal when game is won', () => {
             render(<Game grid={mockAlmostSolvedGrid} />);
 
             expect(screen.queryByTestId('game-details')).not.toBeInTheDocument();
