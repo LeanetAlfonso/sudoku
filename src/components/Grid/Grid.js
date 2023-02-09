@@ -23,26 +23,29 @@ const Grid = (props) => {
     const [movesTaken, setMovesTaken] = useState(0);
     const [solved, setSolved] = useState(false);
     const [selectedCell, setSelectedCell] = useState(null);
+    const [pressed, setPressed] = useState(true);
 
     useEffect(() => {
 
         if (resetGrid) {
+            setPressed(true);
             setGrid(startingGrid);
             handleResetGridCallback(movesTaken);
             if (!cleared) {
                 setMovesTaken(0);
                 setSolved(false);
             }
-            if (pressedSolve) {
+            if (pressedSolve && pressed) {
+                setPressed(false);
                 handleMovesCallback(movesTaken);
             }
         }
 
-    }, [resetGrid, movesTaken, hasWon, cleared, startingGrid, handleResetGridCallback, pressedSolve, handleMovesCallback]);
+    }, [pressed, resetGrid, movesTaken, hasWon, cleared, startingGrid, handleResetGridCallback, pressedSolve, handleMovesCallback]);
     const getCell = (cell) => {
 
-        if (isPaused)
-            // if (isPaused || resetGrid)
+        // if (isPaused)
+        if (isPaused || resetGrid)
             return {
                 ...cell,
                 value: null,
