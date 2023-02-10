@@ -14,6 +14,7 @@ import NoSolution from "../../components/NoSolution/NoSolution";
 import GameBoard from "../../components/GameBoard/GameBoard";
 import { useTranslation } from "react-i18next";
 import ShareURL from "../../components/ShareURL/ShareURL";
+import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 
 const Game = (props) => {
 
@@ -49,6 +50,9 @@ const Game = (props) => {
 
     // Mode
     const MODE = { "easy": 12, "medium": 8, "hard": 4, "expert": 0 };
+
+    // Icons
+    const ICONS = { clear: "fas fa-eraser", solve: "fas fa-puzzle-piece", new: "fas fa-plus-square", help: "fas fa-question" };
 
     // Handle seconds from timer (game over)
     const handleSecondsCallback = (timerSeconds) => {
@@ -190,6 +194,11 @@ const Game = (props) => {
         setIsRunning(true);
     };
 
+    // TODO: Handle leaderboard modal
+    const leaderboardHandler = () => {
+
+    };
+
     // Handle confirmation dialog for clear
     const clearConfirmationHandler = () => {
         setIsRunning(false);
@@ -197,7 +206,7 @@ const Game = (props) => {
             isOpen: true,
             title: t('clear_confirm_title'),
             subTitle: t('clear_confirm_subtitle'),
-            icon: "fas fa-eraser",
+            icon: ICONS['clear'],
             custom: "clear",
             onContinue: () => { onContinueClear(); },
             onCancel: () => { closeDialog(); }
@@ -211,7 +220,7 @@ const Game = (props) => {
             isOpen: true,
             title: t('newgame_confirm_title'),
             subTitle: t('newgame_confirm_subtitle'),
-            icon: "far fa-plus-square",
+            icon: ICONS['new'],
             custom: "new",
             onContinue: () => {
                 resetGame();
@@ -263,7 +272,7 @@ const Game = (props) => {
             isOpen: true,
             title: t('solve_confirm_title'),
             subTitle: t('solve_confirm_subtitle'),
-            icon: "fas fa-puzzle-piece",
+            icon: ICONS["solve"],
             custom: "solve",
             onContinue: () => { onContinueSolve(); },
             onCancel: () => { closeDialog(); }
@@ -315,10 +324,9 @@ const Game = (props) => {
                 <LanguageMenu />
             </div>
 
-            <h2 className="main-title">
+            <h2 className="main-title game-header">
                 Sudoku
             </h2>
-
             <ConfirmationDialog
                 confirmationDialog={confirmationDialog}
             />
@@ -374,11 +382,44 @@ const Game = (props) => {
                 handleMovesCallback={handleMovesCallback}
             />
             <div className="action-container">
-                {hasWon && !pressedSolve && url && <ShareURL url={url} btn={true} />}
-                {!hasWon && <Button name={t("help").toLowerCase()} testId="btn-help" text={<i className="fas fa-question"></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
-                {!hasWon && <Button name={t("clear_btn_title").toLowerCase()} testId="btn-clear" text={<i className="fas fa-eraser"></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
-                {((helpSolve && !hasWon) || cheatingModeOn) && <Button name={t("solve").toLowerCase()} testId="btn-solve" text={<b>{t('solve')}</b>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
-                <Button name={t("new_game").toLowerCase()} testId="btn-new" text={<b>{t('new_game')}</b>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
+                <div className="flex-container vertical-flex-container">
+                    <Button name={t("leaderboard").toLowerCase()} testId="btn-new" text={<LeaderboardRoundedIcon padding="0px" style={{ margin: "-4px", fontSize: "21px" }} />} onClick={leaderboardHandler} />
+                    <div className="btn-label leaderboard">
+                        {t('leaderboard')}
+                    </div>
+                </div>
+
+                {hasWon && !pressedSolve && url && <div className="flex-container vertical-flex-container">
+                    <ShareURL url={url} btn={true} />
+                    <div className="btn-label challenge">
+                        {t('challenge')}
+                    </div>
+                </div>
+                }
+                <div className="flex-container vertical-flex-container">
+                    {!hasWon && <Button name={t("help").toLowerCase()} testId="btn-help" text={<i className={ICONS["help"]}></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
+                    <div className="btn-label help">
+                        {t('help')}
+                    </div>
+                </div>
+                <div className="flex-container vertical-flex-container">
+                    {!hasWon && <Button name={t("clear_btn_title").toLowerCase()} testId="btn-clear" text={<i className={ICONS["clear"]}></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
+                    <div className="btn-label clear">
+                        {t('clear')}
+                    </div>
+                </div>
+                <div className="flex-container vertical-flex-container">
+                    {((helpSolve && !hasWon) || cheatingModeOn) && <Button name={t("solve").toLowerCase()} testId="btn-solve" text={<i className={ICONS["solve"]}></i>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
+                    <div className="btn-label solve">
+                        {t('solve')}
+                    </div>
+                </div>
+                <div className="flex-container vertical-flex-container">
+                    <Button name={t("new_game").toLowerCase()} testId="btn-new" text={<i className={ICONS["new"]}></i>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
+                    <div className="btn-label new">
+                        {t('new_game')}
+                    </div>
+                </div>
                 {props.unsolvable && <Button name={t("no-solution").toLowerCase()} testId="btn-no-sol" text={<b>No solution</b>} onClick={handleNoSolution} />}
             </div>
 
