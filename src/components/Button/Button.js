@@ -10,7 +10,8 @@ const STYLES = [
     "btn--medium--solid",
     "btn--blue--solid",
     "btn--purple--solid",
-    "btn--primary--outline"
+    "btn--primary--outline",
+    "btn--pink-solid"
 ];
 
 const Button = ({ name, testId, text, onClick, buttonStyle, isDisabled, label }) => {
