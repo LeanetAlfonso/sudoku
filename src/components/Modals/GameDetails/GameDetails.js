@@ -52,7 +52,7 @@ export default function GameDetails(props) {
             {!URLdata && !lostGame &&
                 <DialogContent>
                     <LeaderBoard
-                        hasWon={true}
+                        hasWon={highScores.hasWon}
                         name={highScores.name}
                         time={highScores.time}
                         moves={highScores.moves}
