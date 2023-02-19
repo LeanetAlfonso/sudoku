@@ -1,0 +1,113 @@
+.score {
+	font-weight: bold;
+}
+
+.leaderboard-icon {
+	color: var(--primary) !important;
+}
+.btn-mode {
+	color: var(--primary);
+	margin: 5px;
+	font-size: 14px;
+	cursor: pointer;
+	padding: 4px;
+}
+.selected-mode {
+	font-weight: bold;
+	border: 1px solid var(--primary);
+}
+.mode-leaderboard-container {
+	margin-bottom: 2rem;
+}
+
+header .col {
+	font-weight: bold;
+	color: var(--primary);
+}
+header,
+.row {
+	font-size: 12px;
+	display: flex; /* aligns all child elements (flex items) in a row */
+}
+
+.row {
+	margin: 10px 0px;
+	display: flex; /* aligns all child elements (flex items) in a row */
+}
+.top-scores {
+	font-weight: bold;
+}
+.current-score {
+	color: var(--yellow);
+	animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+	50% {
+		opacity: 0.6;
+	}
+}
+
+.range-operator {
+	font-weight: bold;
+	text-align: center;
+}
+.col {
+	flex: 1 0; /* distributes space on the line equally among items */
+}
+.last-col {
+	text-align-last: right;
+}
+.center-col {
+	text-align-last: center;
+}
+.name-input-container {
+	font-size: 14px;
+	margin: 2rem 0rem 0rem;
+	text-align: center;
+}
+
+.name-input-container i,
+.expand-collapse i {
+	cursor: pointer;
+	padding: 8px;
+}
+.name-input-container i {
+	color: var(--primary);
+}
+
+.name-input-container input[type='text'] {
+	padding: 8px 0px;
+	font-size: 16px;
+	max-width: 5rem;
+	outline: 0;
+	border-width: 0 0 1px;
+	border-color: var(--font-color);
+	color: var(--font-color);
+	background-color: var(--background-color);
+	box-sizing: border-box;
+	border-radius: 0px;
+	caret-color: var(--primary);
+}
+
+.name-input-container input:focus {
+	border-color: var(--primary);
+	border-width: 0 0 2px;
+}
+
+.expand-collapse {
+	justify-content: center;
+	text-align: center;
+}
+
+.invalid-button {
+	color: var(--font-color) !important;
+	opacity: 0.4;
+	cursor: not-allowed !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.btn-mode:hover {
+		opacity: 0.75;
+	}
+}
