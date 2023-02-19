@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '../../Button/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
@@ -10,12 +9,15 @@ import "./GameDetails.css";
 import { useTranslation } from "react-i18next";
 import IconButton from '@mui/material/IconButton';
 import ShareURL from '../../ShareURL/ShareURL';
+import LeaderBoard from '../HighScores/LeaderBoard';
 
 export default function GameDetails(props) {
 
     const { t } = useTranslation();
-    const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve, mode, url, URLdata } = props;
+    const { highScores, gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve, mode, url, URLdata } = props;
     const storedTheme = localStorage.getItem("theme");
+    const lostGame = pressedSolve || (URLdata && ((URLdata.time < elapsed) || (URLdata.time === elapsed && URLdata.moves < movesTaken)));
+
     return (
         (gameDetails.isOpen) &&
         <Dialog
@@ -29,7 +31,7 @@ export default function GameDetails(props) {
                     boxShadow: 'none',
                 },
             }}>
-            {pressedSolve || (URLdata && ((URLdata.time < elapsed) || (URLdata.time === elapsed && URLdata.moves < movesTaken))) ?
+            {lostGame ?
                 <>
                     <IconButton disableRipple className='details-icon'>
                         <i className="fa fa-regular fa-skull-crossbones custom-details fa-4x"></i>
@@ -46,6 +48,19 @@ export default function GameDetails(props) {
                         {t('game_won_title')}
                     </DialogTitle>
                 </>
+            }
+            {!URLdata && !lostGame &&
+                <DialogContent>
+                    <LeaderBoard
+                        hasWon={true}
+                        name={highScores.name}
+                        time={highScores.time}
+                        moves={highScores.moves}
+                        mode={highScores.mode}
+                        date={highScores.date}
+                    />
+
+                </DialogContent>
             }
             <DialogContent className="row">
                 <div className="column" >
@@ -77,7 +92,8 @@ export default function GameDetails(props) {
                         <Typography variant="subtitle1">
                             <b>{t('time')}:</b> {formatTime(URLdata.time)}
                         </Typography>
-                    </div>}
+                    </div>
+                }
             </DialogContent>
             {!pressedSolve && url &&
                 <DialogContent>

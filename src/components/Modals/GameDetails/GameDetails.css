@@ -16,7 +16,7 @@
 	display: flex;
 	column-gap: 10px;
 }
-  
+
 .column {
 	flex: 50%;
 	padding-inline: 10px;
