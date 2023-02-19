@@ -15,9 +15,13 @@
 }
 
 .vertical-flex-container {
-	margin-right: 1rem;
+	margin: 0px 8px;
 	flex-direction: column;
 	flex-wrap: wrap;
+}
+
+.spacious {
+	margin: 0px 20px !important;
 }
 .btn-label {
 	font-size: 12px;
@@ -47,7 +51,7 @@
 }
 
 .btn-label.challenge {
-	color: var(--primary);
+	color: var(--pink);
 }
 
 .game-header {
@@ -86,6 +90,6 @@
 
 @media (max-width: 500px) {
 	.vertical-flex-container {
-		margin-right: 0rem;
+		margin: 0px;
 	}
 }

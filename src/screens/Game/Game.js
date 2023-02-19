@@ -15,6 +15,7 @@ import GameBoard from "../../components/GameBoard/GameBoard";
 import { useTranslation } from "react-i18next";
 import ShareURL from "../../components/ShareURL/ShareURL";
 import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
+import HighScores from "../../components/Modals/HighScores/HighScores";
 
 const Game = (props) => {
 
@@ -41,6 +42,7 @@ const Game = (props) => {
     const [gameInstructions, setGameInstructions] = useState({ isOpen: false });
     const [gameModes, setGameModes] = useState({ isOpen: false });
     const [friendChallenge, setFriendChallenge] = useState({ isOpen: false, moves: 0, time: 0, mode: '' });
+    const [highScores, setHighScores] = useState({ isOpen: false, mode: "", time: 0, name: "You", moves: 0, date: null });
 
     // Translation
     const { t } = useTranslation();
@@ -81,9 +83,10 @@ const Game = (props) => {
     };
 
     // Handle game won without pressing solve
-    const handleGridCallback = (grid) => {
+    const handleGridCallback = (grid, moves) => {
         setHasWon(true);
         setGrid(cloneDeep(convertBoard(grid)));
+        handleMovesCallback(moves);
     };
 
     // Handle new game
@@ -182,6 +185,12 @@ const Game = (props) => {
         setIsRunning(true);
     };
 
+    // Close high scores and resume timer
+    const closeHighScores = () => {
+        setHighScores({ ...highScores, isOpen: false });
+        setIsRunning(true);
+    };
+
     // Close modes and resume timer
     const closeGameModes = () => {
         setGameModes({ ...gameModes, isOpen: false });
@@ -194,9 +203,19 @@ const Game = (props) => {
         setIsRunning(true);
     };
 
-    // TODO: Handle leaderboard modal
-    const leaderboardHandler = () => {
-
+    // Handle leaderboard modal
+    const highScoresHandler = () => {
+        setIsRunning(false);
+        setHighScores({
+            ...highScores,
+            mode: mode,
+            moves: movesTaken,
+            time: seconds,
+            hasWon: hasWon,
+            date: new Date(),
+            isOpen: true,
+            onOk: () => { closeHighScores(); }
+        });
     };
 
     // Handle confirmation dialog for clear
@@ -287,6 +306,7 @@ const Game = (props) => {
             movesTaken: { moves },
             elapsed: { seconds },
             pressedSolve: { pressedSolve },
+            highScores: { highScores },
             url: { url },
             URLdata: { URLdata }
         });
@@ -344,6 +364,7 @@ const Game = (props) => {
                 mode={mode}
                 url={url}
                 URLdata={URLdata}
+                highScores={highScores}
             />
 
             <FriendChallenge
@@ -362,6 +383,10 @@ const Game = (props) => {
             <NoSolution
                 noSolution={noSolution}
                 setNoSolution={setNoSolution}
+            />
+            <HighScores
+                highScores={highScores}
+                hasWon={hasWon && !pressedSolve}
             />
 
             <GameBoard
@@ -382,39 +407,43 @@ const Game = (props) => {
                 handleMovesCallback={handleMovesCallback}
             />
             <div className="action-container">
-                <div className="flex-container vertical-flex-container">
-                    <Button name={t("leaderboard").toLowerCase()} testId="btn-new" text={<LeaderboardRoundedIcon padding="0px" style={{ margin: "-4px", fontSize: "21px" }} />} onClick={leaderboardHandler} />
+                <div className={`flex-container vertical-flex-container ${hasWon && "spacious"}`}>
+                    <Button name={t("leaderboard").toLowerCase()} testId="btn-leaderboard" text={<LeaderboardRoundedIcon padding="0px" style={{ margin: "-4px", fontSize: "21px" }} />} onClick={highScoresHandler} />
                     <div className="btn-label leaderboard">
                         {t('leaderboard')}
                     </div>
                 </div>
 
-                {hasWon && !pressedSolve && url && <div className="flex-container vertical-flex-container">
+                {hasWon && !pressedSolve && url && <div className={`flex-container vertical-flex-container ${hasWon && "spacious"}`}>
                     <ShareURL url={url} btn={true} />
                     <div className="btn-label challenge">
                         {t('challenge')}
                     </div>
                 </div>
                 }
-                <div className="flex-container vertical-flex-container">
-                    {!hasWon && <Button name={t("help").toLowerCase()} testId="btn-help" text={<i className={ICONS["help"]}></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />}
-                    <div className="btn-label help">
-                        {t('help')}
+                {!hasWon &&
+                    <div className="flex-container vertical-flex-container">
+                        <Button name={t("help").toLowerCase()} testId="btn-help" text={<i className={ICONS["help"]}></i>} onClick={handleHelp} buttonStyle="btn--purple--solid" />
+                        <div className="btn-label help">
+                            {t('help')}
+                        </div>
                     </div>
-                </div>
-                <div className="flex-container vertical-flex-container">
-                    {!hasWon && <Button name={t("clear_btn_title").toLowerCase()} testId="btn-clear" text={<i className={ICONS["clear"]}></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />}
+                }
+                {!hasWon && <div className="flex-container vertical-flex-container">
+                    <Button name={t("clear_btn_title").toLowerCase()} testId="btn-clear" text={<i className={ICONS["clear"]}></i>} onClick={clearConfirmationHandler} buttonStyle="btn--redish-orange--solid" />
                     <div className="btn-label clear">
                         {t('clear')}
                     </div>
-                </div>
-                <div className="flex-container vertical-flex-container">
-                    {((helpSolve && !hasWon) || cheatingModeOn) && <Button name={t("solve").toLowerCase()} testId="btn-solve" text={<i className={ICONS["solve"]}></i>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />}
-                    <div className="btn-label solve">
-                        {t('solve')}
+                </div>}
+                {((helpSolve && !hasWon) || cheatingModeOn) &&
+                    <div className="flex-container vertical-flex-container">
+                        <Button name={t("solve").toLowerCase()} testId="btn-solve" text={<i className={ICONS["solve"]}></i>} onClick={solveConfirmationHandler} buttonStyle="btn--yellow--solid" />
+                        <div className="btn-label solve">
+                            {t('solve')}
+                        </div>
                     </div>
-                </div>
-                <div className="flex-container vertical-flex-container">
+                }
+                <div className={`flex-container vertical-flex-container ${hasWon && "spacious"}`}>
                     <Button name={t("new_game").toLowerCase()} testId="btn-new" text={<i className={ICONS["new"]}></i>} onClick={newGameConfirmationHandler} buttonStyle="btn--blue--solid" />
                     <div className="btn-label new">
                         {t('new_game')}
