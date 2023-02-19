@@ -10,7 +10,6 @@
 	outline: none;
 	margin: 0;
 	caret-color: transparent;
-	caret-color: var(--primary);
 	background-color: var(--background-color);
 	cursor: default;
 	opacity: 1; /* required on iOS */
