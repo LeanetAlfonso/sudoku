@@ -108,10 +108,8 @@ const Grid = (props) => {
             // player won without pressing solve
             if (playerWon) {
                 setSolved(true);
-                handleMovesCallback(movesTaken + 1);
-                handleGridCallback(cloneDeep(newGrid));
+                handleGridCallback(cloneDeep(newGrid), movesTaken + 1);
             }
-
             // update grid state
             setGrid(newGrid);
         }
