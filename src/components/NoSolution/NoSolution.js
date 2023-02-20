@@ -8,9 +8,10 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import { useTranslation } from "react-i18next";
 import './NoSolution.css';
+
 export default function NoSolution(props) {
 
-    const { noSolution, setNoSolution } = props;
+    const { noSolution } = props;
     const { t } = useTranslation();
     const storedTheme = localStorage.getItem("theme");
 
@@ -44,7 +45,7 @@ export default function NoSolution(props) {
                 <Button
                     testId='ok-no-solution'
                     text={t('ok')}
-                    onClick={() => setNoSolution({ ...noSolution, isOpen: false })}
+                    onClick={noSolution.onOk}
                     buttonStyle="btn--primary--solid"
                 />
             </DialogActions>
