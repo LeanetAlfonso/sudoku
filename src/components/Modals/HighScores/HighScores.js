@@ -5,8 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from "react-i18next";
-import LeaderBoard from './LeaderBoard';
-import './HighScores.css';
+import Leaderboard from '../../Leaderboard/Leaderboard';
 
 export default function HighScores(props) {
     const { highScores } = props;
@@ -29,8 +28,8 @@ export default function HighScores(props) {
             <DialogTitle variant="h6">
                 {t('leaderboard')}
             </DialogTitle>
-            <DialogContent className="instuctions-content">
-                <LeaderBoard
+            <DialogContent>
+                <Leaderboard
                     hasWon={highScores.hasWon}
                     name={highScores.name}
                     time={highScores.time}

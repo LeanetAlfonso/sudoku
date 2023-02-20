@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { db } from "../../../firebase-config";
-import { formatTime } from "../../../utils/index";
+import { db } from "../../firebase-config";
+import { formatTime } from "../../utils/index";
 import { collection, getDocs, addDoc, query, where, orderBy, serverTimestamp } from "firebase/firestore";
+import Loading from "../Loading/Loading";
+import "./Leaderboard.css";
 
-const LeaderBoard = (props) => {
+const Leaderboard = (props) => {
 
     const modes = ["easy", "medium", "hard", "expert"];
     const { t } = useTranslation();
@@ -15,6 +17,7 @@ const LeaderBoard = (props) => {
     const [highScores, setHighScores] = useState([]);
     const [currentRank, setCurrentRank] = useState([]);
     const [submitted, setSubmitted] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const scoresCollectionRef = collection(db, "scores");
 
@@ -43,6 +46,27 @@ const LeaderBoard = (props) => {
         setExpanded(false);
     };
 
+    // Check if game was won fairly (didn't press solve) 
+    // and the currently shown ranks' mode is the same as the original game's mode
+    const isCurrentModeAndWon = () => {
+        return props.hasWon && props.mode === mode;
+    };
+
+    // Check if user can submit new record (name input)
+    const canSubmitNewRecord = () => {
+        return isCurrentModeAndWon() && !submitted && props.newRecord;
+    };
+
+    // Check if users current rank is within first 5 and list is currenly collapsed
+    const shouldCollapseRank = () => {
+        return currentRank > 5 && isCurrentModeAndWon() && !expanded;
+    };
+
+    // Check if i is the current rank
+    const isCurrentRank = (i) => {
+        return isCurrentModeAndWon() && currentRank === (i + 1);
+    };
+
     useEffect(() => {
         const getScores = async () => {
             try {
@@ -53,7 +77,7 @@ const LeaderBoard = (props) => {
                 const sortedScores = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
                 // before user submits name, show their current ranking without storing in db
-                if (!submitted && props.hasWon && props.mode === mode) {
+                if (!submitted && props.hasWon && props.mode === mode && props.newRecord) {
                     sortedScores.push({ name: props.name, time: props.time, moves: props.moves, date: props.date });
                     sortedScores.sort((a, b) => a.time - b.time || a.moves - b.moves || b.date - a.date);
                     setCurrentRank(sortedScores.findIndex(score => score.date === props.date) + 1);
@@ -62,71 +86,76 @@ const LeaderBoard = (props) => {
                 // update scores
                 setScores(sortedScores);
 
-                // show expanded or collapsed view of scores accordingly
-                expanded ? setHighScores(sortedScores) : setHighScores(sortedScores.filter((_, i) => i < 5));
+                // default to collapsed list
+                setHighScores(sortedScores.filter((_, i) => i < 5));
+                setExpanded(false);
 
             } catch (err) {
                 console.log(err);
             }
+            finally {
+                setLoading(false);
+            }
         };
+
         getScores();
 
-    }, [mode, submitted]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mode, submitted, props, loading]);
 
 
     return (
         <div className="scores">
-            <div className="flex-container mode-leaderboard-container">
-                {modes.map(mod =>
-                    <div
-                        key={mod}
-                        className={`btn-mode ${mode === mod && "selected-mode"}`}
-                        onClick={() => changeMode(mod)}>{t(mod)}
-                    </div>
-                )}
-            </div>
-            <header>
-                <div className="col">Rank</div>
-                <div className="col center-col">Name</div>
-                <div className="col center-col">Moves</div>
-                <div className="col last-col">Time</div>
-            </header>
-            {highScores.map((score, i) =>
-                <div className={`row ${i < 3 && "top-scores"} ${props.mode === mode && props.hasWon && currentRank === (i + 1) && "current-score"}`} key={i}>
-                    <div className="col">{i + 1}</div>
-                    <div className="col center-col">{score.name}</div>
-                    <div className="col center-col">{score.moves}</div>
-                    <div className="col last-col">{formatTime(score.time)}</div>
-                </div>
-            )}
-
-            {currentRank > 5 && props.hasWon && props.mode === mode && !expanded &&
-                <div>
-                    {currentRank > 6 &&
-                        <div className="row">
-                            <div className="col">&#xFE19;</div>
-                            <div className="col center-col">&#xFE19;</div>
-                            <div className="col center-col">&#xFE19;</div>
-                            <div className="col last-col">&#xFE19;</div>
+            {!props.challenge && <div className="ranks">
+                <div className="flex-container mode-leaderboard-container">
+                    {modes.map(mod =>
+                        <div
+                            key={mod}
+                            className={`btn-mode ${mode === mod && "selected-mode"}`}
+                            onClick={() => changeMode(mod)}>{t(mod)}
                         </div>
-                    }
+                    )}
+                </div>
+                <header className="header-container">
+                    <div className="col">Rank</div>
+                    <div className="col center-col">Name</div>
+                    <div className="col center-col">Moves</div>
+                    <div className="col last-col">Time</div>
+                </header>
+
+                {loading ?
+                    <Loading scale={2} /> :
+                    highScores.map((score, i) =>
+                        <div className={`row ${i < 3 && "top-scores"} ${isCurrentRank(i) && "current-score"}`} key={i}>
+                            <div className="col">{i + 1}</div>
+                            <div className="col center-col">{score.name}</div>
+                            <div className="col center-col">{score.moves}</div>
+                            <div className="col last-col">{formatTime(score.time)}</div>
+                        </div>
+                    )}
+
+                {shouldCollapseRank() &&
                     <div className="row current-score">
                         <div className="col">{currentRank}</div>
                         <div className="col center-col">{submitted ? name : "You"}</div>
                         <div className="col center-col">{props.moves}</div>
                         <div className="col last-col">{formatTime(props.time)}</div>
                     </div>
-                </div>
-            }
-            <div className="row expand-collapse">
-                {expanded ?
-                    <i className="fas fa-chevron-up" onClick={getTopFiveScores}></i>
-                    :
-                    <i className="fas fa-chevron-down" onClick={getAllScores}></i>
                 }
+
+                <div className="row expand-collapse">
+                    {expanded ?
+                        <i className="fas fa-chevron-up" onClick={getTopFiveScores}></i>
+                        :
+                        <i className="fas fa-chevron-down" onClick={getAllScores}></i>
+                    }
+                </div>
+
             </div>
-            {props.hasWon && props.mode === mode && !submitted &&
+            }
+            {canSubmitNewRecord() &&
                 <div className="name-input-container">
+                    {props.challenge && <div>You are at <b>#{currentRank}</b> on the leaderboard</div>}
                     <div>Enter your name to save your score!</div>
                     <input type="text"
                         id="name"
@@ -142,4 +171,4 @@ const LeaderBoard = (props) => {
     );
 };
 
-export default LeaderBoard;
+export default Leaderboard;

@@ -63,8 +63,11 @@ header,
 }
 .name-input-container {
 	font-size: 14px;
-	margin: 2rem 0rem 0rem;
+	/* margin: 2rem 0rem 0rem; */
 	text-align: center;
+}
+.ellipsis {
+	font-size: 20px !important;
 }
 
 .name-input-container i,

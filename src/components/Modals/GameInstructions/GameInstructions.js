@@ -32,7 +32,7 @@ export default function GameInstructions(props) {
             <DialogTitle variant="h6">
                 {t('instuctions_title')}
             </DialogTitle>
-            <DialogContent className="instuctions-content">
+            <DialogContent>
                 <Typography>
                     {t('instuctions_subtitle')}
                 </Typography>

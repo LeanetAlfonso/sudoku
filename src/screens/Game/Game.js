@@ -38,7 +38,7 @@ const Game = (props) => {
     // Modals
     const [noSolution, setNoSolution] = useState({ isOpen: false });
     const [confirmationDialog, setConfirmationDialog] = useState({ isOpen: false, title: '', subTitle: '' });
-    const [gameDetails, setGameDetails] = useState({ isOpen: false, movesTaken: 0, elapsed: 0, pressedSolve: false });
+    const [gameDetails, setGameDetails] = useState({ isOpen: false, date: null });
     const [gameInstructions, setGameInstructions] = useState({ isOpen: false });
     const [gameModes, setGameModes] = useState({ isOpen: false });
     const [friendChallenge, setFriendChallenge] = useState({ isOpen: false, moves: 0, time: 0, mode: '' });
@@ -126,7 +126,6 @@ const Game = (props) => {
         }
     };
 
-
     // Handle clearing the board
     const handleClearBoard = () => {
         setResetGrid(true);
@@ -134,10 +133,18 @@ const Game = (props) => {
         setGrid(cloneDeep(convertBoard(startingGrid)));
     };
 
+    // Handle new game on no solution ok
+    const onOkNoSolution = () => {
+        setNoSolution({ ...noSolution, isOpen: false });
+        resetGame();
+        selectModeHandler();
+    };
+
     // Handle no solution
     const handleNoSolution = () => {
         setNoSolution({
             ...noSolution,
+            onOk: () => { onOkNoSolution(); },
             isOpen: true
         });
     };
@@ -211,7 +218,7 @@ const Game = (props) => {
             mode: mode,
             moves: movesTaken,
             time: seconds,
-            hasWon: hasWon,
+            hasWon: hasWon && !pressedSolve,
             date: new Date(),
             isOpen: true,
             onOk: () => { closeHighScores(); }
@@ -302,13 +309,9 @@ const Game = (props) => {
     const handleGameDetails = (moves) => {
         setIsRunning(false);
         setGameDetails({
+            ...gameDetails,
             isOpen: true,
-            movesTaken: { moves },
-            elapsed: { seconds },
-            pressedSolve: { pressedSolve },
-            highScores: { highScores },
-            url: { url },
-            URLdata: { URLdata }
+            date: new Date()
         });
     };
 
@@ -364,7 +367,6 @@ const Game = (props) => {
                 mode={mode}
                 url={url}
                 URLdata={URLdata}
-                highScores={highScores}
             />
 
             <FriendChallenge
@@ -382,8 +384,8 @@ const Game = (props) => {
 
             <NoSolution
                 noSolution={noSolution}
-                setNoSolution={setNoSolution}
             />
+
             <HighScores
                 highScores={highScores}
                 hasWon={hasWon && !pressedSolve}
