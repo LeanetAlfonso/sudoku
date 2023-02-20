@@ -3,7 +3,7 @@ import Loading from '../Loading';
 
 describe('Loading', () => {
     it('should render a loading icon', () => {
-        render(<Loading />);
+        render(<Loading scale={5} />);
         const loading = screen.getByTestId('loading-icon');
         expect(loading).toBeInTheDocument();
     });
