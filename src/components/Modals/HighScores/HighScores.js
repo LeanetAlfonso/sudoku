@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../../Button/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
-import Dialog from '@mui/material/Dialog';
+import CustomDialog from '../CustomDialog/CustomDialog';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from "react-i18next";
 import Leaderboard from '../../Leaderboard/Leaderboard';
@@ -10,21 +10,13 @@ import Leaderboard from '../../Leaderboard/Leaderboard';
 export default function HighScores(props) {
     const { highScores } = props;
     const { t } = useTranslation();
-    const storedTheme = localStorage.getItem("theme");
 
     return (
-        <Dialog
-            data-testid='high-scores'
-            open={highScores.isOpen}
-            // dark mode support
-            PaperProps={{
-                style: {
-                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
-                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
-                    boxShadow: 'none',
-                    alignItems: 'center'
-                },
-            }}>
+        <CustomDialog
+            testId='high-scores'
+            isOpen={highScores.isOpen}
+            centered
+        >
             <DialogTitle variant="h6">
                 {t('leaderboard')}
             </DialogTitle>
@@ -38,7 +30,6 @@ export default function HighScores(props) {
                     date={highScores.date}
                 />
             </DialogContent>
-
             <DialogActions>
                 <Button
                     testId='leaderboard-ok'
@@ -47,6 +38,6 @@ export default function HighScores(props) {
                     buttonStyle="btn--primary--solid"
                 />
             </DialogActions>
-        </Dialog>
+        </CustomDialog>
     );
 }

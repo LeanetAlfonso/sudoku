@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../Button/Button';
 import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
+import CustomDialog from '../Modals/CustomDialog/CustomDialog';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,20 +13,12 @@ export default function NoSolution(props) {
 
     const { noSolution } = props;
     const { t } = useTranslation();
-    const storedTheme = localStorage.getItem("theme");
 
     return (noSolution.isOpen &&
-        <Dialog
-            data-testid="no-solution"
-            open={noSolution.isOpen}
-            // dark mode support
-            PaperProps={{
-                style: {
-                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
-                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
-                    boxShadow: 'none',
-                },
-            }}>
+        <CustomDialog
+            testId='no-solution'
+            isOpen={noSolution.isOpen}
+        >
             <IconButton disableRipple className='details-icon'>
                 <i className={`fa-solid fas fa-exclamation custom-error fa-4x`}></i>
             </IconButton>
@@ -49,6 +41,6 @@ export default function NoSolution(props) {
                     buttonStyle="btn--primary--solid"
                 />
             </DialogActions>
-        </Dialog>
+        </CustomDialog>
     );
 }

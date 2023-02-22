@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../Button/Button';
 import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
+import CustomDialog from '../CustomDialog/CustomDialog';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -12,21 +12,14 @@ import "./ConfirmationDialog.css";
 export default function ConfirmationDialog(props) {
     const { confirmationDialog } = props;
     const { t } = useTranslation();
-    const storedTheme = localStorage.getItem("theme");
 
     return (
         (confirmationDialog.isOpen) &&
-        <Dialog
-            data-testid='confirmation-dialog'
-            open={confirmationDialog.isOpen}
-            // dark mode support
-            PaperProps={{
-                style: {
-                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
-                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
-                    boxShadow: 'none',
-                },
-            }}>
+
+        <CustomDialog
+            testId='confirmation-dialog'
+            isOpen={confirmationDialog.isOpen}
+        >
             <IconButton disableRipple className='details-icon'>
                 <i className={`${confirmationDialog.icon} custom-${confirmationDialog.custom} fa-4x`}></i>
             </IconButton>
@@ -52,6 +45,6 @@ export default function ConfirmationDialog(props) {
                     buttonStyle="btn--primary--solid"
                 />
             </DialogActions>
-        </Dialog>
+        </CustomDialog>
     );
 }

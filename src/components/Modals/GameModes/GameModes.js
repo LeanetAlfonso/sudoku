@@ -1,28 +1,19 @@
 import React from 'react';
 import Button from '../../Button/Button';
 import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
+import CustomDialog from '../CustomDialog/CustomDialog';
 import { useTranslation } from "react-i18next";
 import './GameModes.css';
 
 export default function GameModes(props) {
     const { gameModes } = props;
     const { t } = useTranslation();
-    const storedTheme = localStorage.getItem("theme");
-
     return (
-        <Dialog
-            data-testid='game-modes'
-            open={gameModes.isOpen}
-            // dark mode support
-            PaperProps={{
-                style: {
-                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
-                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
-                    boxShadow: 'none',
-                    alignItems: 'center'
-                },
-            }}>
+        <CustomDialog
+            testId='game-modes'
+            isOpen={gameModes.isOpen}
+            centered
+        >
             <DialogTitle variant="h6">
                 {t('select_mode')}
             </DialogTitle>
@@ -50,6 +41,6 @@ export default function GameModes(props) {
                 onClick={gameModes.onExpert}
                 buttonStyle="btn--dark--solid"
             />
-        </Dialog>
+        </CustomDialog>
     );
 }

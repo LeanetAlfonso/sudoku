@@ -1,6 +1,6 @@
 import Button from '../../Button/Button';
 import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
+import CustomDialog from '../CustomDialog/CustomDialog';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -15,22 +15,14 @@ export default function GameDetails(props) {
 
     const { t } = useTranslation();
     const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve, mode, url, URLdata } = props;
-    const storedTheme = localStorage.getItem("theme");
     const lostGame = pressedSolve || (URLdata && ((URLdata.time < elapsed) || (URLdata.time === elapsed && URLdata.moves < movesTaken)));
 
     return (
         (gameDetails.isOpen) &&
-        <Dialog
-            data-testid='game-details'
-            open={gameDetails.isOpen}
-            // black mode support
-            PaperProps={{
-                style: {
-                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
-                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
-                    boxShadow: 'none',
-                },
-            }}>
+        <CustomDialog
+            testId='game-details'
+            isOpen={gameDetails.isOpen}
+        >
             {lostGame ?
                 <>
                     {!URLdata &&
@@ -114,6 +106,6 @@ export default function GameDetails(props) {
                     buttonStyle="btn--primary--solid"
                 />
             </DialogActions>
-        </Dialog>
+        </CustomDialog>
     );
 }
