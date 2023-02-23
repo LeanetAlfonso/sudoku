@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, act } from '@testing-library/react';
 import Game from '../Game';
 import { mockUnsolvabledGrid } from '../mocks/mockUnsolvabledGrid';
 import { mockAlmostSolvedGrid } from '../mocks/mockAlmostSolvedGrid';
@@ -340,6 +340,39 @@ describe('Game', () => {
                     const cancelBtn = screen.getByTestId('cancel');
                     fireEvent.click(cancelBtn);
                     expect(hiddenValues((screen.getAllByTestId('cell')))).toBeTruthy();
+                });
+
+                it('should stop and continue seconds when pressing pause/play button if game is not over', () => {
+                    jest.useFakeTimers();
+                    render(<Game />);
+                    expect(screen.getByText('00:00')).toBeInTheDocument();
+                    act(() => jest.advanceTimersByTime(3000));
+                    expect(screen.getByText('00:03')).toBeInTheDocument();
+                    const pause = screen.getByTestId('pause-icon');
+                    fireEvent.click(pause);
+                    act(() => jest.advanceTimersByTime(3000));
+                    expect(screen.getByText('00:03')).toBeInTheDocument();
+                    const play = screen.getByTestId('play-icon');
+                    fireEvent.click(play);
+                    act(() => jest.advanceTimersByTime(6000));
+                    expect(screen.getByText('00:09')).toBeInTheDocument();
+
+                });
+
+                it('should not execute any action when pressing pause/play button if game is over', () => {
+                    render(<Game grid={mockAlmostSolvedGrid} />);
+                    const cells = screen.getAllByTestId('cell');
+                    const cell = cells[0];
+                    fireEvent.focusIn(cell);
+                    fireEvent.change(cell, { target: { value: '9' } });
+                    const okBtn = screen.getByTestId('ok');
+                    expect(okBtn).toBeInTheDocument();
+                    fireEvent.click(okBtn);
+                    const play = screen.getByTestId('play-icon');
+                    fireEvent.click(play);
+                    expect(play).toBeInTheDocument();
+                    expect(play).toHaveClass("fa-play-circle");
+
                 });
 
                 it('should keep cell values hidden while help modal is open', () => {
