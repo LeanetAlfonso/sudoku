@@ -3,7 +3,6 @@ import Game from '../Game';
 import { mockUnsolvabledGrid } from '../mocks/mockUnsolvabledGrid';
 import { mockAlmostSolvedGrid } from '../mocks/mockAlmostSolvedGrid';
 
-
 describe('Game', () => {
     const getFirstEmptyCell = (arr) => {
         for (let elem of arr) {
@@ -203,7 +202,41 @@ describe('Game', () => {
             expect(cell).toHaveClass('cell-invalid');
             expect(cell).toHaveClass('cell-invalid-value');
             expect(cell).toHaveClass('cell-invalid-value-cause');
+        });
 
+        it('should not highlight cells if won', () => {
+            render(<Game grid={mockAlmostSolvedGrid} />);
+            const cells = screen.getAllByTestId('cell');
+            const cell = cells[0];
+            expect(cell).not.toHaveClass('cell-highlighted');
+            fireEvent.focusIn(cell);
+            expect(cell).toHaveClass('cell-highlighted');
+            fireEvent.change(cell, { target: { value: '9' } });
+            const okBtn = screen.getByTestId('ok');
+            expect(okBtn).toBeInTheDocument();
+            fireEvent.click(okBtn);
+            expect(cell).not.toHaveClass('cell-highlighted');
+            fireEvent.focusIn(cell);
+            expect(cell).not.toHaveClass('cell-highlighted');
+        });
+
+        it('should not highlight cells if solved', () => {
+            render(<Game grid={mockAlmostSolvedGrid} />);
+            const cells = screen.getAllByTestId('cell');
+            const cell = cells[0];
+            expect(cell).not.toHaveClass('cell-highlighted');
+            fireEvent.focusIn(cell);
+            expect(cell).toHaveClass('cell-highlighted');
+
+            const solveBtn = screen.getByTestId('btn-solve');
+            fireEvent.click(solveBtn);
+
+            const continueBtn = screen.getByTestId('continue');
+            fireEvent.click(continueBtn);
+
+            expect(cell).not.toHaveClass('cell-highlighted');
+            fireEvent.focusIn(cell);
+            expect(cell).not.toHaveClass('cell-highlighted');
         });
     });
 
@@ -356,7 +389,6 @@ describe('Game', () => {
                     fireEvent.click(play);
                     act(() => jest.advanceTimersByTime(6000));
                     expect(screen.getByText('00:09')).toBeInTheDocument();
-
                 });
 
                 it('should not execute any action when pressing pause/play button if game is over', () => {
@@ -372,7 +404,6 @@ describe('Game', () => {
                     fireEvent.click(play);
                     expect(play).toBeInTheDocument();
                     expect(play).toHaveClass("fa-play-circle");
-
                 });
 
                 it('should keep cell values hidden while help modal is open', () => {

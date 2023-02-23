@@ -26,17 +26,17 @@ export default function GameDetails(props) {
             {lostGame ?
                 <>
                     {!URLdata &&
-                        <IconButton disableRipple className='details-icon'>
+                        <IconButton disableRipple className='details-icon' data-testid="game_lost_icon">
                             <i className="fa fa-regular fa-skull-crossbones custom-details fa-4x"></i>
                         </IconButton>
                     }
-                    <DialogTitle variant="h4" align="center">
+                    <DialogTitle variant="h4" align="center" data-testid="game_lost_title">
                         {t('game_lost_title')}
                     </DialogTitle>
                 </>
                 :
                 <>
-                    <DialogTitle variant="h4" align="center">
+                    <DialogTitle variant="h4" align="center" data-testid="game_won_title">
                         {t('game_won_title')}
                     </DialogTitle>
                 </>
