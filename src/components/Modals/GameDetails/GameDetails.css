@@ -1,23 +1,51 @@
-.end-game-image {
-	vertical-align: middle;
-	margin: 5% 10%;
-	width: 80%;
-}
-
 .custom-details {
 	color: var(--primary);
 }
 
+.share-link-text,
 .share-link-icon {
 	cursor: pointer;
+}
+.share-link-text:hover {
+	opacity: 0.7;
 }
 
 .row {
 	display: flex;
 	column-gap: 10px;
 }
-  
+
 .column {
 	flex: 50%;
-	padding-inline: 10px;
+	padding-inline: 2rem;
+}
+
+.details-container {
+	display: grid;
+	align-content: start;
+}
+
+.details-container b {
+	margin-right: 3px;
+}
+
+.details-container-row {
+	display: grid;
+	grid-template-columns: 1fr 3rem;
+	min-width: 8rem;
+}
+
+.details-container-col {
+	flex: 1 0;
+}
+
+@media (max-width: 520px) {
+	.column {
+		padding-inline: 10px;
+	}
+	.details-container-row {
+		grid-template-columns: 1fr 2rem;
+		min-width: 6rem;
+		font-size: 14px !important;
+	}
 }

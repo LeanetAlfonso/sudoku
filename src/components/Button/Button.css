@@ -55,6 +55,9 @@
 .btn--light--solid {
 	background-color: var(--light);
 }
+.btn--pink-solid {
+	background-color: var(--pink);
+}
 .btn--primary--outline {
 	border: 2px solid var(--primary);
 	background-color: var(--background-color);

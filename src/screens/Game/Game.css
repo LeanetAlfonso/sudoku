@@ -3,9 +3,66 @@
 	margin: 0px;
 	text-decoration: none;
 	color: var(--font-color);
+	margin-right: 8px;
+}
+
+.flex-container {
+	align-self: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.vertical-flex-container {
+	margin: 0px 8px;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.spacious {
+	margin: 0px 20px !important;
+}
+.btn-label {
+	font-size: 12px;
+	color: inherit;
+	flex-wrap: wrap;
+	font-weight: bold;
+}
+
+.btn-label.solve {
+	color: var(--yellow);
+}
+
+.btn-label.clear {
+	color: var(--redish-orange);
+}
+
+.btn-label.help {
+	color: var(--purple);
+}
+
+.btn-label.new {
+	color: var(--blue);
+}
+
+.btn-label.leaderboard {
+	color: var(--primary);
+}
+
+.btn-label.challenge {
+	color: var(--pink);
+}
+
+.game-header {
+	color: var(--font-color);
 }
 
 .action-container {
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-wrap: wrap;
 	margin-top: 1rem;
 }
 
@@ -19,14 +76,26 @@
 	outline: none;
 }
 
+.top-bar {
+	display: flex;
+	align-items: center;
+	margin: 8px;
+}
+
 @media (hover: hover) and (pointer: fine) {
 	.btn-pause-play:hover {
 		opacity: 0.75;
 	}
 }
 
-.top-bar {
-	display: flex;
-	align-items: center;
-	margin: 8px;
+@media (max-width: 500px) {
+	.vertical-flex-container {
+		margin: 0px;
+	}
+}
+
+@media (max-width: 400px) {
+	.spacious {
+		margin: 0px 8px !important;
+	}
 }

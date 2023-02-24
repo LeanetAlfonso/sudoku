@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../Button/Button';
 import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
+import CustomDialog from '../CustomDialog/CustomDialog';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,21 +13,12 @@ export default function FriendChallenge(props) {
 
     const { t } = useTranslation();
     const { friendChallenge } = props;
-    const storedTheme = localStorage.getItem("theme");
 
     return ((friendChallenge.isOpen) &&
-        <Dialog
-            data-testid='friend-challenge'
-            open={friendChallenge.isOpen}
-            // black mode support
-            PaperProps={{
-                style: {
-                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
-                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
-                    boxShadow: 'none',
-                },
-            }}>
-
+        <CustomDialog
+            testId='friend-challenge'
+            isOpen={friendChallenge.isOpen}
+        >
             <IconButton disableRipple className='details-icon'>
                 <i className="fa fa-regular fa-dice custom-details fa-4x"></i>
             </IconButton>
@@ -57,6 +48,6 @@ export default function FriendChallenge(props) {
                     buttonStyle="btn--primary--solid"
                 />
             </DialogActions>
-        </Dialog>
+        </CustomDialog>
     );
 }

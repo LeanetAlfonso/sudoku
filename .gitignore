@@ -25,3 +25,6 @@ yarn-error.log*
 
 # force usage of yarn
 package-lock.json
+
+# environment variables
+.env

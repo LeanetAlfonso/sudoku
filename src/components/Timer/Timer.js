@@ -10,7 +10,9 @@ const Timer = (props) => {
 
     // Handle timer pause/play button
     const handlePausePlay = () => {
-        props.handleIsRunningCallback();
+        if (!props.hasWon) {
+            props.handleIsRunningCallback();
+        }
     };
 
     // Timer

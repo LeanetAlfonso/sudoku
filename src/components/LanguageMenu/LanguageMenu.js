@@ -22,7 +22,7 @@ const languages = [
 const LanguageMenu = () => {
     return (
         <div className="lang-menu-label">
-            <i className="fas fa-globe custom-globe fa-sm"></i>
+            <i className="fas fa-globe custom-globe fa-sm" data-testid="globe-icon"></i>
             <DropDown
                 selected={i18n.language}
                 content={languages}

@@ -117,5 +117,6 @@ describe('Timer', () => {
             act(() => jest.advanceTimersByTime(3000));
             expect(screen.getByText('00:05')).toBeInTheDocument();
         });
+
     });
 });

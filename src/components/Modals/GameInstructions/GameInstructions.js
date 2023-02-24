@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../Button/Button';
 import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
+import CustomDialog from '../CustomDialog/CustomDialog';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,26 +13,19 @@ export default function GameInstructions(props) {
 
     const { t } = useTranslation();
     const { gameInstructions } = props;
-    const storedTheme = localStorage.getItem("theme");
 
     return ((gameInstructions.isOpen) &&
-        <Dialog
-            data-testid='game-instructions'
-            open={gameInstructions.isOpen}
-            PaperProps={{
-                style: {
-                    backgroundColor: storedTheme === "dark" ? "#242727" : "#eee",
-                    color: storedTheme === "dark" ? "#dbd7d7" : "#333",
-                    boxShadow: 'none',
-                },
-            }}>
+        <CustomDialog
+            testId='game-instructions'
+            isOpen={gameInstructions.isOpen}
+        >
             <IconButton disableRipple className='details-icon'>
                 <i className="far fa-question-circle custom-instructions fa-4x"></i>
             </IconButton>
             <DialogTitle variant="h6">
                 {t('instuctions_title')}
             </DialogTitle>
-            <DialogContent className="instuctions-content">
+            <DialogContent>
                 <Typography>
                     {t('instuctions_subtitle')}
                 </Typography>
@@ -53,6 +46,6 @@ export default function GameInstructions(props) {
                     buttonStyle="btn--primary--solid"
                 />
             </DialogActions>
-        </Dialog>
+        </CustomDialog>
     );
 }
