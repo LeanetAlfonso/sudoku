@@ -55,17 +55,16 @@ header,
 
 .row {
 	margin: 10px 0px;
-	display: flex; /* aligns all child elements (flex items) in a row */
 }
 .col {
 	flex: 1 0; /* distributes space on the line equally among items */
 }
 .last-col {
-	padding-left: 20px;
+	padding-left: 10px;
 	text-align-last: right;
 }
 .center-col {
-	padding-left: 20px;
+	padding-left: 10px;
 	text-align-last: center;
 }
 .name-input-container {

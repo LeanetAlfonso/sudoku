@@ -16,12 +16,27 @@ export default function GameDetails(props) {
 
     const { t } = useTranslation();
     const { gameDetails, setGameDetails, movesTaken, elapsed, pressedSolve, mode, url, URLdata } = props;
-    const lostGame = pressedSolve || (URLdata && ((URLdata.time < elapsed) || (URLdata.time === elapsed && URLdata.moves < movesTaken)));
 
+    // name submission from leaderboard
     const [submitted, setSubmitted] = useState(false);
     const onSubmitNameCallback = () => {
         setSubmitted(true);
     };
+
+    // game was lost either by pressing solve or losing a challenge
+    const lostGame = pressedSolve || (URLdata && ((URLdata.time < elapsed) || (URLdata.time === elapsed && URLdata.moves < movesTaken)));
+
+    // game was won fairly even after losing a challenge (puzzle was still solved: no solve button on challenge mode)
+    const showLeaderboard = !pressedSolve || URLdata;
+
+    // game was lost or was part of a challenge
+    const showDetailsTable = lostGame || URLdata;
+
+    // game was lost or name was already submitted after winning
+    const showOkButton = submitted || lostGame;
+
+    // game was won fairly and url is valid
+    const showShareURL = !pressedSolve && url;
 
     return (
         (gameDetails.isOpen) &&
@@ -48,10 +63,10 @@ export default function GameDetails(props) {
                     </DialogTitle>
                 </>
             }
-            {(lostGame || URLdata) &&
+            {showDetailsTable &&
                 <>
                     <DialogContent className="row">
-                        <div className="column custom-details" >
+                        <div className={`column ${URLdata && "custom-details"}`} >
                             {URLdata &&
                                 <Typography variant="h6" align="center">
                                     <b>{t('you')}</b>
@@ -92,28 +107,29 @@ export default function GameDetails(props) {
                     </DialogContent>
                 </>
             }
-            <DialogContent>
-                <Leaderboard
-                    hasWon={!pressedSolve}
-                    name={t("you")}
-                    time={elapsed}
-                    moves={movesTaken}
-                    mode={mode}
-                    date={gameDetails.date}
-                    challenge={URLdata}
-                    onSubmitNameCallback={onSubmitNameCallback}
-                    newRecord
-                />
-            </DialogContent>
-
+            {showLeaderboard &&
+                <DialogContent>
+                    <Leaderboard
+                        hasWon={!pressedSolve}
+                        name={t("you")}
+                        time={elapsed}
+                        moves={movesTaken}
+                        mode={mode}
+                        date={gameDetails.date}
+                        challenge={URLdata}
+                        onSubmitNameCallback={onSubmitNameCallback}
+                        newRecord
+                    />
+                </DialogContent>
+            }
             <DialogActions sx={{ flexDirection: "column" }}>
                 <Button
                     testId='ok'
-                    text={submitted ? t('ok') : t('unsaved')}
+                    text={showOkButton ? t('ok') : t('unsaved')}
                     onClick={() => setGameDetails({ ...gameDetails, isOpen: false })}
                     buttonStyle="btn--primary--solid"
                 />
-                {!pressedSolve && url &&
+                {showShareURL &&
                     <Typography variant="subtitle2" align="center" padding="5px" fontSize="13px">
                         <ShareURL text={t('share_url')} url={url} btn={false} />
                     </Typography>
