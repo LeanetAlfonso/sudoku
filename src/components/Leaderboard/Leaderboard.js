@@ -127,7 +127,7 @@ const Leaderboard = (props) => {
                 </div>
                 <header className="header-container">
                     <div className="col">{t("rank")}</div>
-                    <div className="col center-col">{t("name")}</div>
+                    <div className="col">{t("name")}</div>
                     <div className="col center-col">{t("moves")}</div>
                     <div className="col last-col">{t("time")}</div>
                 </header>
@@ -137,7 +137,7 @@ const Leaderboard = (props) => {
                     highScores.map((score, i) =>
                         <div className={`row ${i < 3 && "top-scores"} ${isCurrentRank(i) && "current-score"}`} key={i}>
                             <div className="col">{i + 1}</div>
-                            <div className="col center-col">{score.name}</div>
+                            <div className="col">{score.name}</div>
                             <div className="col center-col">{score.moves}</div>
                             <div className="col last-col">{formatTime(score.time)}</div>
                         </div>
