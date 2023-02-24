@@ -29,7 +29,7 @@ const Game = (props) => {
     const [seconds, setSeconds] = useState(0);
     const [isRunning, setIsRunning] = useState(true);
     const [hasWon, setHasWon] = useState(false);
-    const [mode, setMode] = useState("expert");
+    const [mode, setMode] = useState("easy");
     const [resetTimer, setResetTimer] = useState(false);
     const [resetGrid, setResetGrid] = useState(false);
     const [cleared, setCleared] = useState(false);
