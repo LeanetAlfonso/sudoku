@@ -29,7 +29,7 @@ const Game = (props) => {
     const [seconds, setSeconds] = useState(0);
     const [isRunning, setIsRunning] = useState(true);
     const [hasWon, setHasWon] = useState(false);
-    const [mode, setMode] = useState("easy");
+    const [mode, setMode] = useState("expert");
     const [resetTimer, setResetTimer] = useState(false);
     const [resetGrid, setResetGrid] = useState(false);
     const [cleared, setCleared] = useState(false);
@@ -42,7 +42,7 @@ const Game = (props) => {
     const [gameInstructions, setGameInstructions] = useState({ isOpen: false });
     const [gameModes, setGameModes] = useState({ isOpen: false });
     const [friendChallenge, setFriendChallenge] = useState({ isOpen: false, moves: 0, time: 0, mode: '' });
-    const [highScores, setHighScores] = useState({ isOpen: false, mode: "", time: 0, name: "You", moves: 0, date: null });
+    const [highScores, setHighScores] = useState({ isOpen: false, mode: "", time: 0, moves: 0, date: null });
 
     // Translation
     const { t } = useTranslation();
@@ -419,7 +419,7 @@ const Game = (props) => {
                 {hasWon && !pressedSolve && url && <div className={`flex-container vertical-flex-container ${hasWon && "spacious"}`}>
                     <ShareURL url={url} btn={true} />
                     <div className="btn-label challenge">
-                        {t('challenge')}
+                        {t('share_url')}
                     </div>
                 </div>
                 }

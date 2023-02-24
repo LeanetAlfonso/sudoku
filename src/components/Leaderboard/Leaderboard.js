@@ -7,29 +7,43 @@ import Loading from "../Loading/Loading";
 import "./Leaderboard.css";
 
 const Leaderboard = (props) => {
+    const {
+        hasWon,
+        name,
+        time,
+        moves,
+        mode,
+        date,
+        challenge,
+        onSubmitNameCallback,
+        newRecord } = props;
 
-    const modes = ["easy", "medium", "hard", "expert"];
+    const MODES = ["easy", "medium", "hard", "expert"];
     const { t } = useTranslation();
     const [scores, setScores] = useState([]);
-    const [name, setName] = useState("");
-    const [mode, setMode] = useState(props.mode);
+    const storedName = localStorage.getItem("name");
+    const [currentName, setCurrentName] = useState(storedName || "");
+    const [currentMode, setCurrentMode] = useState(mode);
     const [expanded, setExpanded] = useState(false);
     const [highScores, setHighScores] = useState([]);
-    const [currentRank, setCurrentRank] = useState([]);
+    const [currentRank, setCurrentRank] = useState(0);
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    // database scores collection
     const scoresCollectionRef = collection(db, "scores");
 
     // Change mode (difficulty)
     const changeMode = (newMode) => {
-        setMode(newMode);
+        setCurrentMode(newMode);
     };
 
-    // Submit score
+    // Submit score and save name on local storage
     const submitScore = async () => {
-        if (name !== "") {
-            await addDoc(scoresCollectionRef, { name: name, time: props.time, moves: props.moves, mode: props.mode, date: serverTimestamp() });
+        if (currentName !== "") {
+            localStorage.setItem("name", currentName);
+            onSubmitNameCallback();
+            await addDoc(scoresCollectionRef, { name: currentName, time: time, moves: moves, mode: mode, date: serverTimestamp() });
             setSubmitted(true);
         }
     };
@@ -48,23 +62,17 @@ const Leaderboard = (props) => {
 
     // Check if game was won fairly (didn't press solve) 
     // and the currently shown ranks' mode is the same as the original game's mode
-    const isCurrentModeAndWon = () => {
-        return props.hasWon && props.mode === mode;
-    };
+    const isCurrentModeAndWon = hasWon && mode === currentMode;
 
     // Check if user can submit new record (name input)
-    const canSubmitNewRecord = () => {
-        return isCurrentModeAndWon() && !submitted && props.newRecord;
-    };
+    const canSubmitNewRecord = isCurrentModeAndWon && !submitted && newRecord;
 
     // Check if users current rank is within first 5 and list is currenly collapsed
-    const shouldCollapseRank = () => {
-        return currentRank > 5 && isCurrentModeAndWon() && !expanded;
-    };
+    const shouldCollapseRank = currentRank > 5 && isCurrentModeAndWon && !expanded;
 
     // Check if i is the current rank
     const isCurrentRank = (i) => {
-        return isCurrentModeAndWon() && currentRank === (i + 1);
+        return isCurrentModeAndWon && currentRank === (i + 1);
     };
 
     useEffect(() => {
@@ -72,15 +80,15 @@ const Leaderboard = (props) => {
             try {
                 // filter by: mode
                 // sort by: time (asc), moves (asc), date (desc)
-                const q = query(scoresCollectionRef, where("mode", "==", mode), orderBy("time"), orderBy("moves"), orderBy("date", "desc"));
+                const q = query(scoresCollectionRef, where("mode", "==", currentMode), orderBy("time"), orderBy("moves"), orderBy("date", "desc"));
                 const querySnapshot = await getDocs(q);
                 const sortedScores = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
                 // before user submits name, show their current ranking without storing in db
-                if (!submitted && props.hasWon && props.mode === mode && props.newRecord) {
-                    sortedScores.push({ name: props.name, time: props.time, moves: props.moves, date: props.date });
+                if (!submitted && hasWon && mode === currentMode && newRecord) {
+                    sortedScores.push({ name: name, time: time, moves: moves, date: date });
                     sortedScores.sort((a, b) => a.time - b.time || a.moves - b.moves || b.date - a.date);
-                    setCurrentRank(sortedScores.findIndex(score => score.date === props.date) + 1);
+                    setCurrentRank(sortedScores.findIndex(score => score.date === date) + 1);
                 }
 
                 // update scores
@@ -101,26 +109,27 @@ const Leaderboard = (props) => {
         getScores();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [mode, submitted, props, loading]);
+    }, [currentMode, submitted, newRecord, date, hasWon, mode, moves, name, time]);
 
 
     return (
-        <div className="scores">
-            {!props.challenge && <div className="ranks">
+        <div className="scores" data-testid="leaderboard">
+            {!challenge && <div className="ranks">
                 <div className="flex-container mode-leaderboard-container">
-                    {modes.map(mod =>
+                    {MODES.map((mod, i) =>
                         <div
                             key={mod}
-                            className={`btn-mode ${mode === mod && "selected-mode"}`}
+                            data-testid={mod + "-mode-button"}
+                            className={`btn-mode ${i > 0 && "btn-right"} ${currentMode === mod && "selected-mode"}`}
                             onClick={() => changeMode(mod)}>{t(mod)}
                         </div>
                     )}
                 </div>
                 <header className="header-container">
-                    <div className="col">Rank</div>
-                    <div className="col center-col">Name</div>
-                    <div className="col center-col">Moves</div>
-                    <div className="col last-col">Time</div>
+                    <div className="col">{t("rank")}</div>
+                    <div className="col center-col">{t("name")}</div>
+                    <div className="col center-col">{t("moves")}</div>
+                    <div className="col last-col">{t("time")}</div>
                 </header>
 
                 {loading ?
@@ -134,12 +143,12 @@ const Leaderboard = (props) => {
                         </div>
                     )}
 
-                {shouldCollapseRank() &&
+                {shouldCollapseRank &&
                     <div className="row current-score">
                         <div className="col">{currentRank}</div>
-                        <div className="col center-col">{submitted ? name : "You"}</div>
-                        <div className="col center-col">{props.moves}</div>
-                        <div className="col last-col">{formatTime(props.time)}</div>
+                        <div className="col center-col">{submitted ? currentName : t("you")}</div>
+                        <div className="col center-col">{moves}</div>
+                        <div className="col last-col">{formatTime(time)}</div>
                     </div>
                 }
 
@@ -150,21 +159,25 @@ const Leaderboard = (props) => {
                         <i className="fas fa-chevron-down" onClick={getAllScores}></i>
                     }
                 </div>
-
             </div>
             }
-            {canSubmitNewRecord() &&
+            {canSubmitNewRecord &&
                 <div className="name-input-container">
-                    {props.challenge && <div>You are at <b>#{currentRank}</b> on the leaderboard</div>}
-                    <div>Enter your name to save your score!</div>
+                    {challenge && <div>{t("rank_pre")}<b> #{currentRank} </b>{t("rank_post")}.</div>}
+                    <div>{t("save_score")}</div>
                     <input type="text"
                         id="name"
-                        name="name" value={name}
-                        placeholder="Name"
-                        onChange={e => setName(e.target.value)}
+                        name="name"
+                        value={currentName}
+                        placeholder={t("name")}
+                        onChange={e => setCurrentName(e.target.value)}
                         maxLength="7"
+                        data-testid="name-input"
                     />
-                    <i className={`fas fa-check ${name === "" && "invalid-button"}`} onClick={submitScore}></i>
+                    <i data-testid="submit-record"
+                        className={`fas fa-check ${currentName === "" && "invalid-button"}`}
+                        onClick={submitScore}>
+                    </i>
                 </div>
             }
         </div>

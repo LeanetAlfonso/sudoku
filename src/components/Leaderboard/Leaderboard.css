@@ -7,11 +7,15 @@
 }
 .btn-mode {
 	color: var(--primary);
-	margin: 5px;
 	font-size: 14px;
 	cursor: pointer;
 	padding: 4px;
 }
+
+.btn-right {
+	margin-left: 15px;
+}
+
 .selected-mode {
 	font-weight: bold;
 	border: 1px solid var(--primary);
@@ -20,20 +24,6 @@
 	margin-bottom: 2rem;
 }
 
-header .col {
-	font-weight: bold;
-	color: var(--primary);
-}
-header,
-.row {
-	font-size: 12px;
-	display: flex; /* aligns all child elements (flex items) in a row */
-}
-
-.row {
-	margin: 10px 0px;
-	display: flex; /* aligns all child elements (flex items) in a row */
-}
 .top-scores {
 	font-weight: bold;
 }
@@ -52,22 +42,41 @@ header,
 	font-weight: bold;
 	text-align: center;
 }
+
+header .col {
+	font-weight: bold;
+	color: var(--primary);
+}
+header,
+.row {
+	font-size: 12px;
+	display: flex; /* aligns all child elements (flex items) in a row */
+}
+
+.row {
+	margin: 10px 0px;
+	display: flex; /* aligns all child elements (flex items) in a row */
+}
 .col {
 	flex: 1 0; /* distributes space on the line equally among items */
 }
 .last-col {
+	padding-left: 20px;
 	text-align-last: right;
 }
 .center-col {
+	padding-left: 20px;
 	text-align-last: center;
 }
 .name-input-container {
-	font-size: 14px;
+	font-size: 12px;
+	display: flexbox;
+	align-items: center;
+	align-self: center;
+	justify-content: center;
+	justify-self: center;
 	/* margin: 2rem 0rem 0rem; */
 	text-align: center;
-}
-.ellipsis {
-	font-size: 20px !important;
 }
 
 .name-input-container i,
@@ -112,5 +121,30 @@ header,
 @media (hover: hover) and (pointer: fine) {
 	.btn-mode:hover {
 		opacity: 0.75;
+	}
+}
+@media (max-width: 500px) {
+	.last-col,
+	.center-col {
+		padding-left: 10px;
+	}
+	.btn-right {
+		margin-left: 5px;
+	}
+}
+
+@media (max-width: 360px) {
+	.vertical-flex-container {
+		margin: 0px;
+	}
+	.btn-mode {
+		font-size: 12px;
+	}
+	.btn-right {
+		margin-left: 2px;
+	}
+	header,
+	.row {
+		font-size: 10px;
 	}
 }

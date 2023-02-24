@@ -38,7 +38,6 @@ export default function ShareURL(props) {
                     message="Copied to Clipboard!"
                 />
             }
-
         </>
     );
 }

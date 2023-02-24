@@ -93,3 +93,9 @@
 		margin: 0px;
 	}
 }
+
+@media (max-width: 400px) {
+	.spacious {
+		margin: 0px 8px !important;
+	}
+}
