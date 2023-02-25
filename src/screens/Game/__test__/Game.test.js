@@ -185,6 +185,33 @@ describe('Game', () => {
             expect(screen.getByTestId('game-details')).toBeInTheDocument();
         });
 
+        it('should render dont save score button until name is submitted', () => {
+            render(<Game grid={mockAlmostSolvedGrid} />);
+
+            expect(screen.queryByTestId('game-details')).not.toBeInTheDocument();
+
+            const cells = screen.getAllByTestId('cell');
+            const cell = cells[0];
+
+            expect(cell).toHaveValue('');
+            fireEvent.focusIn(cell);
+            // last entry to win game (on change trigger)
+            fireEvent.change(cell, { target: { value: '9' } });
+            expect(screen.getByTestId('game-details')).toBeInTheDocument();
+            expect(screen.getByTestId('ranks')).toBeInTheDocument();
+            const nameInput = screen.getByTestId('name-input');
+            const nameInputContainer = screen.getByTestId('name-input-container');
+            const okBtn = screen.getByTestId('ok');
+            const submitBtn = screen.getByTestId('submit-record');
+
+            expect(nameInputContainer).toBeInTheDocument();
+            expect(okBtn).toHaveTextContent("unsaved");
+            fireEvent.change(nameInput, { target: { value: 'Ron' } });
+            fireEvent.click(submitBtn);
+            expect(nameInputContainer).not.toBeInTheDocument();
+            expect(okBtn).toHaveTextContent("ok");
+        });
+
         it('should change cell class if cell becomes invalid', () => {
             render(<Game grid={mockAlmostSolvedGrid} />);
 
@@ -261,6 +288,34 @@ describe('Game', () => {
             expect(screen.getByTestId('no-solution')).toBeInTheDocument();
         });
 
+    });
+
+    describe('high scores', () => {
+        describe('open/close high scores modal', () => {
+            it('should open high scores modal when the high scores button is clicked', () => {
+                render(<Game />);
+                expect(screen.queryByTestId('high-scores')).not.toBeInTheDocument();
+                const leaderboardBtn = screen.getByTestId('btn-leaderboard');
+                fireEvent.click(leaderboardBtn);
+                expect(screen.getByTestId('high-scores')).toBeInTheDocument();
+            });
+            it('should close high scores modal when ok button is clicked', () => {
+                render(<Game />);
+                expect(screen.queryByTestId('high-scores')).not.toBeInTheDocument();
+                const leaderboardBtn = screen.getByTestId('btn-leaderboard');
+                fireEvent.click(leaderboardBtn);
+                expect(screen.getByTestId('high-scores')).toBeInTheDocument();
+
+                const rank = screen.queryByTestId('ranks');
+                expect(rank).toBeInTheDocument();
+                const nameInput = screen.queryByTestId('name-input');
+                expect(nameInput).not.toBeInTheDocument();
+
+                const okBtn = screen.getByTestId('leaderboard-ok');
+                fireEvent.click(okBtn);
+                expect(screen.queryByTestId('high-scores')).not.toBeInTheDocument();
+            });
+        });
     });
 
     describe('new game', () => {

@@ -12,6 +12,7 @@ export default function HighScores(props) {
     const { t } = useTranslation();
 
     return (
+        highScores.isOpen &&
         <CustomDialog
             testId='high-scores'
             isOpen={highScores.isOpen}
