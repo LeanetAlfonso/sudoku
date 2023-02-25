@@ -41,10 +41,10 @@ const Leaderboard = (props) => {
     // Submit score and save name on local storage
     const submitScore = async () => {
         if (currentName !== "") {
-            localStorage.setItem("name", currentName);
             onSubmitNameCallback();
-            await addDoc(scoresCollectionRef, { name: currentName, time: time, moves: moves, mode: mode, date: serverTimestamp() });
             setSubmitted(true);
+            localStorage.setItem("name", currentName);
+            await addDoc(scoresCollectionRef, { name: currentName, time: time, moves: moves, mode: mode, date: serverTimestamp() });
         }
     };
 
@@ -114,7 +114,7 @@ const Leaderboard = (props) => {
 
     return (
         <div className="scores" data-testid="leaderboard">
-            {!challenge && <div className="ranks">
+            {!challenge && <div className="ranks" data-testid="ranks">
                 <div className="flex-container mode-leaderboard-container">
                     {MODES.map((mod, i) =>
                         <div
@@ -162,7 +162,7 @@ const Leaderboard = (props) => {
             </div>
             }
             {canSubmitNewRecord &&
-                <div className="name-input-container">
+                <div className="name-input-container" data-testid="name-input-container">
                     {challenge && <div>{t("rank_pre")}<b> #{currentRank} </b>{t("rank_post")}.</div>}
                     <div>{t("save_score")}</div>
                     <input type="text"

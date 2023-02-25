@@ -30,7 +30,7 @@ export default function GameDetails(props) {
     const showLeaderboard = !pressedSolve || URLdata;
 
     // game was lost or was part of a challenge
-    const showDetailsTable = lostGame || URLdata;
+    const showStats = lostGame || URLdata;
 
     // game was lost or name was already submitted after winning
     const showOkButton = submitted || lostGame;
@@ -63,12 +63,12 @@ export default function GameDetails(props) {
                     </DialogTitle>
                 </>
             }
-            {showDetailsTable &&
+            {showStats &&
                 <>
-                    <DialogContent className="row">
-                        <div className={`column ${URLdata && "custom-details"}`} >
+                    <DialogContent className="row" data-testid="stats">
+                        <div className={`column ${URLdata && "custom-details"}`} data-testid="you-stats">
                             {URLdata &&
-                                <Typography variant="h6" align="center">
+                                <Typography variant="h6" align="center" data-testid="you-subtitle">
                                     <b>{t('you')}</b>
                                 </Typography>}
                             <Typography variant="subtitle1" className="details-container-row">
@@ -83,10 +83,9 @@ export default function GameDetails(props) {
                                 <div className="details-container-col"><b>{t('time')}:</b></div>
                                 <div className="details-container-col">{formatTime(elapsed)}</div>
                             </Typography>
-
                         </div>
                         {URLdata &&
-                            <div className="column" >
+                            <div className="column" data-testid="enemy-stats">
                                 <Typography variant="h6" align="center">
                                     <b>{t('enemy')}</b>
                                 </Typography>

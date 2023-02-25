@@ -2,6 +2,8 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Leaderboard from '../Leaderboard';
 
+const onSubmitNameCallback = jest.fn();
+
 describe('Leaderboard', () => {
     it('should render a leaderboard', () => {
         render(<Leaderboard />);
@@ -55,5 +57,21 @@ describe('Leaderboard', () => {
         const nameInput = screen.queryByTestId('name-input');
         expect(submitBtn).not.toBeInTheDocument();
         expect(nameInput).not.toBeInTheDocument();
+    });
+
+    it('should render name input but not rank if game was part of a challenge (puzzle was technically solved)', () => {
+        render(<Leaderboard
+            name="You"
+            challenge={true}
+            newRecord
+            hasWon={true}
+            onSubmitNameCallback={onSubmitNameCallback}
+        />);
+        const leaderboard = screen.queryByTestId('leaderboard');
+        expect(leaderboard).toBeInTheDocument();
+        const rank = screen.queryByTestId('ranks');
+        expect(rank).not.toBeInTheDocument();
+        const nameInput = screen.queryByTestId('name-input');
+        expect(nameInput).toBeInTheDocument();
     });
 });

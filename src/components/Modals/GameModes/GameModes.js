@@ -8,7 +8,7 @@ import './GameModes.css';
 export default function GameModes(props) {
     const { gameModes } = props;
     const { t } = useTranslation();
-    return (
+    return (gameModes.isOpen &&
         <CustomDialog
             testId='game-modes'
             isOpen={gameModes.isOpen}

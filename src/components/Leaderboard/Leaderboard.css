@@ -49,7 +49,7 @@ header .col {
 }
 header,
 .row {
-	font-size: 12px;
+	font-size: 13px;
 	display: flex; /* aligns all child elements (flex items) in a row */
 }
 
