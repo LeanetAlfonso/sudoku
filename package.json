@@ -15,7 +15,7 @@
 		"firebase": "^9.17.2",
 		"i18next": "^22.4.11",
 		"i18next-browser-languagedetector": "^7.0.1",
-		"i18next-http-backend": "^2.1.1",
+		"i18next-http-backend": "^2.2.0",
 		"lodash": "^4.17.21",
 		"mdbreact": "^5.2.0",
 		"react": "^18.2.0",
