@@ -51,7 +51,7 @@
 		]
 	},
 	"devDependencies": {
-		"@testing-library/dom": "^9.0.1",
+		"@testing-library/dom": "^9.2.0",
 		"@types/react-copy-to-clipboard": "^5.0.4",
 		"jest-watch-typeahead": "^2.2.2"
 	}
